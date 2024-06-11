@@ -1,0 +1,80 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+#sidebar-message::-webkit-scrollbar,
+#sidebar-group::-webkit-scrollbar {
+ width: 10px;
+ outline: 1px solid #fff;
+ background: transparent;
+}
+
+#sidebar-message::-webkit-scrollbar-thumb,
+#sidebar-group::-webkit-scrollbar-thumb {
+ background: #a7a3a3;
+ border-radius: 5px;
+}
+
+#sidebar-message::-webkit-scrollbar-thumb:hover,
+#sidebar-group::-webkit-scrollbar-thumb:hover {
+ background: gray;
+}
+
+#textarea-post::-webkit-scrollbar {
+ display: none;
+}
+
+#sidebar-message .slick-track {
+ margin: 0 !important;
+}
+
+/* css field birthday */
+
+.InfoUserInputBase-root {
+ border: 1px solid green;
+ border-radius: 33px !important;
+ padding: 13px 30px;
+}
+
+.InfoUserInputBase-root > input {
+ color: white;
+ padding: 0;
+ font-size: 27px;
+}
+
+.InfoUserInputBase-root > input:hover {
+ outline: none;
+}
+
+.InfoUserInputBase-root > input::placeholder {
+ color: white;
+ font-size: 27px;
+}
+
+.InfoUserButtonBase-root.InfoUserIconButton-root {
+ color: white;
+ padding-right: 30px;
+}
+
+.InfoUserButtonBase-root.InfoUserIconButton-root > svg {
+ font-size: 27px;
+}
+
+/* style dots slick slider */
+.create-info.slick-dots {
+ bottom: -100px;
+}
+
+.create-info.slick-dots > li {
+ height: unset;
+ width: unset;
+}
+
+.create-info.slick-dots > li.slick-active > div {
+ background-color: #4ec957;
+ transition: all 0.3s ease-in;
+}
+
+.create-info.slick-dots > li.slick-active > div:hover {
+ opacity: 0.8;
+}
