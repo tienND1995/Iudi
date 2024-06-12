@@ -8,12 +8,14 @@ import { joiResolver } from '@hookform/resolvers/joi'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
 import loginSchema from '../../schemas/login'
+import config from '../../configs/Configs.json'
+
+const { LONGITUDE_DEFAULT, LATITUDE_DEFAULT, LAST_LOGIN_IP_DEFAULT } = config
 
 function SigninForm() {
  const {
   register,
   handleSubmit,
-  // reset,
   setValue,
   formState: { errors, isValid },
  } = useForm({ resolver: joiResolver(loginSchema) })
@@ -30,6 +32,10 @@ function SigninForm() {
     })
     .catch((error) => {
      console.error('Error fetching data:', error)
+
+     setValue('Latitude', LONGITUDE_DEFAULT)
+     setValue('Longitude', LATITUDE_DEFAULT)
+     setValue('LastLoginIP', LAST_LOGIN_IP_DEFAULT)
     })
   }
   fetchData()
