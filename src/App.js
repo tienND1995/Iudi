@@ -18,6 +18,9 @@ import {
 } from './_root/pages/index.js'
 import Message from './components/shared/Message.js'
 
+
+import 'react-toastify/dist/ReactToastify.css'
+
 function App() {
  return (
   <main>
@@ -44,6 +47,7 @@ function App() {
 
     <Route path='/create-info' element={<CreateInfoUser />} />
    </Routes>
+   
   </main>
  )
 }

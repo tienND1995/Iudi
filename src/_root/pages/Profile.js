@@ -19,7 +19,7 @@ import { Auth } from '../../components/shared/Auth'
 import FormChangePassword from '../../components/shared/FormChangePassword'
 import configs from '../../configs/Configs.json'
 
-const { AVATAR_DEFAULT_MALE, AVATAR_DEFAULT_FEMALE } = configs
+const { URL_BASE64 } = configs
 
 function Profile() {
  const { userID, userName } = new Auth()
@@ -61,7 +61,6 @@ function Profile() {
   BirthPlace,
   UserID,
  } = profileData
- console.log(profileData)
 
  const dataList = [
   {
@@ -115,7 +114,7 @@ function Profile() {
 
      <div className='mt-[-80px] z-[1]'>
       <img
-       src={AVATAR_DEFAULT_MALE || avatarLink}
+       src={`${URL_BASE64}${avatarLink}`}
        alt='profile'
        className='mx-auto rounded-full h-[130px] w-[130px] object-cover  border-2 border-pink-100'
       />
@@ -169,6 +168,7 @@ function Profile() {
                userName: FullName,
                isOnline: true,
                userId: userID,
+               avatar: avatarLink,
               },
              })
          }}

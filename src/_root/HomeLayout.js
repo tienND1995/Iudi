@@ -8,13 +8,13 @@ import Header2 from '../components/header/Header2'
 import SideBar from '../components/shared/SideBar'
 import background from '../images/bg3.jpg'
 
-// type Status = 'idle' | 'loading' | 'success' | 'error'
+import { useSelector } from 'react-redux'
+import { usersSelector } from '../redux/users/usersSlice'
 
 const HomeLayout = () => {
-
-    // const [status, setStatus] = useState < Status > 'idle'
-
  const { isLogin } = new Auth()
+ const userState = useSelector(usersSelector)
+ console.log(userState)
 
  const backgroundImageStyle = {
   backgroundImage: `url(${background})`,
@@ -31,13 +31,11 @@ const HomeLayout = () => {
  }
  const getHeightHeader = (height) => setHeightHeader(height)
 
- 
-
  if (!isLogin) return <PreLogin />
 
  return (
   <div style={backgroundImageStyle}>
-   <Header2 onGetHeight={getHeightHeader} />
+   <Header2 onGetHeight={getHeightHeader}  />
    <div className='grid grid-cols-4'>
     <div
      style={sidebarStyles}

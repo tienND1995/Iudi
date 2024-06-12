@@ -9,11 +9,3 @@ const loginSchema = Joi.object({
 })
 
 export default loginSchema
-
-const data = {
- "LastLoginIP": "171.229.242.999",
- "Latitude": "40",
- "Longitude": "50",
- "Password": "khatai90",
- "Username": "dangtien",
-}

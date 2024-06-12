@@ -12,11 +12,13 @@ import {
  fetchHistoryMessages,
  messagesSelector,
 } from '../../redux/messages/messagesSlice'
+import { usersSelector } from '../../redux/users/usersSlice'
 
 import io from 'socket.io-client'
 import config from '../../configs/Configs.json'
+import AVATAR_DEFAULT from '../../images/avatar-default.jpg'
 
-const { AVATAR_DEFAULT_MALE, AVATAR_DEFAULT_FEMALE } = config
+const { URL_BASE64 } = config
 
 const socket = io('https://api.iudi.xyz')
 
@@ -39,6 +41,8 @@ const SideBar = () => {
  const userId = localStorage.getItem('UserId')
  const userName = localStorage.getItem('UserNameIuDi')
  const { id } = useParams()
+
+ const userState = useSelector(usersSelector)
 
  useEffect(() => {
   // client connect to server
@@ -80,8 +84,8 @@ const SideBar = () => {
     <div className='text-center'>
      <Link to={`/profile/${userName}`}>
       <img
-       className='mx-auto w-[73px] h-[73px] rounded-full'
-       src={AVATAR_DEFAULT_MALE}
+       className='mx-auto w-[73px] h-[73px] rounded-full object-cover'
+       src={`${URL_BASE64}${userState.user.avatarLink}`}
        alt='avatar'
       />
       <h5 className='capitalize'>{userName}</h5>
@@ -93,8 +97,8 @@ const SideBar = () => {
         <div className='text-center' key={id}>
          <Link to={`/profile/${username}`}>
           <img
-           className=' mx-auto w-[73px] h-[73px] rounded-full'
-           src={AVATAR_DEFAULT_MALE}
+           className=' mx-auto w-[73px] h-[73px] rounded-full object-cover'
+           src={`${URL_BASE64}${avatar}`}
            alt='avatar'
           />
           <h5 className='capitalize'> {username}</h5>
@@ -120,6 +124,11 @@ const SideBar = () => {
         let isOnline = false
         userIdOtherList.some((userId) => (isOnline = userId === OtherUserID))
 
+        const imgAvatarRef = React.createRef()
+        const handleErrorImageAvatar = () => {
+         imgAvatarRef.current.src = `${AVATAR_DEFAULT}`
+        }
+
         return (
          <li
           key={MessageID}
@@ -133,14 +142,17 @@ const SideBar = () => {
             userName: OtherFullname,
             isOnline,
             userId,
+            avatar: OtherAvatar,
            }}
           >
            <div className='flex items-center justify-between mt-4 cursor-pointer'>
             <div className='flex items-center gap-2'>
              <img
-              className=' mx-auto w-[73px] h-[73px] rounded-full'
-              src={AVATAR_DEFAULT_FEMALE}
+              className=' mx-auto w-[73px] h-[73px] rounded-full object-cover'
+              src={`${URL_BASE64}${OtherAvatar}`}
               alt={`avatar ${OtherUsername}`}
+              onError={handleErrorImageAvatar}
+              ref={imgAvatarRef}
              />
 
              <div>

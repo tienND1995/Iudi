@@ -1,18 +1,23 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 
 import Logo from '../../images/logoApp.png'
 
 import config from '../../configs/Configs.json'
-import Navbar from './Navbar'
-import { getProfile } from '../shared/getProfile'
 import { Auth } from '../shared/Auth'
+import Navbar from './Navbar'
 
-const { AVATAR_DEFAULT_MALE } = config
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchProfile, usersSelector } from '../../redux/users/usersSlice'
+
+const { URL_BASE64 } = config
 
 const Header3 = (props) => {
  const { userName } = new Auth()
- const [userInfo, setUserInfo] = useState(null)
+
+ const userState = useSelector(usersSelector)
+ const { user, isToggleChangeUser } = userState
+ const dispatch = useDispatch()
 
  const styles = {
   position: 'fixed',
@@ -23,13 +28,8 @@ const Header3 = (props) => {
  }
 
  useEffect(() => {
-  const fetchProfile = async () => {
-   const res = await getProfile(userName)
-   setUserInfo(res)
-  }
-
-  fetchProfile()
- }, [])
+  dispatch(fetchProfile(userName))
+ }, [isToggleChangeUser])
 
  const headerRef = useRef()
  useLayoutEffect(() => {
@@ -49,13 +49,13 @@ const Header3 = (props) => {
      className='w-20 h-20 overflow-hidden m-[15px] rounded-[50%]'
     >
      <img
-      src={AVATAR_DEFAULT_MALE || userInfo?.avatarLink}
+      src={`${URL_BASE64}${user.avatarLink}`}
       alt='avatar'
-      className='w-full h-full'
+      className='w-full h-full object-cover'
      />
     </Link>
 
-    <h3 className='capitalize'>{userName}</h3>
+    <h3 className='capitalize'>{user.FullName}</h3>
    </div>
 
    <div>

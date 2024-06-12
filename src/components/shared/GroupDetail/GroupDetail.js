@@ -4,19 +4,19 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import {
- addLikePost,
- fetchPosts,
- postsSelector,
- postComment,
- deletePost,
+  addLikePost,
+  deletePost,
+  fetchPosts,
+  postComment,
+  postsSelector,
 } from '../../../redux/posts/postsSlice'
+import { usersSelector } from '../../../redux/users/usersSlice'
 
 import Moment from 'react-moment'
 
 import { GoKebabHorizontal } from 'react-icons/go'
 import { MdDeleteForever, MdModeEditOutline } from 'react-icons/md'
 
-import dongco from '../../../images/dongco.png'
 import btnlike from '../../../images/icons/btnlike.png'
 import heart from '../../../images/icons/heart.png'
 import uploadFile from '../../../images/icons/uploadFile.png'
@@ -26,7 +26,9 @@ import { Auth } from '../Auth'
 import Comments from './Comments'
 import FormPost from './FormPost'
 
-const { AVATAR_DEFAULT_FEMALE, API__SERVER } = config
+import AVATAR_DEFAULT from '../../../images/avatar-default.jpg'
+
+const { API__SERVER, URL_BASE64 } = config
 
 const GroupDetail = () => {
  const { userID } = new Auth()
@@ -34,10 +36,12 @@ const GroupDetail = () => {
  const [postList, setPostList] = useState([])
 
  const { posts, changeTogglePosts } = useSelector(postsSelector)
+ const userState = useSelector(usersSelector)
+
  const dispatch = useDispatch()
 
  useEffect(() => {
-  dispatch(fetchPosts({groupId, userID}))
+  dispatch(fetchPosts({ groupId, userID }))
  }, [changeTogglePosts, groupId])
 
  useEffect(() => {
@@ -75,14 +79,16 @@ const GroupDetail = () => {
   return data.Comments
  }
 
+ const IMAGE_POST_PLACEHOLDER = 'https://placehold.co/600x400?text=Post+Placholder'
+
  return (
   <div>
    <div className='relative p-5 rounded-lg bg-[#222222] border border-solid border-[#4EC957]'>
     <div className='flex gap-2 items-center'>
      <img
-      className='w-[73px] h-[73px] rounded-full'
-      src={AVATAR_DEFAULT_FEMALE}
-      alt='avatar nu default'
+      className='w-[73px] h-[73px] rounded-full object-cover'
+      src={`${URL_BASE64}${userState.user.avatarLink}`}
+      alt='avatar user'
      />
      <button
       type='button'
@@ -145,6 +151,16 @@ const GroupDetail = () => {
          refInputComment.current.focus()
         }
 
+        const imgAvatarRef = React.createRef()
+        const handleErrorImageAvatar = () => {
+         imgAvatarRef.current.src = `${AVATAR_DEFAULT}`
+        }
+
+        const imgPostRef = React.createRef()
+        const handleErrorImagePost = () => {
+         imgPostRef.current.src = `${IMAGE_POST_PLACEHOLDER}`
+        }
+
         return (
          <li
           key={PostID}
@@ -154,8 +170,10 @@ const GroupDetail = () => {
            <div className='flex gap-2 items-center'>
             <img
              className='w-[73px] h-[73px] rounded-full'
-             src={AVATAR_DEFAULT_FEMALE}
-             alt='avatar nu default'
+             src={`${URL_BASE64}${Avatar}`}
+             onError={handleErrorImageAvatar}
+             alt='avatar other'
+             ref={imgAvatarRef}
             />
             <div>
              <h3>{UserFullName}</h3>
@@ -224,7 +242,15 @@ const GroupDetail = () => {
             <h2 className='capitalize text-lg'>{Title}</h2>
             <p>{Content}</p>
            </div>
-           {Photo && <img className='w-full' src={dongco} alt={Title} />}
+           {Photo && (
+            <img
+             className='w-full'
+             src={Photo}
+             ref={imgPostRef}
+             onError={handleErrorImagePost}
+             alt={Title}
+            />
+           )}
           </div>
 
           <div className='py-3 px-5'>

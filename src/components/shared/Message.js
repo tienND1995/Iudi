@@ -20,14 +20,15 @@ import { MdDelete } from 'react-icons/md'
 import Moment from 'react-moment'
 import { Auth } from './Auth'
 
-const { AVATAR_DEFAULT_FEMALE, API_SERVER } = config
+const { AVATAR_DEFAULT_FEMALE, URL_BASE64 } = config
 
 const Message = () => {
  const { id } = useParams()
  const { userID } = new Auth()
 
  const location = useLocation()
- const { userName, isOnline, userId } = location.state
+ const { userName, isOnline, userId, avatar } = location.state
+
  const messRef = useRef()
  const [messageForm, setMessageForm] = useState('')
 
@@ -67,7 +68,7 @@ const Message = () => {
     <div className='flex gap-2'>
      <img
       className='w-[66px] h-[66px] rounded-full'
-      src={AVATAR_DEFAULT_FEMALE}
+      src={`${URL_BASE64}${avatar}`}
       alt='avatar female'
      />
 

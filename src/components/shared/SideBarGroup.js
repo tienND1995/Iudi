@@ -1,13 +1,13 @@
 import axios from 'axios'
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import Logogroup from '../../images/logo-group.png'
-import yeuhanoi from '../../images/yeuhanoi.png'
+import AVATAR_DEFAULT from '../../images/avatar-default.jpg'
 
-import { slugString } from './slugString'
 import config from '../../configs/Configs.json'
-const { API__SERVER } = config
+import { slugString } from './slugString'
+const { API__SERVER, URL_BASE64 } = config
 
 const SideBarGroup = ({ onLoading }) => {
  const [groupList, setGroupList] = useState([])
@@ -36,26 +36,38 @@ const SideBarGroup = ({ onLoading }) => {
    </div>
 
    <ul className='mt-5'>
-    {groupList.map(({ GroupID, avatarLink, GroupName }) => (
-     <li
-      key={GroupID}
-      className=' mb-3'
-      style={
-       (GroupID === parseInt(groupId) ? { background: 'rgba(0,0,0,.2)' } : {})
-      }
-     >
-      <Link
-       to={`/group/${slugString(GroupName)}/${GroupID}`}
-       className='flex flex-wrap gap-2 items-center'
+    {groupList.map(({ GroupID, avatarLink, GroupName }) => {
+     const imgAvatarRef = React.createRef()
+     const handleErrorImageAvatar = () => {
+      imgAvatarRef.current.src = `${AVATAR_DEFAULT}`
+     }
+     return (
+      <li
+       key={GroupID}
+       className=' mb-3'
+       style={
+        GroupID === parseInt(groupId) ? { background: 'rgba(0,0,0,.2)' } : {}
+       }
       >
-       <div>
-        <img src={yeuhanoi} alt={GroupName} />
-       </div>
+       <Link
+        to={`/group/${slugString(GroupName)}/${GroupID}`}
+        className='flex flex-wrap gap-2 items-center'
+       >
+        <div>
+         <img
+          alt={GroupName}
+          onError={handleErrorImageAvatar}
+          ref={imgAvatarRef}
+          src={`${URL_BASE64}${avatarLink}`}
+          className='w-[80px] h-[80px] rounded-full border-2 border-solid border-[#fdfdfd]'
+         />
+        </div>
 
-       <h5>{GroupName}</h5>
-      </Link>
-     </li>
-    ))}
+        <h5>{GroupName}</h5>
+       </Link>
+      </li>
+     )
+    })}
    </ul>
   </div>
  )

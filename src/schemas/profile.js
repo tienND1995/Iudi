@@ -7,4 +7,5 @@ export const profileSchema = Joi.object({
  BirthPlace: Joi.string(),
  CurrentAdd: Joi.string(),
  Phone: Joi.string(),
+ 
 })
