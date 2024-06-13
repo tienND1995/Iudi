@@ -9,17 +9,17 @@ import {
  usersSelector,
  patchAvatar,
  patchProfile,
-} from '../../redux/users/usersSlice'
+} from '../../../redux/users/usersSlice'
 
-import Header2 from '../../components/header/Header2'
-import Footer from '../../components/shared/Footer'
-import background from '../../images/bg3.jpg'
+import Header2 from '../../../components/header/Header2'
+import Footer from '../../../components/shared/Footer'
+import background from '../../../images/bg3.jpg'
 
 import { joiResolver } from '@hookform/resolvers/joi'
-import { profileSchema } from '../../schemas/profile'
+import { profileSchema } from '../../../service/schemas/profile'
 
-import { Auth } from '../../components/shared/Auth'
-import config from '../../configs/Configs.json'
+import { Auth } from '../../../components/shared/Auth'
+import config from '../../../configs/Configs.json'
 const { URL_BASE64 } = config
 
 const FormField = (props) => {

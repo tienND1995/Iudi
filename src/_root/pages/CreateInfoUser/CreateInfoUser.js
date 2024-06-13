@@ -12,8 +12,8 @@ import { unstable_ClassNameGenerator as ClassNameGenerator } from '@mui/material
 import Slider from 'react-slick'
 import dayjs from 'dayjs'
 
-import BgImage from '../../images/bg3.jpg'
-import Logo from '../../images/logoApp.png'
+import BgImage from '../../../images/bg3.jpg'
+import Logo from '../../../images/logoApp.png'
 
 const SlideItem = (props) => {
  const { data } = props

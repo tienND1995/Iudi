@@ -9,8 +9,8 @@ import {
  fetchPosts,
  postComment,
  postsSelector,
-} from '../../../redux/posts/postsSlice'
-import { usersSelector } from '../../../redux/users/usersSlice'
+} from '../../../../redux/posts/postsSlice'
+import { usersSelector } from '../../../../redux/users/usersSlice'
 
 import Moment from 'react-moment'
 import { ToastContainer } from 'react-toastify'
@@ -18,16 +18,16 @@ import { ToastContainer } from 'react-toastify'
 import { GoKebabHorizontal } from 'react-icons/go'
 import { MdDeleteForever, MdModeEditOutline } from 'react-icons/md'
 
-import btnlike from '../../../images/icons/btnlike.png'
-import heart from '../../../images/icons/heart.png'
-import uploadFile from '../../../images/icons/uploadFile.png'
+import btnlike from '../../../../images/icons/btnlike.png'
+import heart from '../../../../images/icons/heart.png'
+import uploadFile from '../../../../images/icons/uploadFile.png'
 
-import config from '../../../configs/Configs.json'
-import { Auth } from '../Auth'
+import config from '../../../../configs/Configs.json'
+import { Auth } from '../../../../components/shared/Auth'
 import Comments from './Comments'
 import FormPost from './FormPost'
 
-import AVATAR_DEFAULT from '../../../images/avatar-default.jpg'
+import AVATAR_DEFAULT from '../../../../images/avatar-default.jpg'
 
 const { API__SERVER, URL_BASE64 } = config
 

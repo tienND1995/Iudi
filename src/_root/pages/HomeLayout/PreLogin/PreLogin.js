@@ -1,12 +1,12 @@
 import React from 'react'
 
-import appstore from '../../images/appstore.png'
-import chplay from '../../images/chplay.png'
-import Logo from '../../images/logoApp.png'
+import appstore from '../../../../images/appstore.png'
+import chplay from '../../../../images/chplay.png'
+import Logo from '../../../../images/logoApp.png'
 
-import Header1 from '../../components/header/Header1'
-import Footer from '../../components/shared/Footer'
-import background from '../../images/background.jpg'
+import Header1 from '../../../../components/header/Header1'
+import Footer from '../../../../components/shared/Footer'
+import background from '../../../../images/background.jpg'
 
 const PreLogin = () => {
  return (

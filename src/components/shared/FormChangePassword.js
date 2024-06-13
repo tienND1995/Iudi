@@ -3,7 +3,7 @@ import Modal from 'react-modal'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import changePasswordSchema from '../../schemas/changePassword'
+import changePasswordSchema from '../../service/schemas/changePassword'
 import { joiResolver } from '@hookform/resolvers/joi'
 import { toast } from 'react-toastify'
 

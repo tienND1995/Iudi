@@ -6,18 +6,16 @@ import ForgotPassword from './_auth/forms/ForgotPassword.js'
 import SigninForm from './_auth/forms/SigninForm.js'
 import SignupForm from './_auth/forms/SignupForm.js'
 
-import HomeLayout from './_root/HomeLayout.js'
 import RootLayout from './_root/RootLayout.js'
-import {
- EditProfile,
- Group,
- Home,
- Personal,
- Profile,
- CreateInfoUser,
-} from './_root/pages/index.js'
-import Message from './components/shared/Message.js'
 
+import HomeLayout from './_root/pages/HomeLayout/HomeLayout.js'
+import Message from './_root/pages/HomeLayout/Message/Message.js'
+import Home from './_root/pages/HomeLayout/Home/Home.js'
+
+import Profile from './_root/pages/Profile/Profile.js'
+import Personal from './_root/pages/Personal/Personal.js'
+import Group from './_root/pages/Group/Group.js'
+import CreateInfoUser from './_root/pages/CreateInfoUser/CreateInfoUser.js'
 
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -32,6 +30,7 @@ function App() {
      <Route path='/forgot-password' element={<ForgotPassword />} />
     </Route>
 
+
     {/* private routes */}
     <Route element={<HomeLayout />}>
      <Route index element={<Home />} />
@@ -41,13 +40,11 @@ function App() {
     <Route element={<RootLayout />}>
      <Route path='/profile/:username' element={<Profile />} />
      <Route path='/personal' element={<Personal />} />
-     <Route path='/profile/edit' element={<EditProfile />} />
      <Route path='/group/:slug/:groupId' element={<Group />}></Route>
     </Route>
 
     <Route path='/create-info' element={<CreateInfoUser />} />
    </Routes>
-   
   </main>
  )
 }

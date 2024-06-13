@@ -10,14 +10,14 @@ import {
  MdOutlineWhereToVote,
 } from 'react-icons/md'
 
-import Header1 from '../../components/header/Header1'
-import Footer from '../../components/shared/Footer'
-import bg from '../../images/bg3.jpg'
-import bgProfile from '../../images/profiles/bg-profile.png'
+import Header1 from '../../../components/header/Header1'
+import Footer from '../../../components/shared/Footer'
+import bg from '../../../images/bg3.jpg'
+import bgProfile from '../../../images/profiles/bg-profile.png'
 
-import { Auth } from '../../components/shared/Auth'
-import FormChangePassword from '../../components/shared/FormChangePassword'
-import configs from '../../configs/Configs.json'
+import { Auth } from '../../../components/shared/Auth'
+import FormChangePassword from '../../../components/shared/FormChangePassword'
+import configs from '../../../configs/Configs.json'
 
 const { URL_BASE64 } = configs
 

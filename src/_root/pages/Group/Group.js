@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Outlet } from 'react-router-dom'
 
-import Header3 from '../../components/header/Header3'
-import SideBarGroup from '../../components/shared/SideBarGroup'
-import background from '../../images/background.jpg'
-import slideGroup from '../../images/slideGroup.png'
-import GroupImages from '../../components/shared/GroupImages'
-import GroupDetail from '../../components/shared/GroupDetail/GroupDetail'
+import Header3 from '../../../components/header/Header3'
+import SideBarGroup from '../../../components/shared/SideBarGroup'
+import background from '../../../images/background.jpg'
+import slideGroup from '../../../images/slideGroup.png'
+import GroupImages from '../../../components/shared/GroupImages'
+import GroupDetail from './GroupDetail/GroupDetail'
 
 const Group = () => {
  const [heightHeader, setHeightHeader] = useState(100)

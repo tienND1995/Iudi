@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
 import { useLocation, useParams } from 'react-router-dom'
-import config from '../../configs/Configs.json'
+import config from '../../../../configs/Configs.json'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -9,17 +9,17 @@ import {
  messagesSelector,
  postMessage,
  deleteMessage,
-} from '../../redux/messages/messagesSlice'
+} from '../../../../redux/messages/messagesSlice'
 
-import callPhone from '../../images/icons/callphone.png'
-import callVideo from '../../images/icons/callvideo.png'
-import send from '../../images/icons/send.png'
+import callPhone from '../../../../images/icons/callphone.png'
+import callVideo from '../../../../images/icons/callvideo.png'
+import send from '../../../../images/icons/send.png'
 
 import { MdDelete } from 'react-icons/md'
 
 import Moment from 'react-moment'
-import { Auth } from './Auth'
-import AVATAR_DEFAULT from '../../images/avatar-default.jpg'
+import { Auth } from '../../../../components/shared/Auth'
+import AVATAR_DEFAULT from '../../../../images/avatar-default.jpg'
 
 const { AVATAR_DEFAULT_FEMALE, URL_BASE64 } = config
 

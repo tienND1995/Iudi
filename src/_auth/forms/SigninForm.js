@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css'
 import { joiResolver } from '@hookform/resolvers/joi'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
-import loginSchema from '../../schemas/login'
+import loginSchema from '../../service/schemas/login'
 import config from '../../configs/Configs.json'
 
 const { LONGITUDE_DEFAULT, LATITUDE_DEFAULT, LAST_LOGIN_IP_DEFAULT } = config

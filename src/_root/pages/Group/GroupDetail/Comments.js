@@ -5,13 +5,13 @@ import { useDispatch } from 'react-redux'
 import {
  likeUnlikeComment,
  removeComment,
-} from '../../../redux/posts/postsSlice'
+} from '../../../../redux/posts/postsSlice'
 
 import { FaChevronDown } from 'react-icons/fa'
 import { IoMdSend } from 'react-icons/io'
 import { MdDelete } from 'react-icons/md'
 
-import config from '../../../configs/Configs.json'
+import config from '../../../../configs/Configs.json'
 
 const { AVATAR_DEFAULT_FEMALE, API__SERVER } = config
 
