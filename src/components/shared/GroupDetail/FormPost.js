@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { useSelector, useDispatch } from 'react-redux'
+import { usersSelector } from '../../../redux/users/usersSlice'
+
 import { AiFillCloseCircle } from 'react-icons/ai'
 import Modal from 'react-modal'
 
 import config from '../../../configs/Configs.json'
 import uploadFile from '../../../images/icons/uploadFile.png'
 
-import { useDispatch } from 'react-redux'
 import { addPost, patchPost } from '../../../redux/posts/postsSlice'
 import { Auth } from '../Auth'
 
-const { AVATAR_DEFAULT_MALE, LONGITUDE_DEFAULT, LATITUDE_DEFAULT } = config
+const { URL_BASE64, LONGITUDE_DEFAULT, LATITUDE_DEFAULT } = config
 
 const FormPost = (props) => {
  const modalStyles = {
@@ -32,6 +34,8 @@ const FormPost = (props) => {
    background: 'rgba(0, 0, 0,.7)',
   },
  }
+
+ const userState = useSelector(usersSelector)
 
  const dispatch = useDispatch()
  const { groupId } = useParams()
@@ -63,17 +67,26 @@ const FormPost = (props) => {
  const handleChangeFormPost = (e) => {
   if (e.target.name === 'image') {
    let file = e.target.files[0]
-   const imageUrl = URL.createObjectURL(file)
-
    if (!file) return
 
-   setFormPost({
-    ...formPost,
-    image: imageUrl,
-    file: e.target.value,
-   })
+   const reader = new FileReader()
+   reader.readAsDataURL(file)
+
+   reader.onloadend = () => {
+    const base64Url = reader.result.split(',')[1]
+    setFormPost({
+     ...formPost,
+     image: base64Url,
+     file: e.target.value,
+    })
+   }
    return
   }
+
+  setFormPost({
+   ...formPost,
+   [e.target.name]: e.target.value,
+  })
  }
 
  const handleSubmitFormPost = async (e) => {
@@ -101,6 +114,8 @@ const FormPost = (props) => {
    title: '',
    file: '',
   })
+
+  hiddenModal()
  }
 
  return (
@@ -123,8 +138,12 @@ const FormPost = (props) => {
 
    <form className='p-5' onSubmit={handleSubmitFormPost}>
     <div className='flex items-center gap-2'>
-     <div className='w-[50px] h-[50px] rounded-full overflow-hidden'>
-      <img src={AVATAR_DEFAULT_MALE} alt='avatar user' />
+     <div>
+      <img
+       className='w-[50px] h-[50px] rounded-full object-cover'
+       src={`${URL_BASE64}${userState.user.avatarLink}`}
+       alt='avatar user'
+      />
      </div>
      <h2>Nguyen Dang tien</h2>
     </div>
@@ -152,7 +171,7 @@ const FormPost = (props) => {
      <div className='relative rounded-lg overflow-hidden h-[150px]'>
       <img
        className='object-cover object-center w-full h-full'
-       src={image}
+       src={`${URL_BASE64}${image}`}
        alt='postImage'
       />
 

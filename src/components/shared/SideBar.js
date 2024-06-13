@@ -82,7 +82,7 @@ const SideBar = () => {
   <>
    <Slider {...settings}>
     <div className='text-center'>
-     <Link to={`/profile/${userName}`}>
+     <Link to={`/profile/${userName}`} >
       <img
        className='mx-auto w-[73px] h-[73px] rounded-full object-cover'
        src={`${URL_BASE64}${userState.user.avatarLink}`}
@@ -94,8 +94,13 @@ const SideBar = () => {
 
     {userOtherList.length > 0
      ? userOtherList.map(({ id, username, avatar }) => (
-        <div className='text-center' key={id}>
-         <Link to={`/profile/${username}`}>
+        <div className='text-center' key={id} >
+         <Link to={`message/${id}`} state={{
+            userName: username,
+            isOnline: true,
+            id,
+            avatar: avatar,
+           }}>
           <img
            className=' mx-auto w-[73px] h-[73px] rounded-full object-cover'
            src={`${URL_BASE64}${avatar}`}

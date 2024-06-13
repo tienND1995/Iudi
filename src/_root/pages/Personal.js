@@ -7,7 +7,6 @@ import { toast, ToastContainer } from 'react-toastify'
 import { useSelector, useDispatch } from 'react-redux'
 import {
  usersSelector,
- fetchProfile,
  patchAvatar,
  patchProfile,
 } from '../../redux/users/usersSlice'

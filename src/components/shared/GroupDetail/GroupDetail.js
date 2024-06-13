@@ -4,15 +4,16 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import {
-  addLikePost,
-  deletePost,
-  fetchPosts,
-  postComment,
-  postsSelector,
+ addLikePost,
+ deletePost,
+ fetchPosts,
+ postComment,
+ postsSelector,
 } from '../../../redux/posts/postsSlice'
 import { usersSelector } from '../../../redux/users/usersSlice'
 
 import Moment from 'react-moment'
+import { ToastContainer } from 'react-toastify'
 
 import { GoKebabHorizontal } from 'react-icons/go'
 import { MdDeleteForever, MdModeEditOutline } from 'react-icons/md'
@@ -79,7 +80,8 @@ const GroupDetail = () => {
   return data.Comments
  }
 
- const IMAGE_POST_PLACEHOLDER = 'https://placehold.co/600x400?text=Post+Placholder'
+ const IMAGE_POST_PLACEHOLDER =
+  'https://placehold.co/600x400?text=Post+Placholder'
 
  return (
   <div>
@@ -169,11 +171,11 @@ const GroupDetail = () => {
           <div className='p-5 flex justify-between'>
            <div className='flex gap-2 items-center'>
             <img
-             className='w-[73px] h-[73px] rounded-full'
+             className='w-[73px] h-[73px] rounded-full object-cover'
              src={`${URL_BASE64}${Avatar}`}
-             onError={handleErrorImageAvatar}
              alt='avatar other'
              ref={imgAvatarRef}
+             onError={handleErrorImageAvatar}
             />
             <div>
              <h3>{UserFullName}</h3>
@@ -244,11 +246,11 @@ const GroupDetail = () => {
            </div>
            {Photo && (
             <img
-             className='w-full'
-             src={Photo}
+             className='w-full object-cover'
+             src={`${URL_BASE64}${Photo}`}
              ref={imgPostRef}
-             onError={handleErrorImagePost}
              alt={Title}
+             onError={handleErrorImagePost}
             />
            )}
           </div>
@@ -315,6 +317,8 @@ const GroupDetail = () => {
    </div>
 
    <FormPost modal={modal} hiddenModal={handleHiddenModal} />
+
+   <ToastContainer position='bottom-right' autoClose={5000} />
   </div>
  )
 }

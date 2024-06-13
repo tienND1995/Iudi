@@ -19,6 +19,7 @@ import { MdDelete } from 'react-icons/md'
 
 import Moment from 'react-moment'
 import { Auth } from './Auth'
+import AVATAR_DEFAULT from '../../images/avatar-default.jpg'
 
 const { AVATAR_DEFAULT_FEMALE, URL_BASE64 } = config
 
@@ -62,14 +63,21 @@ const Message = () => {
   dispatch(deleteMessage({ messageID, userID }))
  }
 
+ const imgAvatarRef = React.createRef()
+ const handleErrorImageAvatar = () => {
+  imgAvatarRef.current.src = `${AVATAR_DEFAULT}`
+ }
+
  return (
   <div className='pb-5 bg-white rounded-3xl'>
    <div className='flex  p-5 items-center justify-between border-b-[#817C7C] border-b border-solid'>
     <div className='flex gap-2'>
      <img
-      className='w-[66px] h-[66px] rounded-full'
+      className='w-[66px] h-[66px] rounded-full object-cover'
       src={`${URL_BASE64}${avatar}`}
-      alt='avatar female'
+      alt='avatar default'
+      onError={handleErrorImageAvatar}
+      ref={imgAvatarRef}
      />
 
      <div className='flex flex-col justify-center text-black'>
@@ -94,8 +102,14 @@ const Message = () => {
 
    <div className='h-[60vh] p-[20px] overflow-y-auto' ref={messRef}>
     {messages.map(
-     ({ SenderID, OtherAvatar, MessageID, Content, MessageTime }) =>
-      SenderID !== parseInt(id) ? (
+     ({ SenderID, OtherAvatar, MessageID, Content, MessageTime }) => {
+
+      const imgAvatarChat = React.createRef()
+      const handleErrorAvatarChat = () => {
+       imgAvatarChat.current.src = `${AVATAR_DEFAULT}`
+      }
+
+      return SenderID !== parseInt(id) ? (
        <div className='flex justify-end pb-3' key={MessageID}>
         <div className='flex flex-col items-end'>
          <div className='flex items-center gap-1 group'>
@@ -122,8 +136,10 @@ const Message = () => {
          <div>
           <img
            className='w-[40px] h-[40px] rounded-full'
-           src={AVATAR_DEFAULT_FEMALE}
-           alt='user other avatar'
+           src={`${URL_BASE64}${avatar}`}
+           alt='avatar default'
+           onError={handleErrorAvatarChat}
+           ref={imgAvatarChat}
           />
          </div>
 
@@ -145,6 +161,7 @@ const Message = () => {
         />
        </div>
       )
+     }
     )}
    </div>
 
