@@ -1,30 +1,18 @@
 import React, { useRef } from 'react'
-import Moment from 'react-moment'
 
-import { useDispatch } from 'react-redux'
-import {
- likeUnlikeComment,
- removeComment,
-} from '../../../../redux/posts/postsSlice'
+import CommentItem from './CommentItem'
 
 import { FaChevronDown } from 'react-icons/fa'
 import { IoMdSend } from 'react-icons/io'
-import { MdDelete } from 'react-icons/md'
-
-import config from '../../../../configs/Configs.json'
-
-const { AVATAR_DEFAULT_FEMALE, API__SERVER } = config
 
 const Comments = ({ comments }) => {
- const { comentList, refComment, refInputComment, onSubmitComment } = comments
-
- const dispatch = useDispatch()
+ const { comentList, commentRef, inputCommentRef, onSubmitComment } = comments
 
  const refUlElement = useRef()
  const refIcondown = useRef()
 
  return (
-  <div id='comment-list' className='hidden duration-200' ref={refComment}>
+  <div id='comment-list' className='hidden duration-200' ref={commentRef}>
    {comentList.length > 0 ? (
     <div>
      <div>
@@ -65,60 +53,24 @@ const Comments = ({ comments }) => {
         PostID,
         Avatar,
        }) => {
-        const refDeleteComment = React.createRef()
+        const imgRef = React.createRef()
 
         return (
-         <li key={CommentID} className='flex gap-2 items-start mb-4'>
-          <div>
-           <img
-            className='w-[42px] h-[42px] object-cover rounded-full'
-            src={AVATAR_DEFAULT_FEMALE || Avatar}
-            alt='avatar other user'
-           />
-          </div>
-
-          <div>
-           <div className='flex gap-2 items-center group '>
-            <div className='bg-[#423f3f] p-2 rounded-xl'>
-             <h3 className='text-xs font-semibold capitalize'>{FullName}</h3>
-             <p className='text-xs'>{Content}</p>
-            </div>
-
-            <div>
-             <button
-              onClick={() => {
-               dispatch(removeComment(CommentID))
-              }}
-              className='opacity-0 transition-all duration-100 group-hover:opacity-100 p-1 rounded-full hover:bg-gray-700 btn-show-delete'
-             >
-              <MdDelete />
-             </button>
-            </div>
-           </div>
-
-           <div className='flex gap-3 text-[7px] mt-1'>
-            <Moment fromNow ago>{`${CommentUpdateTime}+0700`}</Moment>
-
-            <div className='flex gap-1'>
-             <span>{FavoriteCount !== 0 && FavoriteCount}</span>
-             <button
-              type=''
-              onClick={() =>
-               dispatch(
-                likeUnlikeComment({ commentID: CommentID, userID: UserID })
-               )
-              }
-              className={IsFavorited ? 'text-primary' : 'text-white'}
-             >
-              Thích
-             </button>
-            </div>
-            <div>
-             <button type=''>Trả lời</button>
-            </div>
-           </div>
-          </div>
-         </li>
+         <CommentItem
+          key={CommentID}
+          data={{
+           FavoriteCount,
+           CommentID,
+           FullName,
+           Content,
+           CommentUpdateTime,
+           IsFavorited,
+           UserID,
+           PostID,
+           Avatar,
+           imgRef,
+          }}
+         />
         )
        }
       )}
@@ -137,7 +89,7 @@ const Comments = ({ comments }) => {
       className='w-full mr-5 focus-visible:outline-none '
       type='text'
       placeholder='Viết bình luận...'
-      ref={refInputComment}
+      ref={inputCommentRef}
      />
 
      <div className='flex gap-3'>

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import Header3 from '../../../components/header/Header3'
-import SideBarGroup from '../../../components/shared/SideBarGroup'
+import Header3 from '../../../components/Header/Header3'
+import SideBarGroup from './SidebarGroup/SideBarGroup'
 import background from '../../../images/background.jpg'
 import slideGroup from '../../../images/slideGroup.png'
-import GroupImages from '../../../components/shared/GroupImages'
+import GroupImages from './GroupImages/GroupImages'
 import GroupDetail from './GroupDetail/GroupDetail'
 
 const Group = () => {
@@ -18,10 +18,9 @@ const Group = () => {
  const backgroundImageStyle = {
   backgroundImage: `url(${background})`,
   backgroundSize: 'cover',
-  // backgroundPosition: 'center',
+  backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   position: 'relative',
-  
  }
 
  const sidebarStyles = {
@@ -45,7 +44,6 @@ const Group = () => {
 
  const handleGetHeightHeder = (number) => setHeightHeader(number)
  const getIsLoadingSidebar = (value) => setIsLoadingSidebar(value)
- 
 
  useEffect(() => {
   window.onscroll = () => {
@@ -104,7 +102,7 @@ const Group = () => {
 
      <div className='grid 2xl:grid-cols-2 grid-cols-1 py-5'>
       <GroupDetail />
-      <GroupImages/>
+      <GroupImages />
      </div>
     </div>
    </div>

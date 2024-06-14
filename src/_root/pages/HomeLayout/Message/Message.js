@@ -1,191 +1,166 @@
-import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-import { useLocation, useParams } from 'react-router-dom'
-import config from '../../../../configs/Configs.json'
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+
+import Slider from 'react-slick'
+import 'slick-carousel/slick/slick-theme.css'
+import 'slick-carousel/slick/slick.css'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
- fetchMessages,
+ fetchHistoryMessages,
  messagesSelector,
- postMessage,
- deleteMessage,
-} from '../../../../redux/messages/messagesSlice'
+} from '../../../../service/redux/messages/messagesSlice'
+import { usersSelector } from '../../../../service/redux/users/usersSlice'
 
-import callPhone from '../../../../images/icons/callphone.png'
-import callVideo from '../../../../images/icons/callvideo.png'
-import send from '../../../../images/icons/send.png'
+import io from 'socket.io-client'
+import { handleErrorImg } from '../../../../service/utils/utils'
 
-import { MdDelete } from 'react-icons/md'
+import { Auth } from '../../../../service/utils/auth'
+import UserOtherItem from './UserOtherItem'
+import MessageHistoryItem from './MessageHistoryItem'
 
-import Moment from 'react-moment'
-import { Auth } from '../../../../components/shared/Auth'
-import AVATAR_DEFAULT from '../../../../images/avatar-default.jpg'
-
-const { AVATAR_DEFAULT_FEMALE, URL_BASE64 } = config
+import config from '../../../../configs/Configs.json'
+const { URL_BASE64 } = config
+const socket = io('https://api.iudi.xyz')
 
 const Message = () => {
+ var settings = {
+  arrows: false,
+  dots: false,
+  infinite: false,
+  speed: 500,
+  slidesToShow: 5,
+  slidesToScroll: 1,
+ }
+
  const { id } = useParams()
- const { userID } = new Auth()
+ const { userID, userName } = new Auth()
 
- const location = useLocation()
- const { userName, isOnline, userId, avatar } = location.state
+ const [userIdOtherList, setUserIdOtherList] = useState([])
+ const [userOtherList, setUserOtherList] = useState([])
 
- const messRef = useRef()
- const [messageForm, setMessageForm] = useState('')
-
- const { messages, postToggle } = useSelector(messagesSelector)
+ const { historyMessages, postToggle } = useSelector(messagesSelector)
  const dispatch = useDispatch()
+ const userState = useSelector(usersSelector)
 
  useEffect(() => {
-  messRef.current.scrollTop = messRef.current.scrollHeight
- }, [messages])
+  // client connect to server
+  socket.emit('userId', { userId: userID })
+
+  socket.on('online', (data) => {
+   setUserIdOtherList(data.user)
+  })
+ }, [socket, userID])
 
  useEffect(() => {
-  dispatch(fetchMessages({ otherUserId: id, userID }))
- }, [id, postToggle])
+  dispatch(fetchHistoryMessages(userID))
+ }, [postToggle])
 
- const handleSubmitForm = (e) => {
-  e.preventDefault()
-  if (messageForm.trim() !== '') {
-   const data = {
-    content: messageForm,
-    idReceive: parseInt(id),
-    idSend: userId,
-    MessageTime: new Date(),
+ const getProfileChat = async (id) => {
+  if (id && id !== parseInt(userID)) {
+   const { data } = await axios.get(`https://api.iudi.xyz/api/chat/${id}`)
+   const user = {
+    id: data.data[0].UserID,
+    username: data.data[0].Username,
+    avatar: data.data[0].Avatar,
    }
 
-   dispatch(postMessage(data))
-   setMessageForm('')
+   const isMatch = userOtherList.some((user) => user.id === data.data[0].UserID)
+
+   if (data.data.length > 0 && isMatch === false) {
+    setUserOtherList([...userOtherList, user])
+   }
   }
  }
 
- const handleDeleteMessage = async (messageID) => {
-  dispatch(deleteMessage({ messageID, userID }))
- }
+ useEffect(() => {
+  userIdOtherList.forEach((id) => {
+   getProfileChat(id)
+  })
+ }, [userIdOtherList])
 
- const imgAvatarRef = React.createRef()
- const handleErrorImageAvatar = () => {
-  imgAvatarRef.current.src = `${AVATAR_DEFAULT}`
- }
+ const imgAvatarUserRef = React.createRef()
+
+ //   console.log('data:', userOtherList)
+  console.log('id:', userIdOtherList)
 
  return (
-  <div className='pb-5 bg-white rounded-3xl'>
-   <div className='flex  p-5 items-center justify-between border-b-[#817C7C] border-b border-solid'>
-    <div className='flex gap-2'>
-     <img
-      className='w-[66px] h-[66px] rounded-full object-cover'
-      src={`${URL_BASE64}${avatar}`}
-      alt='avatar default'
-      onError={handleErrorImageAvatar}
-      ref={imgAvatarRef}
-     />
-
-     <div className='flex flex-col justify-center text-black'>
-      <h5>{userName}</h5>
-
-      <p className={isOnline ? `text-[#008748]` : 'text-gray'}>
-       {isOnline ? 'Đang hoạt động' : 'Đang Offline'}
-      </p>
-     </div>
+  <>
+   <Slider {...settings}>
+    <div className='text-center'>
+     <Link to={`/profile/${userName}`}>
+      <img
+       className='mx-auto w-[73px] h-[73px] rounded-full object-cover'
+       src={`${URL_BASE64}${userState.user.avatarLink}`}
+       alt='avatar'
+       ref={imgAvatarUserRef}
+       onError={() => handleErrorImg(imgAvatarUserRef)}
+      />
+      <h5 className='capitalize'>{userName}</h5>
+     </Link>
     </div>
 
-    <div className='flex gap-5'>
-     <div>
-      <img src={callVideo} alt='call video' />
-     </div>
+    {userOtherList.length > 0
+     ? userOtherList.map(({ id, username, avatar }) => {
+        const imgAvatarRef = React.createRef()
 
-     <div>
-      <img src={callPhone} alt='call phone' />
-     </div>
-    </div>
-   </div>
-
-   <div className='h-[60vh] p-[20px] overflow-y-auto' ref={messRef}>
-    {messages.map(
-     ({ SenderID, OtherAvatar, MessageID, Content, MessageTime }) => {
-
-      const imgAvatarChat = React.createRef()
-      const handleErrorAvatarChat = () => {
-       imgAvatarChat.current.src = `${AVATAR_DEFAULT}`
-      }
-
-      return SenderID !== parseInt(id) ? (
-       <div className='flex justify-end pb-3' key={MessageID}>
-        <div className='flex flex-col items-end'>
-         <div className='flex items-center gap-1 group'>
-          <button
-           type='button'
-           className='text-black opacity-0 group-hover:opacity-100 duration-200'
-           onClick={() => handleDeleteMessage(MessageID)}
-          >
-           <MdDelete />
-          </button>
-          <p className='bg-blue-600 rounded-[8px] p-[10px]'>{Content}</p>
-         </div>
-
-         <Moment
-          date={`${MessageTime}+0700`}
-          format='hh:mm A'
-          className='text-xs text-gray-500'
+        return (
+         <UserOtherItem
+          key={id}
+          data={{
+           id,
+           username,
+           avatar,
+           ref: imgAvatarRef,
+          }}
          />
-        </div>
-       </div>
-      ) : (
-       <div key={MessageID} className='pb-3'>
-        <div className='flex items-center justify-start gap-3 '>
-         <div>
-          <img
-           className='w-[40px] h-[40px] rounded-full'
-           src={`${URL_BASE64}${avatar}`}
-           alt='avatar default'
-           onError={handleErrorAvatarChat}
-           ref={imgAvatarChat}
-          />
-         </div>
+        )
+       })
+     : ''}
+   </Slider>
 
-         <div className='flex items-center gap-1 group'>
-          <p className='bg-black rounded-[8px] p-[10px]'>{Content}</p>
-          <button
-           type='button'
-           className='text-black opacity-0 group-hover:opacity-100 duration-200'
-           onClick={() => handleDeleteMessage(MessageID)}
-          >
-           <MdDelete />
-          </button>
-         </div>
-        </div>
-        <Moment
-         date={`${MessageTime}+0700`}
-         format='hh:mm A'
-         className='text-xs text-gray-500'
-        />
-       </div>
+   <div className=' pr-[30px]'>
+    <ul>
+     {historyMessages.length > 0 ? (
+      historyMessages.map(
+       ({
+        MessageID,
+        Content,
+        OtherUsername,
+        OtherAvatar,
+        MessageTime,
+        OtherUserID,
+       }) => {
+        let isOnline = false
+        userIdOtherList.some((userId) => (isOnline = userId === OtherUserID))
+
+        const imgAvatarRef = React.createRef()
+
+        return (
+         <MessageHistoryItem
+          key={MessageID}
+          data={{
+           MessageID,
+           Content,
+           OtherUsername,
+           OtherAvatar,
+           MessageTime,
+           OtherUserID,
+           refImg: imgAvatarRef,
+           isOnline,
+           idParams: id,
+          }}
+         />
+        )
+       }
       )
-     }
-    )}
+     ) : (
+      <li></li>
+     )}
+    </ul>
    </div>
-
-   <div>
-    <form
-     onSubmit={handleSubmitForm}
-     className='flex items-center overflow-hidden justify-center p-5 m-3 border text-black h-[70px] rounded-[50px] border-solid border-[#4EC957]'
-    >
-     <input
-      className='w-full mr-5 focus-visible:outline-none '
-      type='text'
-      placeholder='Hãy gửi lời chào...'
-      onChange={(e) => setMessageForm(e.target.value)}
-      value={messageForm}
-     />
-
-     <div className='flex gap-3'>
-      <button type='submit'>
-       <img className='ml-5 h-[33px] w-[33px]' src={send} alt='send' />
-      </button>
-     </div>
-    </form>
-   </div>
-  </div>
+  </>
  )
 }
 

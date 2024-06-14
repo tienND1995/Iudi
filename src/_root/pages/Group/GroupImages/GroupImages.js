@@ -1,14 +1,14 @@
 import React from 'react'
 
-import image1 from '../../images/animals/image1.jpg'
-import image2 from '../../images/animals/image2.jpg'
-import image3 from '../../images/animals/image3.jpg'
-import image4 from '../../images/animals/image4.jpg'
-import image5 from '../../images/animals/image5.jpg'
-import image6 from '../../images/animals/image6.jpg'
-import image7 from '../../images/animals/image7.jpg'
-import image8 from '../../images/animals/image8.jpg'
-import image9 from '../../images/animals/image9.jpg'
+import image1 from '../../../../images/animals/image1.jpg'
+import image2 from '../../../../images/animals/image2.jpg'
+import image3 from '../../../../images/animals/image3.jpg'
+import image4 from '../../../../images/animals/image4.jpg'
+import image5 from '../../../../images/animals/image5.jpg'
+import image6 from '../../../../images/animals/image6.jpg'
+import image7 from '../../../../images/animals/image7.jpg'
+import image8 from '../../../../images/animals/image8.jpg'
+import image9 from '../../../../images/animals/image9.jpg'
 
 const GroupImages = () => {
  const imageList = [

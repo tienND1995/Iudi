@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import axios from 'axios'
-import config from '../../configs/Configs.json'
+import config from '../../../configs/Configs.json'
 import { toast } from 'react-toastify'
 
 const { API__SERVER } = config

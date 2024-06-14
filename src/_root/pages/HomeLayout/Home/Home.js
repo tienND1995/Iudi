@@ -8,15 +8,8 @@ import close from '../../../../images/icons/close.png'
 import star from '../../../../images/icons/star.png'
 import avatar from '../../../../images/icons/avatar-demo.png'
 
-import { useOutletContext } from 'react-router-dom'
 
 const Home = (props) => {
- const context = useOutletContext()
- const { handleShowSidebar } = context
-
- const handleClick = () => {
-  handleShowSidebar()
- }
 
  return (
   <div className=''>
@@ -40,9 +33,7 @@ const Home = (props) => {
     </div>
 
     <div className='absolute bottom-0 translate-y-[60px] -translate-x-2/4 left-2/4 flex gap-3'>
-     <button onClick={handleClick} type=''>
-      Click Message
-     </button>
+  
     </div>
    </div>
   </div>

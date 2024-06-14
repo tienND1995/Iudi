@@ -2,9 +2,9 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import bg from '../../images/bg3.jpg'
 import Footer from '../../components/shared/Footer'
-import Header1 from '../../components/header/Header1'
-import UserList from '../../components/shared/UserList'
-import config from '../../configs/Configs.json'
+import Header1 from '../../../components/header/Header1'
+import UserList from './UserList'
+import config from '../../../configs/Configs.json'
 
 const { FINDING_DEFAULT } = config
 

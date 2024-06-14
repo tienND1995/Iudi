@@ -9,7 +9,7 @@ import SignupForm from './_auth/forms/SignupForm.js'
 import RootLayout from './_root/RootLayout.js'
 
 import HomeLayout from './_root/pages/HomeLayout/HomeLayout.js'
-import Message from './_root/pages/HomeLayout/Message/Message.js'
+import Message from './_root/pages/HomeLayout/Message/MessageDetail.js'
 import Home from './_root/pages/HomeLayout/Home/Home.js'
 
 import Profile from './_root/pages/Profile/Profile.js'

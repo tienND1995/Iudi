@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { AiOutlineHome, AiOutlineMail } from 'react-icons/ai'
@@ -10,15 +10,16 @@ import {
  MdOutlineWhereToVote,
 } from 'react-icons/md'
 
-import Header1 from '../../../components/header/Header1'
-import Footer from '../../../components/shared/Footer'
+import Header1 from '../../../components/Header/Header1'
+import Footer from '../../../components/Footer/Footer'
 import bg from '../../../images/bg3.jpg'
 import bgProfile from '../../../images/profiles/bg-profile.png'
 
-import { Auth } from '../../../components/shared/Auth'
-import FormChangePassword from '../../../components/shared/FormChangePassword'
-import configs from '../../../configs/Configs.json'
+import { Auth } from '../../../service/utils/auth'
+import FormChangePassword from '../../../_auth/forms/FormChangePassword'
+import { handleErrorImg } from '../../../service/utils/utils'
 
+import configs from '../../../configs/Configs.json'
 const { URL_BASE64 } = configs
 
 function Profile() {
@@ -99,6 +100,8 @@ function Profile() {
   },
  ]
 
+ const imgAvatarRef = useRef()
+
  return (
   <div style={background}>
    <Header1 />
@@ -114,6 +117,8 @@ function Profile() {
 
      <div className='mt-[-80px] z-[1]'>
       <img
+       ref={imgAvatarRef}
+       onError={() => handleErrorImg(imgAvatarRef)}
        src={`${URL_BASE64}${avatarLink}`}
        alt='profile'
        className='mx-auto rounded-full h-[130px] w-[130px] object-cover  border-2 border-pink-100'
@@ -136,12 +141,14 @@ function Profile() {
 
       <ul className='flex flex-col gap-4 mt-[30px]'>
        {dataList.map(({ id, name, icon }) => {
-        return (
-         <li key={id} className='flex gap-5 items-center'>
-          <div className='text-2xl'>{icon}</div>
-          <p className='text-xl'>{name}</p>
-         </li>
-        )
+        if (name) {
+         return (
+          <li key={id} className='flex gap-5 items-center'>
+           <div className='text-2xl'>{icon}</div>
+           <p className='text-xl'>{name}</p>
+          </li>
+         )
+        }
        })}
       </ul>
 

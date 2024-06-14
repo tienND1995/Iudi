@@ -3,7 +3,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
-import registerSchema from '../../service/schemas/register'
+import {registerSchema} from '../../service/schemas/schemas'
 
 const SignupForm = () => {
  const [sta, setSta] = useState(true)

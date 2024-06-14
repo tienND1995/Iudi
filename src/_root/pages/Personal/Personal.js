@@ -9,79 +9,20 @@ import {
  usersSelector,
  patchAvatar,
  patchProfile,
-} from '../../../redux/users/usersSlice'
+} from '../../../service/redux/users/usersSlice'
 
-import Header2 from '../../../components/header/Header2'
-import Footer from '../../../components/shared/Footer'
+import Header2 from '../../../components/Header/Header2'
+import Footer from '../../../components/Footer/Footer'
 import background from '../../../images/bg3.jpg'
 
 import { joiResolver } from '@hookform/resolvers/joi'
-import { profileSchema } from '../../../service/schemas/profile'
+import { profileSchema } from '../../../service/schemas/schemas'
+import FormField from './FormField'
+import { formEditData } from '../../../components/shared/globalData'
 
-import { Auth } from '../../../components/shared/Auth'
+import { Auth } from '../../../service/utils/auth'
 import config from '../../../configs/Configs.json'
 const { URL_BASE64 } = config
-
-const FormField = (props) => {
- const { errors, register, name, label } = props.data
- return (
-  <div
-   className={`${
-    errors.FullName ? 'border-red-400' : 'border-[#008748]'
-   } border border-solid p-2 mt-5 overflow-hidden bg-white rounded-md`}
-  >
-   <label className='text-xs font-light text-black' htmlFor={name}>
-    {label}
-   </label>
-   <input
-    type={name === 'BirthDate' ? 'date' : 'text'}
-    id={name}
-    placeholder={label}
-    className='block w-full text-xs font-semibold text-black bg-white outline-none placeholder:font-normal'
-    {...register(`${name}`)}
-   />
-   {errors[name] && (
-    <p className='mt-1 text-xs font-bold text-red-500'>
-     {errors[name].message}
-    </p>
-   )}
-  </div>
- )
-}
-
-const formFieldList = [
- {
-  id: 1,
-  name: 'Bio',
-  label: 'Bio',
- },
- {
-  id: 2,
-  name: 'FullName',
-  label: 'Tên',
- },
- {
-  id: 3,
-  name: 'BirthPlace',
-  label: 'Quê quán',
- },
-
- {
-  id: 4,
-  name: 'BirthDate',
-  label: 'Ngày sinh',
- },
- {
-  id: 5,
-  name: 'Phone',
-  label: 'Số điện thoại',
- },
- {
-  id: 6,
-  name: 'CurrentAdd',
-  label: 'Địa chỉ',
- },
-]
 
 function Personal() {
  const [avatar, setAvatar] = useState(null)
@@ -153,6 +94,8 @@ function Personal() {
   if (!file) return
 
   const reader = new FileReader()
+  reader.readAsDataURL(file)
+
   reader.onloadend = () => {
    const base64Url = reader.result.split(',')[1]
    if (base64Url !== avatar) {
@@ -160,8 +103,6 @@ function Personal() {
     setIsChangeImage(true)
    }
   }
-
-  reader.readAsDataURL(file)
  }
 
  const handleSubmitform = async (data) => {
@@ -329,7 +270,7 @@ function Personal() {
        </div>
 
        <form onSubmit={handleSubmit(handleSubmitform)}>
-        {formFieldList.map(({ id, name, label }) => (
+        {formEditData.map(({ id, name, label }) => (
          <FormField
           key={id}
           data={{

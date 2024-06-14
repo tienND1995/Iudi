@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom'
 import Logo from '../../images/logoApp.png'
 
 import config from '../../configs/Configs.json'
-import { Auth } from '../shared/Auth'
+import { Auth } from '../../service/utils/auth'
 import Navbar from './Navbar'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchProfile, usersSelector } from '../../redux/users/usersSlice'
+import {
+ fetchProfile,
+ usersSelector,
+} from '../../service/redux/users/usersSlice'
+import { handleErrorImg } from '../../service/utils/utils'
 
 const { URL_BASE64 } = config
 
@@ -36,6 +40,8 @@ const Header3 = (props) => {
   props?.onGetHeight(headerRef.current.offsetHeight)
  }, [])
 
+ const avatarRef = useRef()
+
  return (
   <div
    ref={headerRef}
@@ -52,6 +58,8 @@ const Header3 = (props) => {
       src={`${URL_BASE64}${user.avatarLink}`}
       alt='avatar'
       className='w-full h-full object-cover'
+      ref={avatarRef}
+      onError={() => handleErrorImg(avatarRef)}
      />
     </Link>
 

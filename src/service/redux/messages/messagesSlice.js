@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 
 import axios from 'axios'
 import io from 'socket.io-client'
-import config from '../../configs/Configs.json'
+import config from '../../../configs/Configs.json'
 
 const { API__SERVER } = config
 const socket = io('https://api.iudi.xyz')
@@ -54,7 +54,11 @@ export const fetchMessages = createAsyncThunk(
 export const postMessage = createAsyncThunk(
  'messages/postMessageStatus',
  async (data) => {
-  const res = await socket.emit('send_message', data)
+  try {
+   const res = await socket.emit('send_message', data)
+  } catch (error) {
+   console.log('error', error)
+  }
  }
 )
 

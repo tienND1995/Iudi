@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
-import { usersSelector } from '../../../../redux/users/usersSlice'
+import { usersSelector } from '../../../../service/redux/users/usersSlice'
 
 import { AiFillCloseCircle } from 'react-icons/ai'
 import Modal from 'react-modal'
@@ -10,8 +10,8 @@ import Modal from 'react-modal'
 import config from '../../../../configs/Configs.json'
 import uploadFile from '../../../../images/icons/uploadFile.png'
 
-import { addPost, patchPost } from '../../../../redux/posts/postsSlice'
-import { Auth } from '../../../../components/shared/Auth'
+import { addPost, patchPost } from '../../../../service/redux/posts/postsSlice'
+import { Auth } from '../../../../service/utils/auth'
 
 const { URL_BASE64, LONGITUDE_DEFAULT, LATITUDE_DEFAULT } = config
 

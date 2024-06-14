@@ -2,9 +2,9 @@ import { Button, IconButton } from '@material-tailwind/react'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { slugString } from '../shared/slugString'
+import { slugString } from '../../service/utils/utils'
 
-import { Auth } from '../../components/shared/Auth'
+import { Auth } from '../../service/utils/auth'
 
 const Navbar = () => {
  const { isLogin, userName } = new Auth()
@@ -75,7 +75,7 @@ const Navbar = () => {
        </Link>
       </li>
      ))}
-{/* 
+     {/* 
      {isLogin && (
       <li>
        <p>Chào mừng {userName}</p>
