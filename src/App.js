@@ -34,6 +34,7 @@ function App() {
     {/* private routes */}
     <Route element={<HomeLayout />}>
      <Route index element={<Home />} />
+     <Route path='/message' element={<Message/>}/>
      <Route path='/message/:id' element={<Message />} />
     </Route>
 
