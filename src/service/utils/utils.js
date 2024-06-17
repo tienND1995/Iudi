@@ -13,3 +13,5 @@ export const handleErrorImg = (imgRef) => {
 export const handleErrorImgPost = (imgRef) => {
  imgRef.current.src = `${IMAGE_POST_PLACEHOLDER}`
 }
+
+

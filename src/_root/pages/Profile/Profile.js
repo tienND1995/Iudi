@@ -1,28 +1,26 @@
 import axios from 'axios'
-import React, { useEffect, useState, useRef } from 'react'
-import { useNavigate, useParams, Link } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { AiOutlineHome, AiOutlineMail } from 'react-icons/ai'
 import { FaRegUser } from 'react-icons/fa6'
-import { MdArrowBackIos } from 'react-icons/md'
 import {
- MdOutlineDateRange,
- MdOutlineLocalPhone,
- MdOutlineWhereToVote,
+  MdArrowBackIos, MdOutlineDateRange,
+  MdOutlineLocalPhone,
+  MdOutlineWhereToVote
 } from 'react-icons/md'
 
-import Header1 from '../../../components/Header/Header1'
 import Footer from '../../../components/Footer/Footer'
+import Header1 from '../../../components/Header/Header1'
 import bg from '../../../images/bg3.jpg'
 import bgProfile from '../../../images/profiles/bg-profile.png'
 
-import { Auth } from '../../../service/utils/auth'
 import FormChangePassword from '../../../_auth/forms/FormChangePassword'
+import { Auth } from '../../../service/utils/auth'
 import { handleErrorImg } from '../../../service/utils/utils'
 
-import ArrowUp2 from '../../../images/profiles/ArrowUp2.png'
+import Line from '../../../components/shared/Line'
 import Chat from '../../../images/profiles/Chat.png'
-import Line6 from '../../../images/profiles/Line6.png'
 
 import configs from '../../../configs/Configs.json'
 const { URL_BASE64 } = configs
@@ -38,6 +36,7 @@ function Profile() {
   backgroundImage: `url(${bg})`,
   backgroundSize: 'cover',
   backgroundRepeat: 'no-repeat',
+  minHeight: '100vh',
  }
 
  const navigate = useNavigate()
@@ -128,12 +127,9 @@ function Profile() {
   getAllViewImage()
  }, [userID])
 
- const text =
-  "There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc."
-
  return (
   <>
-   <div className='hidden' style={background}>
+   <div className='mobile:hidden block' style={background}>
     <Header1 />
     <div className='flex items-center justify-center mt-[100px]'>
      <div className='bg-white rounded-[30px] w-[550px] overflow-hidden border-2  border-[#4EC957]'>
@@ -225,10 +221,11 @@ function Profile() {
      isOpen={isModalOpenChangePass}
      onClose={() => setIsModalOpenChangePass(false)}
     />
+
     <Footer />
    </div>
 
-   <div className='font-roboto'>
+   <div className='font-roboto hidden mobile:block'>
     <div className='relative'>
      <div>
       <img
@@ -295,10 +292,7 @@ function Profile() {
       </ul>
      </div>
     </div>
-
-    <footer>
-     <div className='w-[35%] h-[5px] bg-black rounded-sm mx-auto mt-4'></div>
-    </footer>
+    <Line/>
    </div>
   </>
  )

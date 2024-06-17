@@ -18,6 +18,8 @@ import send from '../../../../images/icons/send.png'
 import { handleErrorImg } from '../../../../service/utils/utils'
 import { Auth } from '../../../../service/utils/auth'
 
+import { ChevronLeftIcon } from '@heroicons/react/24/outline'
+
 import config from '../../../../configs/Configs.json'
 const { URL_BASE64 } = config
 
@@ -26,6 +28,7 @@ const MessageDetail = () => {
  const { userID } = new Auth()
 
  const location = useLocation()
+ console.log(location)
  const { userName, isOnline, avatar } = location.state
 
  const messRef = useRef()
@@ -55,7 +58,6 @@ const MessageDetail = () => {
 
    dispatch(postMessage(data))
    setMessageForm('')
-
   }
  }
 
@@ -68,7 +70,13 @@ const MessageDetail = () => {
  return (
   <div className='pb-5 bg-white rounded-3xl'>
    <div className='flex  p-5 items-center justify-between border-b-[#817C7C] border-b border-solid'>
-    <div className='flex gap-2'>
+    <div className='flex items-center gap-2'>
+     <Link to='/message'>
+      <button className='w-8 h-8 sm:hidden'>
+       <ChevronLeftIcon />
+      </button>
+     </Link>
+
      <Link to={`/profile/${userName}`}>
       <img
        className='w-[66px] h-[66px] rounded-full object-cover'

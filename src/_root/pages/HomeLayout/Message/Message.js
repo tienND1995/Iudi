@@ -3,8 +3,13 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import Slider from 'react-slick'
-import 'slick-carousel/slick/slick-theme.css'
-import 'slick-carousel/slick/slick.css'
+
+import MenuMobile from '../../../../components/MenuMobile/MenuMobile'
+
+import {
+ ChevronLeftIcon,
+ MagnifyingGlassIcon,
+} from '@heroicons/react/24/outline'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -30,10 +35,43 @@ const Message = () => {
   dots: false,
   infinite: false,
   speed: 500,
-  slidesToShow: 5,
+  slidesToShow: 4,
   slidesToScroll: 1,
+  initialSlide: 0,
+  responsive: [
+   {
+    breakpoint: 1024,
+    settings: {
+     slidesToShow: 3,
+     slidesToScroll: 1,
+     infinite: false,
+     arrows: false,
+     dots: false,
+    },
+   },
+   {
+    breakpoint: 600,
+    settings: {
+     slidesToShow: 1,
+     slidesToScroll: 1,
+     initialSlide: 2,
+     arrows: false,
+     dots: false,
+    },
+   },
+   {
+    breakpoint: 480,
+    settings: {
+     slidesToShow: 1,
+     slidesToScroll: 1,
+     arrows: false,
+     dots: false,
+    },
+   },
+  ],
  }
 
+ console.log('message')
  const { id } = useParams()
  const { userID, userName } = new Auth()
 
@@ -82,11 +120,21 @@ const Message = () => {
 
  const imgAvatarUserRef = React.createRef()
 
- //   console.log('data:', userOtherList)
-  console.log('id:', userIdOtherList)
-
  return (
   <>
+   <div className='sm:hidden mb-4 '>
+    <div className='flex justify-between p-5 border-b-[#817C7C] border-b border-solid'>
+     <Link to='/'>
+      <button className='w-8 h-8 '>
+       <ChevronLeftIcon />
+      </button>
+     </Link>
+     <span className='text-3xl font-semibold'>Chat</span>
+     <button className='w-8 h-8'>
+      <MagnifyingGlassIcon />
+     </button>
+    </div>
+   </div>
    <Slider {...settings}>
     <div className='text-center'>
      <Link to={`/profile/${userName}`}>
@@ -160,6 +208,11 @@ const Message = () => {
      )}
     </ul>
    </div>
+
+    {/* Mobile menu */}
+    <div className='fixed bottom-14 left-0 right-0 mx-3 sm:hidden'>
+      <MenuMobile />
+    </div>
   </>
  )
 }

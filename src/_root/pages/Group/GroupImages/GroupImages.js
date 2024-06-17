@@ -58,6 +58,7 @@ const GroupImages = () => {
   },
  ]
 
+
  return (
   <div>
    <div className='p-3 bg-black rounded-md w-max mx-auto'>

@@ -1,26 +1,22 @@
 import React, { useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 
 import { Auth } from '../../../service/utils/auth'
 import PreLogin from './PreLogin/PreLogin'
 
 import Header2 from '../../../components/Header/Header2'
-import SideBar from './Message/Message'
 import background from '../../../images/bg3.jpg'
-
-import { useSelector } from 'react-redux'
-import { usersSelector } from '../../../service/redux/users/usersSlice'
+import SideBar from './Message/Message'
 
 const HomeLayout = () => {
  const { isLogin } = new Auth()
- const userState = useSelector(usersSelector)
 
  const backgroundImageStyle = {
   backgroundImage: `url(${background})`,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
-  height: '100vh',
+  minHeight: '100vh',
   color: 'white',
  }
 
@@ -30,26 +26,67 @@ const HomeLayout = () => {
  }
  const getHeightHeader = (height) => setHeightHeader(height)
 
+ const location = useLocation()
+ const isChatPage = location.pathname === '/sidebar'
+
  if (!isLogin) return <PreLogin />
 
  return (
-  <div style={backgroundImageStyle}>
-   <Header2 onGetHeight={getHeightHeader} />
-   <div className='grid grid-cols-4'>
-    <div
-     style={sidebarStyles}
-     className='p-5 col-span-1 overflow-y-scroll overflow-x-hidden'
-     id='sidebar-message'
-    >
-     <SideBar />
-    </div>
-
-    <div className='col-span-3 p-5'>
-     <Outlet />
+  <>
+   <div style={backgroundImageStyle} className='hidden sm:block'>
+    <Header2 onGetHeight={getHeightHeader} />
+    <div className='grid grid-cols-4'>
+     <div
+      style={{ height: `calc(100vh - ${heightHeader}px)` }}
+      className='p-5 col-span-1 overflow-y-scroll overflow-x-hidden hidden sm:block'
+      id='sidebar-message'
+     >
+      <SideBar />
+     </div>
+     <div className='col-span-3 p-5'>
+      <Outlet />
+     </div>
     </div>
    </div>
-  </div>
+
+   <div className='lg:hidden md:hidden sm:hidden'>
+    {!isChatPage && (
+     <>
+      <div className='relative z-10'>
+       <Outlet />
+      </div>
+     </>
+    )}
+
+    {isChatPage && (
+     <div className=''>
+      <div className='col-span-3'>
+       <SideBar />
+      </div>
+     </div>
+    )}
+   </div>
+  </>
  )
+
+ //  return (
+ //   <div style={backgroundImageStyle}>
+ //    <Header2 onGetHeight={getHeightHeader} />
+ //    <div className='grid grid-cols-4'>
+ //     <div
+ //      style={sidebarStyles}
+ //      className='p-5 col-span-1 overflow-y-scroll overflow-x-hidden'
+ //      id='sidebar-message'
+ //     >
+ //      <SideBar />
+ //     </div>
+
+ //     <div className='col-span-3 p-5'>
+ //      <Outlet />
+ //     </div>
+ //    </div>
+ //   </div>
+ //  )
 }
 
 export default HomeLayout

@@ -34,7 +34,7 @@ function Personal() {
   backgroundSize: 'cover',
   // backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
-  minHeight: '100vh',
+  minHeight:'100vh'
  }
 
  const dispatch = useDispatch()

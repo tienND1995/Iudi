@@ -10,7 +10,6 @@ const initialState = {
  posts: [],
  loading: 'idle',
  changeTogglePosts: false,
- newPosts: [],
 }
 
 export const postsSlice = createSlice({
@@ -55,6 +54,7 @@ export const postsSelector = (state) => state.posts
 export const postsReducer = postsSlice.reducer
 
 // * POSTS
+
 
 export const fetchPosts = createAsyncThunk(
  'posts/fetchPostStatus',

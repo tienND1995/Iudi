@@ -1,6 +1,9 @@
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 
+import 'slick-carousel/slick/slick-theme.css'
+import 'slick-carousel/slick/slick.css'
+
 import AuthLayout from './_auth/AuthLayout.js'
 import ForgotPassword from './_auth/forms/ForgotPassword.js'
 import SigninForm from './_auth/forms/SigninForm.js'
@@ -18,6 +21,7 @@ import Group from './_root/pages/Group/Group.js'
 import CreateInfoUser from './_root/pages/CreateInfoUser/CreateInfoUser.js'
 
 import 'react-toastify/dist/ReactToastify.css'
+import MessageDetail from './_root/pages/HomeLayout/Message/MessageDetail.js'
 
 function App() {
  return (
@@ -30,12 +34,11 @@ function App() {
      <Route path='/forgot-password' element={<ForgotPassword />} />
     </Route>
 
-
     {/* private routes */}
     <Route element={<HomeLayout />}>
      <Route index element={<Home />} />
-     <Route path='/message' element={<Message/>}/>
-     <Route path='/message/:id' element={<Message />} />
+     <Route path='/message' element={<Message />} />
+     <Route path='/message/:id' element={<MessageDetail />} />
     </Route>
 
     <Route element={<RootLayout />}>
