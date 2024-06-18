@@ -1,20 +1,20 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom'
+
 import Logo from '../../../../images/logoApp.png'
 
-import avatar from '../../../../images/icons/avatar-demo.png'
-
-import axios from 'axios'
-import { Auth } from '../../../../service/utils/auth'
-import Background from '../../../../images/Background.png'
 import Header4 from '../../../../components/Header/Header4'
 import MenuMobile from '../../../../components/MenuMobile/MenuMobile'
+import Background from '../../../../images/Background.png'
+import { Auth } from '../../../../service/utils/auth'
 
 import { handleErrorImg } from '../../../../service/utils/utils'
+import Chat from '../../../../images/profiles/Chat.png'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
- usersSelector,
  fetchProfile,
+ usersSelector,
 } from '../../../../service/redux/users/usersSlice'
 
 import config from '../../../../configs/Configs.json'
@@ -23,8 +23,6 @@ const { URL_BASE64 } = config
 
 const Home = () => {
  const { userName } = new Auth()
-
- const [profileData, setProfileData] = useState({})
 
  const userState = useSelector(usersSelector)
  const { user, isToggleChangeUser } = userState
@@ -40,7 +38,7 @@ const Home = () => {
 
  return (
   <>
-   <div className='hidden sm:block'>
+   <div className='mobile:hidden'>
     <div>
      <a href='/' className='block'>
       <img className='mx-auto' src={Logo} alt='logo' />
@@ -48,23 +46,29 @@ const Home = () => {
     </div>
 
     <div className='relative grid grid-cols-2 rounded-[58px] mx-[40px] mt-[30px]'>
-     <div className='h-[60vh] rounded-tl-[58px] rounded-bl-[58px] overflow-hidden'>
+     <div className='h-[60vh] ipad:h-[50vh] rounded-tl-[58px] rounded-bl-[58px] overflow-hidden'>
       <img
        className='object-cover object-center w-full h-full'
        src={`${URL_BASE64}${avatarLink}`}
        alt='avatar user'
        onError={() => handleErrorImg(avatarRef)}
-        ref={avatarRef}
+       ref={avatarRef}
       />
      </div>
-     <div className='rounded-tr-[58px] rounded-br-[58px] bg-[#368A69] flex items-center justify-center flex-col'>
-      <h2 className='name'>{FullName}</h2>
-      <p className='block overflow-hidden w-[100%]'>{Bio}</p>
+     <div className='text-center rounded-tr-[58px] rounded-br-[58px] bg-[#368A69] flex items-center justify-center flex-col'>
+      <h2 className='text-[30px] tablet:text-2xl ipad:text-xl font-bold'>{FullName}</h2>
+      <p className='block overflow-hidden w-[100%] text-[20px] tablet:text-lg ipad:text-sm font-bold'>{Bio}</p>
      </div>
+    </div>
+
+    <div className='ipad:flex mt-4 justify-center hidden '>
+     <Link to='/message'>
+      <img src={Chat} alt='chat' />
+     </Link>
     </div>
    </div>
 
-   <div className='items-center bg-[rgba(255,255,255,0)] w-full h-full sm:hidden'>
+   <div className='bg-[rgba(255,255,255,0)] w-full h-full hidden mobile:block'>
     <img src={Background} alt='bg' className='w-full' />
     <div className='absolute top-0 left-0 pt-5 w-full'>
      <Header4 />

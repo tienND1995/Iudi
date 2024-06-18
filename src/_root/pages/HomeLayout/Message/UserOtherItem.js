@@ -11,7 +11,7 @@ const UserOtherItem = (props) => {
  return (
   <div className='text-center'>
    <Link
-    to={`message/${id}`}
+    to={`/message/${id}`}
     state={{
      userName: username,
      isOnline: true,
@@ -19,7 +19,7 @@ const UserOtherItem = (props) => {
     }}
    >
     <img
-     className=' mx-auto w-[73px] h-[73px] rounded-full object-cover'
+     className=' mx-auto w-[73px] h-[73px] tablet:w-[60px] tablet:h-[60px] mobile:w-[50px] mobile:h-[50px] rounded-full object-cover'
      src={`${URL_BASE64}${avatar}`}
      alt='avatar'
      ref={refImg}

@@ -71,7 +71,6 @@ const Message = () => {
   ],
  }
 
- console.log('message')
  const { id } = useParams()
  const { userID, userName } = new Auth()
 
@@ -122,15 +121,15 @@ const Message = () => {
 
  return (
   <>
-   <div className='sm:hidden mb-4 '>
-    <div className='flex justify-between p-5 border-b-[#817C7C] border-b border-solid'>
+   <div className='hidden mobile:block mb-4 '>
+    <div className='flex items-center justify-between p-4 border-b-[#817C7C] border-b border-solid'>
      <Link to='/'>
-      <button className='w-8 h-8 '>
+      <button className='w-6 h-6 '>
        <ChevronLeftIcon />
       </button>
      </Link>
-     <span className='text-3xl font-semibold'>Chat</span>
-     <button className='w-8 h-8'>
+     <span className='text-2xl font-bold'>Chat</span>
+     <button className='w-6 h-6'>
       <MagnifyingGlassIcon />
      </button>
     </div>
@@ -139,13 +138,13 @@ const Message = () => {
     <div className='text-center'>
      <Link to={`/profile/${userName}`}>
       <img
-       className='mx-auto w-[73px] h-[73px] rounded-full object-cover'
+       className='mx-auto w-[73px] h-[73px] tablet:w-[60px] tablet:h-[60px] mobile:w-[50px] mobile:h-[50px] rounded-full object-cover'
        src={`${URL_BASE64}${userState.user.avatarLink}`}
        alt='avatar'
        ref={imgAvatarUserRef}
        onError={() => handleErrorImg(imgAvatarUserRef)}
       />
-      <h5 className='capitalize'>{userName}</h5>
+      <h5 className='capitalize font-medium'>{userName}</h5>
      </Link>
     </div>
 
@@ -168,7 +167,7 @@ const Message = () => {
      : ''}
    </Slider>
 
-   <div className=' pr-[30px]'>
+   <div className='mobile:px-3'>
     <ul>
      {historyMessages.length > 0 ? (
       historyMessages.map(
@@ -209,10 +208,10 @@ const Message = () => {
     </ul>
    </div>
 
-    {/* Mobile menu */}
-    <div className='fixed bottom-14 left-0 right-0 mx-3 sm:hidden'>
-      <MenuMobile />
-    </div>
+   {/* Mobile menu */}
+   <div className='fixed bottom-14 left-0 right-0 mx-3 hidden mobile:block'>
+    <MenuMobile />
+   </div>
   </>
  )
 }

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 
 import { Auth } from '../../../service/utils/auth'
 import PreLogin from './PreLogin/PreLogin'
+import Line from '../../../components/shared/Line'
 
 import Header2 from '../../../components/Header/Header2'
 import background from '../../../images/bg3.jpg'
@@ -26,67 +27,32 @@ const HomeLayout = () => {
  }
  const getHeightHeader = (height) => setHeightHeader(height)
 
- const location = useLocation()
- const isChatPage = location.pathname === '/sidebar'
-
  if (!isLogin) return <PreLogin />
 
  return (
   <>
-   <div style={backgroundImageStyle} className='hidden sm:block'>
+   <div style={backgroundImageStyle} className='block mobile:hidden'>
     <Header2 onGetHeight={getHeightHeader} />
-    <div className='grid grid-cols-4'>
+    <div className='grid grid-cols-4 ipad:grid-cols-3 tablet:grid-cols-3'>
      <div
-      style={{ height: `calc(100vh - ${heightHeader}px)` }}
-      className='p-5 col-span-1 overflow-y-scroll overflow-x-hidden hidden sm:block'
+      style={sidebarStyles}
+      className='p-5 col-span-1 ipad:hidden mobile:hidden overflow-y-scroll overflow-x-hidden'
       id='sidebar-message'
      >
       <SideBar />
      </div>
-     <div className='col-span-3 p-5'>
+     <div className='col-span-3 ipad:col-span-3 tablet:col-span-2 p-5'>
       <Outlet />
      </div>
     </div>
    </div>
 
-   <div className='lg:hidden md:hidden sm:hidden'>
-    {!isChatPage && (
-     <>
-      <div className='relative z-10'>
-       <Outlet />
-      </div>
-     </>
-    )}
-
-    {isChatPage && (
-     <div className=''>
-      <div className='col-span-3'>
-       <SideBar />
-      </div>
-     </div>
-    )}
+   <div className='mobile:block hidden relative z-10 min-h-screen'>
+    <Outlet />
+    <Line />
    </div>
   </>
  )
-
- //  return (
- //   <div style={backgroundImageStyle}>
- //    <Header2 onGetHeight={getHeightHeader} />
- //    <div className='grid grid-cols-4'>
- //     <div
- //      style={sidebarStyles}
- //      className='p-5 col-span-1 overflow-y-scroll overflow-x-hidden'
- //      id='sidebar-message'
- //     >
- //      <SideBar />
- //     </div>
-
- //     <div className='col-span-3 p-5'>
- //      <Outlet />
- //     </div>
- //    </div>
- //   </div>
- //  )
 }
 
 export default HomeLayout

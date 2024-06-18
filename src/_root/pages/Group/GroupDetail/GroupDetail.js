@@ -28,6 +28,8 @@ const GroupDetail = () => {
  const { groupId } = useParams()
  const [postList, setPostList] = useState([])
 
+ console.log(useParams())
+
  const { posts, changeTogglePosts } = useSelector(postsSelector)
  const userState = useSelector(usersSelector)
 

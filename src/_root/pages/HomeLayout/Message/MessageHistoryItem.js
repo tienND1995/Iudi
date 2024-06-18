@@ -25,7 +25,7 @@ const MessageHistoryItem = (props) => {
    }
   >
    <Link
-    to={`message/${OtherUserID}`}
+    to={`/message/${OtherUserID}`}
     state={{
      userName: OtherUsername,
      isOnline,
@@ -35,7 +35,7 @@ const MessageHistoryItem = (props) => {
     <div className='flex items-center justify-between mt-4 cursor-pointer'>
      <div className='flex items-center gap-2'>
       <img
-       className=' mx-auto w-[73px] h-[73px] rounded-full object-cover'
+       className=' mx-auto w-[73px] h-[73px] tablet:w-[60px] tablet:h-[60px] mobile:w-[50px] mobile:h-[50px] rounded-full object-cover'
        src={`${URL_BASE64}${OtherAvatar}`}
        alt={`avatar ${OtherUsername}`}
        onError={() => handleErrorImg(refImg)}
@@ -43,15 +43,25 @@ const MessageHistoryItem = (props) => {
       />
 
       <div>
-       <h3 className='capitalize'>{OtherUsername}</h3>
-       <p className='text-gray-500'>{Content}</p>
+       <h3 className='capitalize text-xl tablet:text-lg mobile:text-sm font-medium'>
+        {OtherUsername}
+       </h3>
+       <p className='text-gray-500 text-lg tablet:text-sm mobile:text-xs'>
+        {Content}
+       </p>
       </div>
      </div>
 
      <div className='flex flex-col items-end'>
-      <Moment date={`${MessageTime}+0700`} format='hh:mm A' />
+      <Moment
+       className='mobile:text-sm'
+       date={`${MessageTime}+0700`}
+       format='hh:mm A'
+      />
       {isOnline && (
-       <span className={`w-[16px] h-[16px] rounded-full bg-[#FFA451]`}></span>
+       <span
+        className={`w-[16px] h-[16px] mobile:w-[12px] mobile:h-[12px] rounded-full bg-[#FFA451]`}
+       ></span>
       )}
      </div>
     </div>

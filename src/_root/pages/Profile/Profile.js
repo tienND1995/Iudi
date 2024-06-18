@@ -118,7 +118,6 @@ function Profile() {
      `https://api.iudi.xyz/api/profile/viewAllImage/${userID}`
     )
 
-    console.log(response)
     setImageList(response.data.Photos)
    } catch (error) {
     console.error('Error fetching profile data: ', error)
