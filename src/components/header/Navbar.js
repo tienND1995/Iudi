@@ -1,10 +1,16 @@
 import { Button, IconButton } from '@material-tailwind/react'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { slugString } from '../../service/utils/utils'
 
 import { Auth } from '../../service/utils/auth'
+
+import { FaHome, FaLayerGroup } from 'react-icons/fa'
+import { GiPlagueDoctorProfile } from 'react-icons/gi'
+import { FaUsersViewfinder } from 'react-icons/fa6'
+import { IoMdClose } from 'react-icons/io'
+import { TiThMenu } from 'react-icons/ti'
 
 const Navbar = () => {
  const { isLogin, userName } = new Auth()
@@ -36,18 +42,28 @@ const Navbar = () => {
    name: 'Home',
    link: '/',
    id: 1,
+   icon: <FaHome />,
+  },
+
+  {
+   name: 'Finding',
+   link: '/finding',
+   id: 2,
+   icon: <FaUsersViewfinder />,
   },
 
   {
    name: 'Profile',
    link: `/profile/${userName}`,
    id: 3,
+   icon: <GiPlagueDoctorProfile />,
   },
 
   isGetGroupFirst && {
    name: 'Group',
    id: 4,
    link: `/group/${slugString(GroupName)}/${GroupID}`,
+   icon: <FaLayerGroup />,
   },
  ]
 
@@ -64,6 +80,18 @@ const Navbar = () => {
    window.location.href = 'http://localhost:3000/'
   }
  }
+
+ const [showSidebar, setShowSidebar] = useState(false)
+ const sidebarRef = useRef()
+
+ const handleToggleSidebar = () => {
+  if (sidebarRef.current.offsetWidth === 0) {
+   setShowSidebar(true)
+  } else {
+   setShowSidebar(false)
+  }
+ }
+
  return (
   <div className='flex items-center gap-4 '>
    <div className='hidden mr-4 lg:block'>
@@ -115,43 +143,36 @@ const Navbar = () => {
      </Button>
     )}
    </div>
-   <IconButton
-    variant='text'
-    className='w-6 h-6 ml-auto text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden'
-    ripple={false}
-    onClick={() => setOpenNav(!openNav)}
+   <div className={`mr-3 lg:hidden `}>
+    <button onClick={handleToggleSidebar} type='' className='text-2xl'>
+     <TiThMenu />
+    </button>
+   </div>
+
+   <div
+    ref={sidebarRef}
+    className={`${
+     showSidebar ? 'w-[300px] opacity-1' : 'w-0 opacity-0'
+    } z-10 transition-all duration-300 overflow-hidden h-[100vh] bg-black fixed top-0 right-0`}
    >
-    {openNav ? (
-     <svg
-      xmlns='http://www.w3.org/2000/svg'
-      fill='none'
-      className='w-6 h-6'
-      viewBox='0 0 24 24'
-      stroke='currentColor'
-      strokeWidth={2}
-     >
-      <path
-       strokeLinecap='round'
-       strokeLinejoin='round'
-       d='M6 18L18 6M6 6l12 12'
-      />
-     </svg>
-    ) : (
-     <svg
-      xmlns='http://www.w3.org/2000/svg'
-      className='w-6 h-6'
-      fill='none'
-      stroke='currentColor'
-      strokeWidth={2}
-     >
-      <path
-       strokeLinecap='round'
-       strokeLinejoin='round'
-       d='M4 6h16M4 12h16M4 18h16'
-      />
-     </svg>
-    )}
-   </IconButton>
+    <ul className='px-3'>
+     <div className='flex justify-end pt-3 text-xl'>
+      <button type='' onClick={handleToggleSidebar}>
+       <IoMdClose />
+      </button>
+     </div>
+
+     {navList.map(({ id, name, link, icon }) => (
+      <li
+       key={id}
+       className='flex items-center gap-2 py-2 hover:bg-gray-800 duration-100'
+      >
+       {icon}
+       <Link to={link}>{name}</Link>
+      </li>
+     ))}
+    </ul>
+   </div>
   </div>
  )
 }

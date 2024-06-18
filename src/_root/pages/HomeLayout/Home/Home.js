@@ -51,8 +51,9 @@ const Home = () => {
        className='object-cover object-center w-full h-full'
        src={`${URL_BASE64}${avatarLink}`}
        alt='avatar user'
-       onError={() => handleErrorImg(avatarRef)}
+       
        ref={avatarRef}
+       onError = {() => handleErrorImg(avatarRef)}
       />
      </div>
      <div className='text-center rounded-tr-[58px] rounded-br-[58px] bg-[#368A69] flex items-center justify-center flex-col'>
