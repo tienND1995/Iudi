@@ -103,12 +103,6 @@ const Navbar = () => {
        </Link>
       </li>
      ))}
-     {/* 
-     {isLogin && (
-      <li>
-       <p>Chào mừng {userName}</p>
-      </li>
-     )} */}
     </ul>
    </div>
    <div className='flex items-center gap-x-1'>
@@ -171,6 +165,43 @@ const Navbar = () => {
        <Link to={link}>{name}</Link>
       </li>
      ))}
+
+     {!isLogin ? (
+      <div>
+       <Button
+        variant='text-white'
+        className='mb-3'
+        size='sm'
+        onClick={() => navigate('/login')}
+       >
+        <span>Log In</span>
+       </Button>
+      </div>
+     ) : (
+      <div>
+       <Button
+        className='mb-3'
+        variant='text-white'
+        size='sm'
+        onClick={handleLogout}
+       >
+        <span>Log Out</span>
+       </Button>
+      </div>
+     )}
+
+     {!isLogin && (
+      <div>
+       <Button
+        className='mb-3'
+        variant='gradient'
+        size='sm'
+        onClick={() => navigate('/register')}
+       >
+        <span>Sign up</span>
+       </Button>
+      </div>
+     )}
     </ul>
    </div>
   </div>

@@ -1,7 +1,6 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 
-
 import appstore from '../images/appstore.png'
 import chplay from '../images/chplay.png'
 import Logo from '../images/logoApp.png'
@@ -42,8 +41,10 @@ const AuthLayout = () => {
    >
     <Header1 />
     <div className='flex flex-col justify-center items-center mt-[100px] relative top-[-150px]'>
-     <img src={Logo} alt='Your' className='w-[400px] tablet1:w-[200px]' />
-     <h1 className='font-bold text-white text-7xl tablet1:text-4xl'>Kết Nối Yêu Thương</h1>
+     <img src={Logo} alt='Your' className='w-[400px] tablet:w-[200px]' />
+     <h1 className='font-bold text-white text-7xl ipad:text-4xl tablet:text-4xl'>
+      Kết Nối Yêu Thương
+     </h1>
      <div className='flex justify-center items-center mt-[30px]'>
       <a href='#' className=''>
        <img src={appstore} alt='appstore' className='w-[200px]' />
@@ -54,8 +55,6 @@ const AuthLayout = () => {
      </div>
     </div>
     <Outlet />
-
-    
    </section>
 
    <section className='mobile:block hidden font-roboto min-h-screen w-full relative'>
@@ -73,7 +72,6 @@ const AuthLayout = () => {
 
     <Outlet />
     <Line />
-
    </section>
   </>
  )

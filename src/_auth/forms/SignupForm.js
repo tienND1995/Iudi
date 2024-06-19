@@ -1,15 +1,15 @@
-import { joiResolver } from '@hookform/resolvers/joi'
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast, ToastContainer } from 'react-toastify'
+import { joiResolver } from '@hookform/resolvers/joi'
+import axios from 'axios'
 import { registerSchema } from '../../service/schemas/schemas'
 
 const FormField = ({ label, register, errors, type, name }) => {
  return (
-  <div className='mb-4 tablet:mb-3'>
+  <div className='mb-4 ipad:mb-3 tablet:mb-3'>
    <label
-    className='block mb-2 font-bold tablet:mb-1 tablet:font-semibold tablet:text-xs text-[#50C759] text-sm'
+    className='block mb-2 font-bold ipad:text-xs ipad:mb-1 ipad:font-semibold tablet:mb-1 tablet:font-semibold tablet:text-xs text-[#50C759] text-sm'
     htmlFor={name}
    >
     {label}
@@ -17,7 +17,7 @@ const FormField = ({ label, register, errors, type, name }) => {
 
    {type === 'select' ? (
     <select
-     className='focus:outline-none w-full px-3 py-2 tablet:py-1 target:px-2 tablet:text-sm border rounded'
+     className='focus:outline-none w-full px-3 py-2  tablet:px-2 tablet:text-sm  ipad:px-2 ipad:text-sm border rounded'
      id={name}
      {...register(`${name}`)}
     >
@@ -28,7 +28,7 @@ const FormField = ({ label, register, errors, type, name }) => {
     </select>
    ) : (
     <input
-     className='w-full tablet:py-1 target:px-2 tablet:text-sm px-3 py-2 border rounded shadow appearance-none dark:text-white text-whiteleading-tight focus:outline-none focus:shadow-outline'
+     className='w-full tablet:py-1  tablet:text-sm ipad:py-1  ipad:text-sm px-3 py-2 border rounded shadow appearance-none dark:text-white text-whiteleading-tight focus:outline-none focus:shadow-outline'
      id={name}
      type={type}
      placeholder={label}
@@ -38,7 +38,7 @@ const FormField = ({ label, register, errors, type, name }) => {
    )}
 
    {errors[`${name}`] && (
-    <p className='mt-2 text-sm tablet:mt-1 tablet:text-xs tablet:font-semibold font-bold text-red-500'>
+    <p className='mt-2 text-sm ipad:mt-1 ipad:text-xs ipad:font-semibold tablet:mt-1 tablet:text-xs tablet:font-semibold font-bold text-red-500'>
      {errors[name].message}
     </p>
    )}
@@ -215,87 +215,93 @@ const SignupForm = () => {
   }
  }
 
+ const [showMobile, setShowMobile] = useState(false)
+ const decktopRef = useRef()
 
- return (
-  <>
-   <div
-    className='mobile:hidden absolute inset-0 flex items-center justify-center'
-    style={{ background: 'rgba(255, 255, 255, .3)' }}
-   >
-    <div className='max-w-md tablet:max-w-sm w-full mx-auto border-2 border-green-400 rounded-[20px] bg-gray-900'>
-     <form
-      onSubmit={handleSubmit(handleSubmitForm)}
-      className='p-7 tablet:p-5 rounded '
-     >
-      <h3 className='mt-2 mb-2 text-3xl tablet:text-xl font-extrabold text-center text-[#50C759] '>
-       REGISTER
-      </h3>
+ useEffect(() => {
+  const isDecktopHidden = decktopRef?.current?.offsetWidth === 0
+  isDecktopHidden ? setShowMobile(true) : setShowMobile(false)
+ }, [decktopRef])
 
-      {dataForm.map((field) => (
-       <FormField
-        key={field.id}
-        register={register}
-        errors={errors}
-        {...field}
-       />
-      ))}
+ return !showMobile ? (
+  <div
+   ref={decktopRef}
+   className='mobile:hidden absolute inset-0 flex items-center justify-center'
+   style={{ background: 'rgba(255, 255, 255, .3)' }}
+  >
+   <div className='max-w-md tablet:max-w-sm ipad:max-w-sm w-full mx-auto border-2 border-green-400 rounded-[20px] bg-gray-900'>
+    <form
+     onSubmit={handleSubmit(handleSubmitForm)}
+     className='p-7 tablet:p-5 ipad:p-5 rounded '
+    >
+     <h3 className='mt-2 mb-2 text-3xl tablet:text-xl ipad:text-xl font-extrabold text-center text-[#50C759] '>
+      REGISTER
+     </h3>
 
-      <div className='mb-4 tablet:mb-3'>
-       <button
-        style={{
-         background:
-          'linear-gradient(90deg, rgba(29,120,36,1) 0%, rgba(44,186,55,0.8127626050420168) 90%, rgba(0,255,68,1) 100%)',
-        }}
-        className={`w-full  tablet:py-1 target:px-2 px-3 py-2 ${
-         sta ? '' : 'bg-black'
-        } font-bold tablet:font-semibold text-lg tablet:text-sm rounded focus:outline-none text-white`}
-        type='submit'
-        disabled={!sta}
-       >
-        Register
-       </button>
-      </div>
-      <p
-       className='text-sm text-center'
-       style={{
-        color: 'rgba(44,186,55,0.8127626050420168)',
-       }}
-      >
-       Already have an account ?{' '}
-       <a href='/login' className='text-500'>
-        <strong>LOG IN</strong>
-       </a>
-      </p>
-     </form>
-    </div>
-   </div>
-
-   <div
-    className='px-4 mobile:block hidden '
-   >
-    <form onSubmit={handleSubmit(handleSubmitForm)}>
-     {dataForm.map((data) => (
-      <FormFieldMobile
-       key={data.id}
-       {...data}
+     {dataForm.map((field) => (
+      <FormField
+       key={field.id}
        register={register}
        errors={errors}
+       {...field}
       />
      ))}
 
-     <div>
+     <div className='mb-4 tablet:mb-3'>
       <button
+       style={{
+        background:
+         'linear-gradient(90deg, rgba(29,120,36,1) 0%, rgba(44,186,55,0.8127626050420168) 90%, rgba(0,255,68,1) 100%)',
+       }}
+       className={`w-full px-3 py-2 ${
+        sta ? '' : 'bg-black'
+       } font-bold tablet:font-semibold text-lg tablet:text-sm ipad:text-sm ipad:font-semibold  rounded focus:outline-none text-white`}
        type='submit'
-       className='mt-3 hover:bg-green transition-all duration-200 w-full rounded-[10px] py-[5px] text-center text-sm bg-[#149157] font-bold text-white'
+       disabled={!sta}
       >
        Register
       </button>
      </div>
+     <p
+      className='text-sm text-center'
+      style={{
+       color: 'rgba(44,186,55,0.8127626050420168)',
+      }}
+     >
+      Already have an account ?{' '}
+      <a href='/login' className='text-500'>
+       <strong>LOG IN</strong>
+      </a>
+     </p>
     </form>
-
-    <ToastContainer />
    </div>
-  </>
+
+   <ToastContainer />
+  </div>
+ ) : (
+  <div className='px-4'>
+   <form onSubmit={handleSubmit(handleSubmitForm)}>
+    {dataForm.map((data) => (
+     <FormFieldMobile
+      key={data.id}
+      {...data}
+      register={register}
+      errors={errors}
+     />
+    ))}
+
+    <div>
+     <button
+      type='submit'
+      className='mt-3 hover:bg-green transition-all duration-200 w-full rounded-[10px] py-[5px] text-center text-sm bg-[#149157] font-bold text-white'
+     >
+      Register
+     </button>
+    </div>
+   </form>
+
+   <ToastContainer />
+  </div>
  )
 }
 

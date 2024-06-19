@@ -2,12 +2,15 @@ import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 
+import { ToastContainer } from 'react-toastify'
+
 import { AiOutlineHome, AiOutlineMail } from 'react-icons/ai'
 import { FaRegUser } from 'react-icons/fa6'
 import {
-  MdArrowBackIos, MdOutlineDateRange,
-  MdOutlineLocalPhone,
-  MdOutlineWhereToVote
+ MdArrowBackIos,
+ MdOutlineDateRange,
+ MdOutlineLocalPhone,
+ MdOutlineWhereToVote,
 } from 'react-icons/md'
 
 import Footer from '../../../components/Footer/Footer'
@@ -17,7 +20,10 @@ import bgProfile from '../../../images/profiles/bg-profile.png'
 
 import FormChangePassword from '../../../_auth/forms/FormChangePassword'
 import { Auth } from '../../../service/utils/auth'
-import { handleErrorImg } from '../../../service/utils/utils'
+import {
+ handleErrorImg,
+ handleErrorImgProfile,
+} from '../../../service/utils/utils'
 
 import Line from '../../../components/shared/Line'
 import Chat from '../../../images/profiles/Chat.png'
@@ -111,11 +117,12 @@ function Profile() {
  const [imageList, setImageList] = useState([])
  const [toggleText, setToggleText] = useState(false)
 
+ console.log(UserID)
  useEffect(() => {
   const getAllViewImage = async () => {
    try {
     const response = await axios.get(
-     `https://api.iudi.xyz/api/profile/viewAllImage/${userID}`
+     `https://api.iudi.xyz/api/profile/viewAllImage/${UserID}`
     )
 
     setImageList(response.data.Photos)
@@ -124,7 +131,7 @@ function Profile() {
    }
   }
   getAllViewImage()
- }, [userID])
+ }, [UserID])
 
  return (
   <>
@@ -180,7 +187,7 @@ function Profile() {
        <div className='flex justify-between gap-5 mb-5 mt-[50px]'>
         <div>
          <button
-          className={`py-4 px-5 text-xl font-bold text-white bg-[#50C759] rounded-[20px] hover:bg-green-600 duration-200 ${
+          className={`py-4 px-5 text-xl font-bold text-white bg-[#50C759] rounded-[20px] hover:bg-[#1e5f24] duration-200 ${
            username !== userName ? 'cursor-not-allowed opacity-70' : ''
           }`}
           onClick={() =>
@@ -192,7 +199,7 @@ function Profile() {
         </div>
         <div>
          <button
-          className='py-4 text-xl px-5 font-bold text-white bg-[#50C759] rounded-[20px] hover:bg-green-600 duration-200'
+          className='py-4 text-xl px-5 font-bold text-white bg-[#50C759] rounded-[20px] hover:bg-[#1e5f24] duration-200'
           onClick={() => {
            username === userName
             ? navigate('/personal')
@@ -201,7 +208,6 @@ function Profile() {
                state: {
                 userName: FullName,
                 isOnline: true,
-                userId: userID,
                 avatar: avatarLink,
                },
               })
@@ -215,22 +221,19 @@ function Profile() {
      </div>
     </div>
 
-    <FormChangePassword
-     userId={userID}
-     isOpen={isModalOpenChangePass}
-     onClose={() => setIsModalOpenChangePass(false)}
-    />
-
     <Footer />
    </div>
 
-   <div className='font-roboto hidden mobile:block'>
+   <div className='font-roboto hidden mobile:block relative min-h-screen'>
     <div className='relative'>
      <div>
       <img
        src={`${URL_BASE64}${avatarLink}`}
        alt='avatar'
-       className='object-cover rounded-b-[32px] h-[40vh]'
+       ref={imgAvatarRef}
+       onError={() => handleErrorImg(imgAvatarRef)}
+
+       className='object-cover rounded-b-[32px] h-[40vh] w-full'
       />
      </div>
 
@@ -246,17 +249,22 @@ function Profile() {
        <p className='font-bold text-[14px] text-[#00000066]'>{CurrentAdd}</p>
       </div>
 
-      <div>
-       <Link to='/message'>
-        <img src={Chat} alt='message' />
-       </Link>
-      </div>
+      {userName === username && (
+       <div>
+        <Link to='/message'>
+         <img src={Chat} alt='message' />
+        </Link>
+       </div>
+      )}
      </div>
 
      <div>
       <h3 className='text-[15px] font-bold my-3'>Giới thiệu</h3>
 
-      <p className='text-[12px] font-normal text-gray-600'>
+      <p
+       style={{ overflowWrap: 'break-word' }}
+       className='text-[12px] font-normal text-gray-600'
+      >
        {Bio?.length <= 150 ? (
         Bio
        ) : (
@@ -278,21 +286,66 @@ function Profile() {
 
       <ul className='flex flex-wrap gap-2'>
        {imageList.length > 0
-        ? imageList.map(({ PhotoID, PhotoURL }) => (
-           <li key={PhotoID}>
-            <img
-             src={`${URL_BASE64}${PhotoURL}`}
-             alt='profile'
-             className='w-[80px] h-[80px] object-cover rounded-lg'
-            />
-           </li>
-          ))
+        ? imageList.map(({ PhotoID, PhotoURL }) => {
+           const imgRef = React.createRef()
+           return (
+            <li key={PhotoID}>
+             <img
+              onError={() => handleErrorImgProfile(imgRef)}
+              ref={imgRef}
+              src={`${URL_BASE64}${PhotoURL}`}
+              alt='profile'
+              className='w-[80px] h-[80px] object-cover rounded-lg'
+             />
+            </li>
+           )
+          })
         : ''}
       </ul>
      </div>
     </div>
-    <Line/>
+
+    <div className='flex justify-center gap-5 px-3 my-5'>
+     <div>
+      <button
+       className={`py-2 px-3 text-lg rounded-lg font-bold text-white bg-[#50C759] hover:bg-[#1e5f24] duration-200 ${
+        username !== userName ? 'cursor-not-allowed opacity-70' : ''
+       }`}
+       onClick={() => username === userName && setIsModalOpenChangePass(true)}
+      >
+       Change Password
+      </button>
+     </div>
+     <div>
+      <button
+       className='py-2 px-3 text-lg rounded-lg font-bold text-white bg-[#50C759] hover:bg-[#1e5f24] duration-200'
+       onClick={() => {
+        username === userName
+         ? navigate('/personal')
+         : UserID &&
+           navigate(`/message/${UserID}`, {
+            state: {
+             userName: FullName,
+             isOnline: true,
+             avatar: avatarLink,
+            },
+           })
+       }}
+      >
+       {username !== userName ? 'Nhắn tin' : 'Edit'}
+      </button>
+     </div>
+    </div>
+
+    <Line />
    </div>
+
+   <FormChangePassword
+    userId={userID}
+    isOpen={isModalOpenChangePass}
+    onClose={() => setIsModalOpenChangePass(false)}
+   />
+   <ToastContainer />
   </>
  )
 }

@@ -4,6 +4,11 @@ import 'react-calendar/dist/Calendar.css'
 import { useForm } from 'react-hook-form'
 import { toast, ToastContainer } from 'react-toastify'
 
+import { IoIosArrowBack } from 'react-icons/io'
+import { Link } from 'react-router-dom'
+
+import Line from '../../../components/shared/Line'
+
 import { useSelector, useDispatch } from 'react-redux'
 import {
  usersSelector,
@@ -34,7 +39,7 @@ function Personal() {
   backgroundSize: 'cover',
   // backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
-  minHeight:'100vh'
+  minHeight: '100vh',
  }
 
  const dispatch = useDispatch()
@@ -136,11 +141,19 @@ function Personal() {
    document.documentElement.scrollTop > 0 ? setIsDark(true) : setIsDark(false)
   }
 
-  setWidthSidebar(sidebarRef?.current.offsetWidth)
+  setWidthSidebar(sidebarRef?.current?.offsetWidth)
  }, [])
 
- return (
-  <div style={backgroundImage} className=''>
+ const [showMobile, setShowMobile] = useState(false)
+ const decktopRef = useRef()
+
+ useEffect(() => {
+  const isDecktopHidden = decktopRef?.current?.offsetWidth === 0
+  isDecktopHidden ? setShowMobile(true) : setShowMobile(false)
+ }, [decktopRef])
+
+ return !showMobile ? (
+  <div style={backgroundImage} className='mobile:hidden' ref={decktopRef}>
    <Header2
     isDark={isDark}
     onGetHeight={getHeightHeader}
@@ -149,7 +162,7 @@ function Personal() {
 
    <div
     ref={sidebarRef}
-    className='fixed top-0 left-0 w-[500px] border-r-2 border-white h-screen'
+    className='fixed top-0 left-0 mobile:hidden ipad:hidden tablet:w-[300px] w-[500px] border-r-2 border-white h-screen'
    >
     <div className='mt-[200px] ml-[50px] mr-[50px]'>
      <h1 className='text-3xl font-semibold text-white text-green-600 mb-11'>
@@ -298,7 +311,88 @@ function Personal() {
    </div>
 
    <Footer />
+   <ToastContainer position='bottom-right' autoClose={5000} />
+  </div>
+ ) : (
+  <div className='w-full min-h-screen bg-white py-[50px] px-[20px] relative'>
+   <div className='mb-[15px] flex flex-col items-center '>
+    <div className='relative w-full text-center'>
+     <div className='absolute left-0 top-1/2 -translate-y-1/2'>
+      <Link to={`/profile/${userName}`} className='text-black'>
+       <IoIosArrowBack />
+      </Link>
+     </div>
+     <h1 className='text-xl font-semibold text-black'>Thông tin cá nhân</h1>
+    </div>
 
+    <p className='text-sm font-[300] mt-2'>
+     Hãy điền thông tin cá nhân để chúng ta hiểu nhau hơn
+    </p>
+   </div>
+
+   {isLoading === 'pending' ? (
+    <h3 className='text-white'>Loading...</h3>
+   ) : (
+    <>
+     <div className='flex items-end justify-center'>
+      <img
+       src={`${URL_BASE64}${avatar}`}
+       alt='personal'
+       className='w-[70px] h-[70px] rounded-full mr-[5px] object-cover'
+      />
+
+      <label htmlFor='imageUpload' className='cursor-pointer'>
+       <input
+        type='file'
+        id='imageUpload'
+        accept='image/*'
+        className='hidden'
+        onChange={handleImageChange}
+       />
+       <svg
+        xmlns='http://www.w3.org/2000/svg'
+        fill='none'
+        viewBox='0 0 24 24'
+        strokeWidth='1.5'
+        stroke='currentColor'
+        className='w-6 h-6 bg-[#3d773d] text-white p-[3px] rounded-[5px] hover:cursor-pointer'
+       >
+        <path
+         strokeLinecap='round'
+         strokeLinejoin='round'
+         d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10'
+        />
+       </svg>
+      </label>
+     </div>
+
+     <form onSubmit={handleSubmit(handleSubmitform)}>
+      {formEditData.map(({ id, name, label }) => (
+       <FormField
+        key={id}
+        data={{
+         errors,
+         register,
+         name,
+         label,
+        }}
+       />
+      ))}
+
+      <button
+       className={`${
+        isDirty || isChangeImage ? 'hover:bg-green' : 'opacity-50'
+       }  duration-200 w-full mt-5 font-semibold text-[20px] text-white rounded-lg h-[55px] shadow bg-[#008748]`}
+       type='submit'
+       disabled={isDirty == false && isChangeImage === false ? true : false}
+      >
+       {isSubmitting ? 'Loading...' : 'Lưu'}
+      </button>
+     </form>
+    </>
+   )}
+
+   <Line />
    <ToastContainer position='bottom-right' autoClose={5000} />
   </div>
  )

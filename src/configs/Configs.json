@@ -11,6 +11,7 @@
 
  "FINDING_DEFAULT": 5000000,
  
- "IMAGE_POST_PLACEHOLDER" : "https://placehold.co/600x400?text=Post+Placholder"
+ "IMAGE_POST_PLACEHOLDER" : "https://placehold.co/600x400?text=Post+Placholder",
+ "IMAGE_PROFILE_PLACEHOLDER" : "https://placehold.co/600x400?text=Profile+Placholder"
   
 }

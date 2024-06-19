@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 import Logo from '../../../../images/logoApp.png'
@@ -11,6 +11,8 @@ import { Auth } from '../../../../service/utils/auth'
 import { handleErrorImg } from '../../../../service/utils/utils'
 import Chat from '../../../../images/profiles/Chat.png'
 
+import avatarDefault from '../../../../images/avatar-default.jpg'
+
 import { useDispatch, useSelector } from 'react-redux'
 import {
  fetchProfile,
@@ -19,7 +21,7 @@ import {
 
 import config from '../../../../configs/Configs.json'
 
-const { URL_BASE64 } = config
+const { URL_BASE64, IMAGE_PROFILE_PLACEHOLDER } = config
 
 const Home = () => {
  const { userName } = new Auth()
@@ -35,6 +37,13 @@ const Home = () => {
  }, [isToggleChangeUser])
 
  const avatarRef = useRef()
+ const [isErrorImg, setIsErrorImg] = useState(false)
+
+ useEffect(() => {
+  avatarRef.current.addEventListener('error', (e) => {
+   setIsErrorImg(true)
+  })
+ }, [])
 
  return (
   <>
@@ -49,16 +58,18 @@ const Home = () => {
      <div className='h-[60vh] ipad:h-[50vh] rounded-tl-[58px] rounded-bl-[58px] overflow-hidden'>
       <img
        className='object-cover object-center w-full h-full'
-       src={`${URL_BASE64}${avatarLink}`}
+       src={isErrorImg ? avatarDefault : `${URL_BASE64}${avatarLink}`}
        alt='avatar user'
-       
        ref={avatarRef}
-       onError = {() => handleErrorImg(avatarRef)}
       />
      </div>
      <div className='text-center rounded-tr-[58px] rounded-br-[58px] bg-[#368A69] flex items-center justify-center flex-col'>
-      <h2 className='text-[30px] tablet:text-2xl ipad:text-xl font-bold'>{FullName}</h2>
-      <p className='block overflow-hidden w-[100%] text-[20px] tablet:text-lg ipad:text-sm font-bold'>{Bio}</p>
+      <h2 className='text-[30px] tablet:text-2xl ipad:text-xl font-bold'>
+       {FullName}
+      </h2>
+      <p className='block overflow-hidden w-[100%] text-[20px] tablet:text-lg ipad:text-sm font-bold'>
+       {Bio}
+      </p>
      </div>
     </div>
 

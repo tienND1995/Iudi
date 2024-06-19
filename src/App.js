@@ -22,6 +22,13 @@ import Personal from './_root/pages/Personal/Personal.js'
 import Group from './_root/pages/Group/Group.js'
 import CreateInfoUser from './_root/pages/CreateInfoUser/CreateInfoUser.js'
 import Finding from './_root/pages/Finding/Finding.js'
+import Setting from './_root/pages/Setting/Setting.js'
+
+import Private from './_root/pages/Setting/Private/Private.js'
+import Notification from './_root/pages/Setting/Notification/Notification.js'
+import About from './_root/pages/Setting/About/About.js'
+import Rules from './_root/pages/Setting/Rules/Rules.js'
+import Security from './_root/pages/Setting/Security/Security.js'
 
 function App() {
  return (
@@ -35,17 +42,26 @@ function App() {
     </Route>
 
     {/* private routes */}
-    <Route element={<HomeLayout />}>
+    {/* <Route element={<HomeLayout />}>
      <Route index element={<Home />} />
      <Route exact path='/message/' element={<Message />} />
      <Route exact path='/message/:id' element={<MessageDetail />} />
-    </Route>
+    </Route> */}
 
-    <Route element={<RootLayout />}>
+    {/* <Route element={<RootLayout />}>
      <Route path='/profile/:username' element={<Profile />} />
      <Route path='/personal' element={<Personal />} />
      <Route path='/group/:slug/:groupId' element={<Group />}></Route>
-     <Route path='finding' element={<Finding/>}/>
+     <Route path='/finding' element={<Finding />} />
+    </Route> */}
+
+    <Route path='/setting'>
+     <Route index element={<Setting />} />
+     <Route path='private' element={<Private />} />
+     <Route path='notifi' element={<Notification />} />
+     <Route path='rules' element={<Rules />} />
+     <Route path='about' element={<About />} />
+     <Route path='security' element={<Security />} />
     </Route>
 
     <Route path='/create-info' element={<CreateInfoUser />} />

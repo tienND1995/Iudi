@@ -52,7 +52,7 @@ const FormChangePassword = ({ userId, isOpen, onClose }) => {
 
  return (
   <Modal isOpen={isOpen} style={modalStyles}>
-   <div className='bg-white w-[350px] h-[400px] rounded-2xl border-4 border-green-400 mx-auto my-auto flex items-center justify-center'>
+   <div className='bg-white text-black w-[350px] h-[400px] rounded-2xl border-4 border-green-400 mx-auto my-auto flex items-center justify-center'>
     <form onSubmit={handleSubmit(handleChangePassword)}>
      <div className='mb-8 mt-3'>
       <input
@@ -109,13 +109,13 @@ const FormChangePassword = ({ userId, isOpen, onClose }) => {
       )}
      </div>
      <button
-      className='inline-block bg-black text-white rounded shadow py-2 px-11 text-sm mt-8'
+      className='inline-block bg-green text-white rounded shadow py-2 px-11 text-sm mt-8'
       type='submit'
      >
       Submit
      </button>
      <button
-      className='inline-block bg-black text-white rounded shadow py-2 px-5 text-sm ml-4'
+      className='inline-block bg-green text-white rounded shadow py-2 px-5 text-sm ml-4'
       type='button'
       onClick={onClose}
      >

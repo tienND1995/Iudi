@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
@@ -25,7 +25,6 @@ function SigninForm() {
    fetch('http://www.geoplugin.net/json.gp?ip')
     .then((response) => response.json())
     .then((data) => {
-     console.log(data)
      setValue('Latitude', data.geoplugin_latitude)
      setValue('Longitude', data.geoplugin_longitude)
      setValue('LastLoginIP', data.geoplugin_request)
@@ -42,7 +41,7 @@ function SigninForm() {
  }, [])
 
  const navigate = useNavigate()
- const handleLogin = async (data) => {
+ const onSubmit = async (data) => {
   if (isValid) {
    try {
     const response = await axios.post('https://api.iudi.xyz/api/login', data)
@@ -78,156 +77,163 @@ function SigninForm() {
   } else toast.warning('An error occur...')
  }
 
- return (
-  <>
-   <div
-    className='absolute inset-0 flex items-center justify-center mobile:hidden'
-    style={{ background: 'rgba(255, 255, 255, .3)' }}
-   >
-    <div className='max-w-md w-full mx-auto border-2 border-green-400 rounded-[20px] bg-gray-900'>
-     <form
-      onSubmit={handleSubmit(handleLogin)}
-      className='px-8 pt-6 pb-8 mb-4 rounded '
+ const [showMobile, setShowMobile] = useState(false)
+ const decktopRef = useRef()
+
+ useEffect(() => {
+  const isDecktopHidden = decktopRef?.current?.offsetWidth === 0
+  isDecktopHidden ? setShowMobile(true) : setShowMobile(false)
+ }, [decktopRef])
+
+ return !showMobile ? (
+  <div
+   ref={decktopRef}
+   className='absolute inset-0 flex items-center justify-center mobile:hidden'
+   style={{ background: 'rgba(255, 255, 255, .3)' }}
+  >
+   <div className='max-w-md w-full mx-auto border-2 border-green-400 rounded-[20px] bg-gray-900'>
+    <form
+     onSubmit={handleSubmit(onSubmit)}
+     className='px-8 pt-6 pb-8 mb-4 rounded '
+    >
+     <h3
+      style={{
+       color: 'rgba(44,186,55,0.8127626050420168)',
+      }}
+      className='mt-2 mb-2 text-3xl font-extrabold text-center text-white'
      >
-      <h3
-       style={{
-        color: 'rgba(44,186,55,0.8127626050420168)',
-       }}
-       className='mt-2 mb-2 text-3xl font-extrabold text-center text-white'
-      >
-       LOGIN
-      </h3>
-      <div className='mb-4'>
-       <label
-        className='block mb-2 font-bold text-whitetext-sm'
-        htmlFor='Username'
-        style={{
-         color: 'rgba(44,186,55,0.8127626050420168)',
-        }}
-       >
-        Username
-       </label>
-       <input
-        className='w-full px-3 py-2 border rounded shadow appearance-none text-whiteleading-tight focus:outline-none focus:shadow-outline'
-        id='Username'
-        type='text'
-        placeholder='Username'
-        name='Username'
-        {...register('Username')}
-       />
-
-       {errors.Username && (
-        <p className='mt-2 text-sm font-bold text-red-500'>
-         {errors.Username.message}
-        </p>
-       )}
-      </div>
-      <div className='mb-4'>
-       <label
-        className='block mb-2 font-bold text-whitetext-sm'
-        htmlFor='Password'
-        style={{
-         color: 'rgba(44,186,55,0.8127626050420168)',
-        }}
-       >
-        Password
-       </label>
-       <input
-        className='w-full px-3 py-2 border rounded shadow appearance-none text-whiteleading-tight focus:outline-none focus:shadow-outline'
-        id='Password'
-        type='password'
-        placeholder='Password'
-        name='Password'
-        {...register('Password')}
-       />
-       {errors.Password && (
-        <p className='mt-2 text-sm font-bold text-red-500'>
-         {errors.Password.message}{' '}
-        </p>
-       )}
-      </div>
-      <div className='mb-4'>
-       <button
-        style={{
-         background: 'rgba(44,186,55,0.8127626050420168)',
-        }}
-        className='w-full px-4 py-2 mt-2 font-bold text-white rounded focus:outline-none focus:shadow-outline'
-        type='submit'
-       >
-        Login
-       </button>
-      </div>
-      <p
-       className='text-sm text-center text-white'
+      LOGIN
+     </h3>
+     <div className='mb-4'>
+      <label
+       className='block mb-2 font-bold text-whitetext-sm'
+       htmlFor='Username'
        style={{
         color: 'rgba(44,186,55,0.8127626050420168)',
        }}
       >
-       Don't have an account ?
-       <a href='/register' className='text-500'>
-        <strong>REGISTER</strong>
-       </a>
-      </p>
-      <p className='mt-2 text-center text-green-600'>
-       <a href='/forgot-password' className='text-200'>
-        <strong>Forgot password ?</strong>
-       </a>
-      </p>
-     </form>
-    </div>
-   </div>
-
-   <div className='px-4 mobile:block hidden'>
-    <form onSubmit={handleSubmit(handleLogin)}>
-     <div className='flex flex-col gap-1 mb-3'>
-      <label className='font-medium text-sm' htmlFor='username'>
        Username
       </label>
-
       <input
-       className='focus:outline-none py-1 px-2 text-sm rounded-[10px] border border-[#D9D9D9] border-solid '
+       className='w-full px-3 py-2 border rounded shadow appearance-none text-whiteleading-tight focus:outline-none focus:shadow-outline'
+       id='Username'
        type='text'
-       id='username'
+       placeholder='Username'
+       name='Username'
        {...register('Username')}
       />
 
-      {errors['Username'] && (
-       <p className='text-sm font-medium text-red-500'>
-        {errors[`Username`].message}
+      {errors.Username && (
+       <p className='mt-2 text-sm font-bold text-red-500'>
+        {errors.Username.message}
        </p>
       )}
      </div>
-
-     <div className='flex flex-col gap-1 mb-3'>
-      <label className='font-medium text-sm' htmlFor='password'>
+     <div className='mb-4'>
+      <label
+       className='block mb-2 font-bold text-whitetext-sm'
+       htmlFor='Password'
+       style={{
+        color: 'rgba(44,186,55,0.8127626050420168)',
+       }}
+      >
        Password
       </label>
-
       <input
-       className='focus:outline-none py-1 px-2 text-sm rounded-[10px] border border-[#D9D9D9] border-solid '
+       className='w-full px-3 py-2 border rounded shadow appearance-none text-whiteleading-tight focus:outline-none focus:shadow-outline'
+       id='Password'
        type='password'
-       id='password'
+       placeholder='Password'
+       name='Password'
        {...register('Password')}
       />
-
-      {errors['Password'] && (
-       <p className='text-sm font-medium text-red-500'>
-        {errors[`Password`].message}
+      {errors.Password && (
+       <p className='mt-2 text-sm font-bold text-red-500'>
+        {errors.Password.message}{' '}
        </p>
       )}
      </div>
-
-     <div>
+     <div className='mb-4'>
       <button
+       style={{
+        background: 'rgba(44,186,55,0.8127626050420168)',
+       }}
+       className='w-full px-4 py-2 mt-2 font-bold text-white rounded focus:outline-none focus:shadow-outline'
        type='submit'
-       className='mt-3 hover:bg-green transition-all duration-200 w-full rounded-[10px] py-[5px] text-center text-sm bg-[#149157] font-bold text-white'
       >
        Login
       </button>
      </div>
+     <p
+      className='text-sm text-center text-white'
+      style={{
+       color: 'rgba(44,186,55,0.8127626050420168)',
+      }}
+     >
+      Don't have an account ?
+      <a href='/register' className='text-500 ml-2'>
+       <strong>REGISTER</strong>
+      </a>
+     </p>
+     <p className='mt-2 text-center text-green-600'>
+      <a href='/forgot-password' className='text-200 text-white'>
+       <strong>Forgot password ?</strong>
+      </a>
+     </p>
     </form>
    </div>
-  </>
+  </div>
+ ) : (
+  <div className='px-4'>
+   <form onSubmit={handleSubmit(onSubmit)}>
+    <div className='flex flex-col gap-1 mb-3'>
+     <label className='font-medium text-sm' htmlFor='username'>
+      Username
+     </label>
+
+     <input
+      className='focus:outline-none py-1 px-2 text-sm rounded-[10px] border border-[#D9D9D9] border-solid '
+      type='text'
+      id='username'
+      {...register('Username')}
+     />
+
+     {errors['Username'] && (
+      <p className='text-sm font-medium text-red-500'>
+       {errors[`Username`].message}
+      </p>
+     )}
+    </div>
+
+    <div className='flex flex-col gap-1 mb-3'>
+     <label className='font-medium text-sm' htmlFor='password'>
+      Password
+     </label>
+
+     <input
+      className='focus:outline-none py-1 px-2 text-sm rounded-[10px] border border-[#D9D9D9] border-solid '
+      type='password'
+      id='password'
+      {...register('Password')}
+     />
+
+     {errors['Password'] && (
+      <p className='text-sm font-medium text-red-500'>
+       {errors[`Password`].message}
+      </p>
+     )}
+    </div>
+
+    <div>
+     <button
+      type='submit'
+      className='mt-3 hover:bg-green transition-all duration-200 w-full rounded-[10px] py-[5px] text-center text-sm bg-[#149157] font-bold text-white'
+     >
+      Login
+     </button>
+    </div>
+   </form>
+  </div>
  )
 }
 export default SigninForm
