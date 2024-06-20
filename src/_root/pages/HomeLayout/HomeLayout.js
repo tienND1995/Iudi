@@ -5,7 +5,7 @@ import { Auth } from '../../../service/utils/auth'
 import PreLogin from './PreLogin/PreLogin'
 import Line from '../../../components/shared/Line'
 
-import Header2 from '../../../components/haderm/Header2'
+import Header2 from '../../../components/Header/Header2'
 import background from '../../../images/bg3.jpg'
 import SideBar from './Message/Message'
 

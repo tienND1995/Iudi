@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import Logo from '../../../../images/logoApp.png'
 
-import Header4 from '../../../../components/haderm/Header4'
+import Header4 from '../../../../components/Header/Header4'
 import MenuMobile from '../../../../components/MenuMobile/MenuMobile'
 import Background from '../../../../images/Background.png'
 import { Auth } from '../../../../service/utils/auth'

@@ -14,7 +14,7 @@ import {
 } from 'react-icons/md'
 
 import Footer from '../../../components/Footer/Footer'
-import Header1 from '../../../components/haderm/Header1'
+import Header1 from '../../../components/Header/Header1'
 import bg from '../../../images/bg3.jpg'
 import bgProfile from '../../../images/profiles/bg-profile.png'
 

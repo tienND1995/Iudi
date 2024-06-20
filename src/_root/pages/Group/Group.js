@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import Header3 from '../../../components/haderm/Header3'
+import Header3 from '../../../components/Header/Header3'
 import SideBarGroup from './SidebarGroup/SideBarGroup'
 import background from '../../../images/background.jpg'
 import slideGroup from '../../../images/slideGroup.png'

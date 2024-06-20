@@ -5,7 +5,7 @@ import appstore from '../images/appstore.png'
 import chplay from '../images/chplay.png'
 import Logo from '../images/logoApp.png'
 
-import Header1 from '../components/haderm/Header1'
+import Header1 from '../components/Header/Header1'
 import background from '../images/background.jpg'
 
 import Line from '../components/shared/Line'
