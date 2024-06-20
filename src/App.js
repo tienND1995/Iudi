@@ -31,43 +31,43 @@ import Rules from './_root/pages/Setting/Rules/Rules.js'
 import Security from './_root/pages/Setting/Security/Security.js'
 
 function App() {
- return (
-  <main>
-   <Routes>
-    {/* public routes */}
-    <Route element={<AuthLayout />}>
-     <Route path='/register' element={<SignupForm />} />
-     <Route path='/login' element={<SigninForm />} />
-     <Route path='/forgot-password' element={<ForgotPassword />} />
-    </Route>
+  return (
+    <main>
+      <Routes>
+        {/* public routes */}
+        <Route element={<AuthLayout />}>
+          <Route path="/register" element={<SignupForm />} />
+          <Route path="/login" element={<SigninForm />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+        </Route>
 
-    {/* private routes */}
-    {/* <Route element={<HomeLayout />}>
-     <Route index element={<Home />} />
-     <Route exact path='/message/' element={<Message />} />
-     <Route exact path='/message/:id' element={<MessageDetail />} />
-    </Route> */}
+        {/* private routes */}
+        <Route element={<HomeLayout />}>
+          <Route index element={<Home />} />
+          <Route exact path="/message/" element={<Message />} />
+          <Route exact path="/message/:id" element={<MessageDetail />} />
+        </Route>
 
-    {/* <Route element={<RootLayout />}>
-     <Route path='/profile/:username' element={<Profile />} />
-     <Route path='/personal' element={<Personal />} />
-     <Route path='/group/:slug/:groupId' element={<Group />}></Route>
-     <Route path='/finding' element={<Finding />} />
-    </Route> */}
+        <Route element={<RootLayout />}>
+          <Route path="/profile/:username" element={<Profile />} />
+          <Route path="/personal" element={<Personal />} />
+          <Route path="/group/:slug/:groupId" element={<Group />}></Route>
+          <Route path="/finding" element={<Finding />} />
+        </Route>
 
-    <Route path='/setting'>
-     <Route index element={<Setting />} />
-     <Route path='private' element={<Private />} />
-     <Route path='notifi' element={<Notification />} />
-     <Route path='rules' element={<Rules />} />
-     <Route path='about' element={<About />} />
-     <Route path='security' element={<Security />} />
-    </Route>
+        <Route path="/setting">
+          <Route index element={<Setting />} />
+          <Route path="private" element={<Private />} />
+          <Route path="notifi" element={<Notification />} />
+          <Route path="rules" element={<Rules />} />
+          <Route path="about" element={<About />} />
+          <Route path="security" element={<Security />} />
+        </Route>
 
-    <Route path='/create-info' element={<CreateInfoUser />} />
-   </Routes>
-  </main>
- )
+        <Route path="/create-info" element={<CreateInfoUser />} />
+      </Routes>
+    </main>
+  )
 }
 
 export default App
