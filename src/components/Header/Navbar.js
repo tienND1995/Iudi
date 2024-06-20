@@ -66,11 +66,11 @@ const Navbar = () => {
   },
  ]
 
-
  const handleLogout = () => {
   if (window.confirm('Are you sure ?')) {
    localStorage.clear()
    navigate('/')
+   setTimeout(() => window.location.reload(), 500)
   }
  }
 

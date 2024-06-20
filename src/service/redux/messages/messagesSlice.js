@@ -12,12 +12,12 @@ const initialState = {
  //  loading: 'idle',
  postToggle: false,
  historyMessages: [],
+ isSeenMessage: false,
 }
 
 export const messagesSlice = createSlice({
  name: 'messages',
  initialState,
- reducers: {},
 
  extraReducers: (builder) => {
   builder
@@ -33,6 +33,9 @@ export const messagesSlice = createSlice({
 
    .addCase(deleteMessage.fulfilled, (state, action) => {
     state.postToggle = !state.postToggle
+   })
+   .addCase(postSeenMessage.fulfilled, (state, action) => {
+    state.isSeenMessage = true
    })
  },
 })
@@ -66,6 +69,7 @@ export const fetchHistoryMessages = createAsyncThunk(
  'messages/fetchHistory',
  async (userID) => {
   const { data } = await axios.get(`${API__SERVER}/chat/${userID}`)
+
   return data.data
  }
 )
@@ -82,5 +86,16 @@ export const deleteMessage = createAsyncThunk(
     messageId: messageID,
    }),
   })
+ }
+)
+
+export const postSeenMessage = createAsyncThunk(
+ 'messages/postSeenMessage',
+ async (messageID) => {
+  try {
+   const res = await socket.emit('seen', { MessageID: messageID })
+  } catch (error) {
+   console.log(error)
+  }
  }
 )

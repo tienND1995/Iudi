@@ -27,6 +27,7 @@ import MessageHistoryItem from './MessageHistoryItem'
 
 import config from '../../../../configs/Configs.json'
 const { URL_BASE64 } = config
+
 const socket = io('https://api.iudi.xyz')
 
 const Message = () => {
@@ -77,19 +78,23 @@ const Message = () => {
  const [userIdOtherList, setUserIdOtherList] = useState([])
  const [userOtherList, setUserOtherList] = useState([])
 
- const { historyMessages, postToggle } = useSelector(messagesSelector)
+ const { historyMessages, postToggle, isSeenMessage } =
+  useSelector(messagesSelector)
  const dispatch = useDispatch()
  const userState = useSelector(usersSelector)
- 
 
  useEffect(() => {
   // client connect to server
   socket.emit('userId', { userId: userID })
 
+  socket.on('check_message', (message) => {
+   console.log('check_message', message)
+  })
+
   socket.on('online', (data) => {
    setUserIdOtherList(data.user)
   })
- }, [socket, userID])
+ }, [userID])
 
  useEffect(() => {
   dispatch(fetchHistoryMessages(userID))
@@ -119,6 +124,7 @@ const Message = () => {
  }, [userIdOtherList])
 
  const imgAvatarUserRef = React.createRef()
+
 
  return (
   <>
@@ -179,7 +185,10 @@ const Message = () => {
         OtherAvatar,
         MessageTime,
         OtherUserID,
+        IsSeen,
+        SenderID
        }) => {
+
         let isOnline = false
         userIdOtherList.some((userId) => (isOnline = userId === OtherUserID))
 
@@ -198,6 +207,9 @@ const Message = () => {
            refImg: imgAvatarRef,
            isOnline,
            idParams: id,
+           SenderID,
+           IsSeen,
+           isSeenMessage,
           }}
          />
         )
@@ -210,9 +222,7 @@ const Message = () => {
    </div>
 
    {/* Mobile menu */}
-   <div className='fixed left-0 right-0 hidden mx-3 bottom-14 mobile:block'>
-    <MenuMobile />
-   </div>
+   <MenuMobile />
   </>
  )
 }

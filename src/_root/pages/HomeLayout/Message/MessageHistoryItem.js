@@ -3,10 +3,14 @@ import Moment from 'react-moment'
 
 import { handleErrorImg } from '../../../../service/utils/utils'
 
+import { Auth } from '../../../../service/utils/auth'
+
 import config from '../../../../configs/Configs.json'
 const { URL_BASE64 } = config
 
 const MessageHistoryItem = (props) => {
+ const { userID } = new Auth()
+
  const {
   Content,
   OtherUsername,
@@ -16,6 +20,9 @@ const MessageHistoryItem = (props) => {
   idParams,
   refImg,
   isOnline,
+  IsSeen,
+  SenderID,
+  isSeenMessage,
  } = props.data
 
  return (
@@ -46,7 +53,13 @@ const MessageHistoryItem = (props) => {
        <h3 className='capitalize text-xl tablet:text-lg mobile:text-sm font-medium'>
         {OtherUsername}
        </h3>
-       <p className='text-gray-500 text-lg tablet:text-sm mobile:text-xs'>
+       <p
+        className={` text-lg tablet:text-sm mobile:text-xs ${
+         IsSeen === 1 || isSeenMessage || SenderID === parseInt(userID)
+          ? 'text-gray-500'
+          : 'text-white'
+        }`}
+       >
         {Content}
        </p>
       </div>

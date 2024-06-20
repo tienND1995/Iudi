@@ -117,7 +117,6 @@ function Profile() {
   const [imageList, setImageList] = useState([])
   const [toggleText, setToggleText] = useState(false)
 
-  console.log(UserID)
   useEffect(() => {
     const getAllViewImage = async () => {
       try {

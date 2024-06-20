@@ -45,7 +45,7 @@ const MessageDetailItem = (props) => {
    <div className='flex items-center justify-start gap-3 '>
     <div>
      <img
-      className='w-[40px] h-[40px] rounded-full'
+      className='w-[40px] h-[40px] rounded-full object-cover'
       src={`${URL_BASE64}${OtherAvatar}`}
       alt='avatar default'
       onError={() => handleErrorImg(refImg)}
