@@ -1,71 +1,81 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import {
- ChatBubbleOvalLeftEllipsisIcon,
- ClockIcon,
- Cog6ToothIcon,
- GlobeAltIcon,
- HomeIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
+  ClockIcon,
+  Cog6ToothIcon,
+  GlobeAltIcon,
+  HomeIcon,
 } from '@heroicons/react/24/outline'
 import { Auth } from '../../service/utils/auth'
 
 const MenuMobile = () => {
- const { userName } = new Auth()
+  const { userName } = new Auth()
 
- const icons = [
-  {
-   icon: HomeIcon,
-   link: '/',
-   isLink: true,
-  },
-  {
-   icon: GlobeAltIcon,
-   link: '',
-   isLink: true,
-  },
-  {
-   icon: ClockIcon,
-   link: '',
-   isLink: true,
-  },
-  {
-   icon: ChatBubbleOvalLeftEllipsisIcon,
-   link: '/message',
-   isLink: true,
-  },
-  {
-   icon: Cog6ToothIcon,
-   link: `/profile/${userName}`,
-   isLink: true,
-  },
- ]
+  const icons = [
+    {
+      icon: HomeIcon,
+      link: '/',
+      isLink: true,
+    },
+    {
+      icon: GlobeAltIcon,
+      link: '',
+      isLink: true,
+    },
+    {
+      icon: ClockIcon,
+      link: '',
+      isLink: true,
+    },
+    {
+      icon: ChatBubbleOvalLeftEllipsisIcon,
+      link: '/message',
+      isLink: true,
+    },
+    {
+      icon: Cog6ToothIcon,
+      link: `/profile/${userName}`,
+      isLink: true,
+    },
+  ]
 
- const location = useLocation()
- const [activeLink, setActiveLink] = useState(location.pathname)
+  const location = useLocation()
+  const [activeLink, setActiveLink] = useState(location.pathname)
 
- useEffect(() => {
-  setActiveLink(location.pathname)
- }, [location])
+  useEffect(() => {
+    setActiveLink(location.pathname)
+  }, [location])
 
- return (
-  <div className='flex border border-solid border-gray-400 justify-around p-5 rounded-[55px]'>
-   {icons.map(({ icon: Icon, link, isLink }, index) => {
-    const isActive = activeLink === link
-    return isLink ? (
-     <Link key={index} to={link} onClick={() => setActiveLink(link)}>
-      <Icon
-       className={`h-10 w-10 ${isActive ? 'text-[#008748]' : 'text-[#989394]'}`}
-      />
-     </Link>
-    ) : (
-     <Icon
-      key={index}
-      className={`h-10 w-10 ${isActive ? 'text-[#008748]' : 'text-[#989394]'}`}
-     />
-    )
-   })}
-  </div>
- )
+  return (
+    <div>
+      <ul className="flex border border-solid border-gray-400 justify-around p-5 rounded-[55px]">
+        {icons.map(({ icon: Icon, link, isLink }, index) => {
+          const isActive = activeLink === link
+          return isLink ? (
+            <li>
+              <Link key={index} to={link} onClick={() => setActiveLink(link)}>
+                <Icon
+                  className={`h-10 w-10 ${
+                    isActive ? 'text-[#008748]' : 'text-[#989394]'
+                  }`}
+                />
+              </Link>
+            </li>
+          ) : (
+            <li>
+              <Icon
+                key={index}
+                className={`h-10 w-10 ${
+                  isActive ? 'text-[#008748]' : 'text-[#989394]'
+                }`}
+              />
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  )
 }
 
 export default MenuMobile

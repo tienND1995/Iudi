@@ -15,7 +15,6 @@ import { TiThMenu } from 'react-icons/ti'
 const Navbar = () => {
  const { isLogin, userName } = new Auth()
  const navigate = useNavigate()
- const [openNav, setOpenNav] = useState(false)
 
  const [groupFirst, setGroupFirst] = useState({})
  const [isGetGroupFirst, setIsGetGroupFirst] = useState(false)
@@ -67,17 +66,11 @@ const Navbar = () => {
   },
  ]
 
- useEffect(() => {
-  window.addEventListener(
-   'resize',
-   () => window.innerWidth >= 960 && setOpenNav(false)
-  )
- }, [])
 
  const handleLogout = () => {
   if (window.confirm('Are you sure ?')) {
    localStorage.clear()
-   window.location.href = 'http://localhost:3000/'
+   navigate('/')
   }
  }
 
@@ -159,7 +152,7 @@ const Navbar = () => {
      {navList.map(({ id, name, link, icon }) => (
       <li
        key={id}
-       className='flex items-center gap-2 py-2 hover:bg-gray-800 duration-100'
+       className='flex items-center gap-2 py-2 duration-100 hover:bg-gray-800'
       >
        {icon}
        <Link to={link}>{name}</Link>

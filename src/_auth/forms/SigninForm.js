@@ -42,6 +42,7 @@ function SigninForm() {
 
  const navigate = useNavigate()
  const onSubmit = async (data) => {
+  
   if (isValid) {
    try {
     const response = await axios.post('https://api.iudi.xyz/api/login', data)
@@ -171,12 +172,12 @@ function SigninForm() {
       }}
      >
       Don't have an account ?
-      <a href='/register' className='text-500 ml-2'>
+      <a href='/register' className='ml-2 text-500'>
        <strong>REGISTER</strong>
       </a>
      </p>
      <p className='mt-2 text-center text-green-600'>
-      <a href='/forgot-password' className='text-200 text-white'>
+      <a href='/forgot-password' className='text-white text-200'>
        <strong>Forgot password ?</strong>
       </a>
      </p>
@@ -187,7 +188,7 @@ function SigninForm() {
   <div className='px-4'>
    <form onSubmit={handleSubmit(onSubmit)}>
     <div className='flex flex-col gap-1 mb-3'>
-     <label className='font-medium text-sm' htmlFor='username'>
+     <label className='text-sm font-medium' htmlFor='username'>
       Username
      </label>
 
@@ -206,7 +207,7 @@ function SigninForm() {
     </div>
 
     <div className='flex flex-col gap-1 mb-3'>
-     <label className='font-medium text-sm' htmlFor='password'>
+     <label className='text-sm font-medium' htmlFor='password'>
       Password
      </label>
 
