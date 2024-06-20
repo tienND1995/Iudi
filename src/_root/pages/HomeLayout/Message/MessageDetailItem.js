@@ -15,17 +15,17 @@ const MessageDetailItem = (props) => {
   Content,
   MessageTime,
   refImg,
-  isParams,
+  idParams,
   handleDeleteMessage,
  } = props.data
 
- return SenderID !== parseInt(isParams) ? (
+ return SenderID !== parseInt(idParams) ? (
   <div className='flex justify-end pb-3'>
    <div className='flex flex-col items-end'>
     <div className='flex items-center gap-1 group'>
      <button
       type='button'
-      className='text-black opacity-0 group-hover:opacity-100 duration-200'
+      className='text-black duration-200 opacity-0 group-hover:opacity-100'
       onClick={() => handleDeleteMessage(MessageID)}
      >
       <MdDelete />
@@ -57,7 +57,7 @@ const MessageDetailItem = (props) => {
      <p className='bg-black rounded-[8px] p-[10px]'>{Content}</p>
      <button
       type='button'
-      className='text-black opacity-0 group-hover:opacity-100 duration-200'
+      className='text-black duration-200 opacity-0 group-hover:opacity-100'
       onClick={() => handleDeleteMessage(MessageID)}
      >
       <MdDelete />

@@ -80,6 +80,7 @@ const Message = () => {
  const { historyMessages, postToggle } = useSelector(messagesSelector)
  const dispatch = useDispatch()
  const userState = useSelector(usersSelector)
+ 
 
  useEffect(() => {
   // client connect to server
@@ -121,7 +122,7 @@ const Message = () => {
 
  return (
   <>
-   <div className='hidden mobile:block mb-4 '>
+   <div className='hidden mb-4 mobile:block '>
     <div className='flex items-center justify-between p-4 border-b-[#817C7C] border-b border-solid'>
      <Link to='/'>
       <button className='w-6 h-6 '>
@@ -144,7 +145,7 @@ const Message = () => {
        ref={imgAvatarUserRef}
        onError={() => handleErrorImg(imgAvatarUserRef)}
       />
-      <h5 className='capitalize font-medium'>{userName}</h5>
+      <h5 className='font-medium capitalize'>{userName}</h5>
      </Link>
     </div>
 
@@ -209,7 +210,7 @@ const Message = () => {
    </div>
 
    {/* Mobile menu */}
-   <div className='fixed bottom-14 left-0 right-0 mx-3 hidden mobile:block'>
+   <div className='fixed left-0 right-0 hidden mx-3 bottom-14 mobile:block'>
     <MenuMobile />
    </div>
   </>
