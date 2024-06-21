@@ -16,7 +16,7 @@ import axios from 'axios'
 import config from '../../../configs/Configs.json'
 
 import { handleErrorImg } from '../../../service/utils/utils'
-import MenuMobile from '../../../components/MenuMobile/MenuMobile'
+import NavMobile from '../../../components/NavMobile/NavMobile'
 
 const dataList = [
  {
@@ -144,7 +144,7 @@ const Setting = () => {
     </button>
    </div>
 
-   <MenuMobile />
+   <NavMobile />
   </div>
  )
 }

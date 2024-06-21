@@ -307,7 +307,7 @@ function Profile() {
           </div>
         </div>
 
-        <div className="flex justify-center gap-5 px-3 my-5">
+        <div className="flex justify-center gap-5 px-3 mt-5 mb-[40px]">
           <div>
             <button
               className={`py-2 px-3 text-lg rounded-lg font-bold text-white bg-[#50C759] hover:bg-[#1e5f24] duration-200 ${

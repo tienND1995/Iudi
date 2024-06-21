@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -13,6 +13,8 @@ import uploadFile from '../../../../images/icons/uploadFile.png'
 import { addPost, patchPost } from '../../../../service/redux/posts/postsSlice'
 import { Auth } from '../../../../service/utils/auth'
 
+import { handleErrorImg } from '../../../../service/utils/utils'
+
 const { URL_BASE64, LONGITUDE_DEFAULT, LATITUDE_DEFAULT } = config
 
 const FormPost = (props) => {
@@ -26,6 +28,25 @@ const FormPost = (props) => {
    height: 'max-content',
    background: '#1a1919',
    color: 'white',
+   padding: '0 !important',
+   border: 'none',
+  },
+
+  overlay: {
+   background: 'rgba(0, 0, 0,.7)',
+  },
+ }
+
+ const modalMobileStyles = {
+  content: {
+   top: '50%',
+   left: '50%',
+   transform: 'translate(-50%, -50%)',
+
+   width: '90%',
+   height: 'max-content',
+   background: '#fff',
+   color: 'black',
    padding: '0 !important',
    border: 'none',
   },
@@ -118,15 +139,23 @@ const FormPost = (props) => {
   hiddenModal()
  }
 
+ const [isMobile, setIsMobile] = useState(false)
+ useEffect(() => {
+  const widthWindow = window.document.body.offsetWidth
+  widthWindow <= 450 && setIsMobile(true)
+ }, [])
+
+ const avatarRef = useRef()
+
  return (
   <Modal
    isOpen={showModal}
-   style={modalStyles}
+   style={isMobile ? modalMobileStyles : modalStyles}
    ariaHideApp={false}
    contentLabel='Modal Form'
   >
-   <div className='relative flex justify-center p-2 border-b border-solid border-b-white'>
-    <h2>{method === 'post' ? 'Create' : 'edit'} post</h2>
+   <div className='mobile:bg-[#008748] relative flex justify-center p-2 border-b border-solid border-b-white'>
+    <h2 className='text-white'>{method === 'post' ? 'Create' : 'Edit'} post</h2>
     <button
      className='absolute right-2 top-[50%] translate-y-[-50%] text-lg text-white'
      onClick={hiddenModal}
@@ -143,6 +172,8 @@ const FormPost = (props) => {
        className='w-[50px] h-[50px] rounded-full object-cover'
        src={`${URL_BASE64}${userState.user.avatarLink}`}
        alt='avatar user'
+       ref={avatarRef}
+       onError={() => handleErrorImg(avatarRef)}
       />
      </div>
      <h2>Nguyen Dang tien</h2>
@@ -184,7 +215,7 @@ const FormPost = (props) => {
       </button>
      </div>
     )}
-    <div className='relative my-3 w-max bg-[#303030] py-2 px-5 rounded-md'>
+    <div className='relative my-3 w-max text-white mobile:bg-[#008748] bg-[#303030] py-2 px-5 rounded-md'>
      <div className='flex gap-1'>
       <img src={uploadFile} alt='upload file' />
       <spa>Ảnh/Video</spa>
@@ -199,7 +230,10 @@ const FormPost = (props) => {
      />
     </div>
 
-    <button className='w-full py-2 rounded-md bg-success' type='submit'>
+    <button
+     className='w-full py-2 rounded-md text-white bg-[#008748]'
+     type='submit'
+    >
      Post
     </button>
    </form>

@@ -19,7 +19,7 @@ import heart from '../../../../images/icons/heart.png'
 import config from '../../../../configs/Configs.json'
 import {
  handleErrorImgPost,
- handleErrorImg
+ handleErrorImg,
 } from '../../../../service/utils/utils'
 
 const { URL_BASE64 } = config
@@ -56,7 +56,7 @@ const PostItem = (props) => {
  return (
   <li
    key={PostID}
-   className='mt-5 bg-[#222222] rounded-xl border border-solid border-[#4EC957]'
+   className='mt-5 bg-[#222222] mobile:bg-white mobile:border-none mobile:rounded-none rounded-xl border border-solid border-[#4EC957]'
   >
    <div className='p-5 flex justify-between'>
     <div className='flex gap-2 items-center'>
@@ -138,7 +138,7 @@ const PostItem = (props) => {
     </div>
     {Photo && (
      <img
-      className='w-full object-cover'
+      className='w-full object-cover max-h-[300px]'
       src={`${URL_BASE64}${Photo}`}
       ref={imgPhotoRef}
       alt={Title}
@@ -165,7 +165,7 @@ const PostItem = (props) => {
 
     <div className='flex gap-3 mt-3 ml-5'>
      <button
-      className='flex gap-1 bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]'
+      className='flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]'
       type='button'
       onClick={() => dispatch(addLikePost({ postId: PostID, userID: UserID }))}
      >
@@ -174,7 +174,7 @@ const PostItem = (props) => {
      </button>
 
      <button
-      className='flex gap-1 bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]'
+      className='flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]'
       type='button'
       onClick={handleShowComments}
      >

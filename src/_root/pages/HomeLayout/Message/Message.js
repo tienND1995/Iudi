@@ -4,8 +4,6 @@ import { Link, useParams } from 'react-router-dom'
 
 import Slider from 'react-slick'
 
-import MenuMobile from '../../../../components/MenuMobile/MenuMobile'
-
 import {
  ChevronLeftIcon,
  MagnifyingGlassIcon,
@@ -22,9 +20,10 @@ import io from 'socket.io-client'
 import { handleErrorImg } from '../../../../service/utils/utils'
 
 import { Auth } from '../../../../service/utils/auth'
-import UserOtherItem from './UserOtherItem'
 import MessageHistoryItem from './MessageHistoryItem'
+import UserOtherItem from './UserOtherItem'
 
+import NavMobile from '../../../../components/NavMobile/NavMobile'
 import config from '../../../../configs/Configs.json'
 const { URL_BASE64 } = config
 
@@ -125,7 +124,6 @@ const Message = () => {
 
  const imgAvatarUserRef = React.createRef()
 
-
  return (
   <>
    <div className='hidden mb-4 mobile:block '>
@@ -186,9 +184,8 @@ const Message = () => {
         MessageTime,
         OtherUserID,
         IsSeen,
-        SenderID
+        SenderID,
        }) => {
-
         let isOnline = false
         userIdOtherList.some((userId) => (isOnline = userId === OtherUserID))
 
@@ -222,7 +219,7 @@ const Message = () => {
    </div>
 
    {/* Mobile menu */}
-   <MenuMobile />
+   <NavMobile />
   </>
  )
 }

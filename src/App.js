@@ -30,6 +30,7 @@ import About from './_root/pages/Setting/About/About.js'
 import Rules from './_root/pages/Setting/Rules/Rules.js'
 import Security from './_root/pages/Setting/Security/Security.js'
 import SettingLayout from './_root/pages/Setting/SettingLayout.js'
+import SideBarGroup from './_root/pages/Group/SidebarGroup/SideBarGroup.js'
 
 function App() {
  return (
@@ -52,17 +53,20 @@ function App() {
     <Route element={<RootLayout />}>
      <Route path='/profile/:username' element={<Profile />} />
      <Route path='/personal' element={<Personal />} />
+
+     <Route path='/group' element={<SideBarGroup />}></Route>
      <Route path='/group/:slug/:groupId' element={<Group />}></Route>
      <Route path='/finding' element={<Finding />} />
     </Route>
 
-    <Route path='/setting' element={<SettingLayout/>}>
+    <Route path='/setting' element={<SettingLayout />}>
      <Route index element={<Setting />} />
      <Route path='private' element={<Private />} />
      <Route path='notifi' element={<Notification />} />
      <Route path='rules' element={<Rules />} />
      <Route path='about' element={<About />} />
      <Route path='security' element={<Security />} />
+     <Route path='group' element={<SideBarGroup/>} />
     </Route>
 
     <Route path='/create-info' element={<CreateInfoUser />} />

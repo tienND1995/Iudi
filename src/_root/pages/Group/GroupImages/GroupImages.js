@@ -1,63 +1,20 @@
 import React from 'react'
 
-import image1 from '../../../../images/animals/image1.jpg'
-import image2 from '../../../../images/animals/image2.jpg'
-import image3 from '../../../../images/animals/image3.jpg'
-import image4 from '../../../../images/animals/image4.jpg'
-import image5 from '../../../../images/animals/image5.jpg'
-import image6 from '../../../../images/animals/image6.jpg'
-import image7 from '../../../../images/animals/image7.jpg'
-import image8 from '../../../../images/animals/image8.jpg'
-import image9 from '../../../../images/animals/image9.jpg'
+import { useSelector } from 'react-redux'
+import { postsSelector } from '../../../../service/redux/posts/postsSlice'
+
+import { handleErrorImgPost } from '../../../../service/utils/utils'
+
+import config from '../../../../configs/Configs.json'
+const { URL_BASE64 } = config
 
 const GroupImages = () => {
- const imageList = [
-  {
-   id: 1,
-   thumb: image1,
-  },
+ const postsState = useSelector(postsSelector)
 
-  {
-   id: 2,
-   thumb: image2,
-  },
-
-  {
-   id: 3,
-   thumb: image3,
-  },
-
-  {
-   id: 4,
-   thumb: image4,
-  },
-
-  {
-   id: 5,
-   thumb: image5,
-  },
-
-  {
-   id: 6,
-   thumb: image6,
-  },
-
-  {
-   id: 7,
-   thumb: image7,
-  },
-
-  {
-   id: 8,
-   thumb: image8,
-  },
-
-  {
-   id: 9,
-   thumb: image9,
-  },
- ]
-
+ const imageList = postsState.posts.map(({ PostID, Photo }) => ({
+  id: PostID,
+  thumb: Photo,
+ }))
 
  return (
   <div>
@@ -72,15 +29,20 @@ const GroupImages = () => {
      </div>
      <div className=''>
       <ul className='grid grid-cols-3'>
-       {imageList.map(({ id, thumb }) => (
-        <li key={id} className='p-1'>
-         <img
-          className='h-[150px] w-[150px] object-cover rounded'
-          src={thumb}
-          alt={thumb}
-         />
-        </li>
-       ))}
+       {imageList.map(({ id, thumb }) => {
+        const imgRef = React.createRef()
+        return (
+         <li key={id} className='p-1'>
+          <img
+           className='h-[150px] w-[150px] object-cover rounded'
+           src={`${URL_BASE64}${thumb}`}
+           alt={thumb}
+           onError={() => handleErrorImgPost(imgRef)}
+           ref={imgRef}
+          />
+         </li>
+        )
+       })}
       </ul>
      </div>
     </div>

@@ -4,12 +4,11 @@ import { Link } from 'react-router-dom'
 import Logo from '../../../../images/logoApp.png'
 
 import Header4 from '../../../../components/Header/Header4'
-import MenuMobile from '../../../../components/MenuMobile/MenuMobile'
 import Background from '../../../../images/Background.png'
 import { Auth } from '../../../../service/utils/auth'
 
-import { handleErrorImg } from '../../../../service/utils/utils'
 import Chat from '../../../../images/profiles/Chat.png'
+import { handleErrorImg } from '../../../../service/utils/utils'
 
 import avatarDefault from '../../../../images/avatar-default.jpg'
 
@@ -19,6 +18,7 @@ import {
  usersSelector,
 } from '../../../../service/redux/users/usersSlice'
 
+import NavMobile from '../../../../components/NavMobile/NavMobile'
 import config from '../../../../configs/Configs.json'
 
 const { URL_BASE64, IMAGE_PROFILE_PLACEHOLDER } = config
@@ -108,7 +108,7 @@ const Home = () => {
      <div className='absolute border-slate-500 border-[5px] w-[70%] h-[480px] z-0 bg-white -mt-48 left-1/2 transform -translate-x-1/2 rounded-[20px] shadow-sm'></div>
 
      {/* Mobile menu */}
-     <MenuMobile />
+     <NavMobile />
     </div>
    </div>
   </>

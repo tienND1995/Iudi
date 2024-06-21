@@ -83,10 +83,10 @@ const Comments = ({ comments }) => {
    <div>
     <form
      onSubmit={onSubmitComment}
-     className='flex items-center overflow-hidden justify-center p-5 border bg-white text-black h-[60px] rounded-[20px] mt-5'
+     className='flex mobile:border-[#deb887] items-center overflow-hidden justify-center p-5 border bg-white text-black h-[60px] rounded-[20px] mt-5'
     >
      <input
-      className='w-full mr-5 focus-visible:outline-none '
+      className='w-full mr-5 focus-visible:outline-none  '
       type='text'
       placeholder='Viết bình luận...'
       ref={inputCommentRef}

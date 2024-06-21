@@ -20,6 +20,7 @@ import FormPost from './FormPost'
 import PostItem from './PostItem'
 
 import { handleErrorImg } from '../../../../service/utils/utils'
+import NavMobile from '../../../../components/NavMobile/NavMobile'
 
 const { API__SERVER, URL_BASE64 } = config
 
@@ -27,8 +28,6 @@ const GroupDetail = () => {
  const { userID } = new Auth()
  const { groupId } = useParams()
  const [postList, setPostList] = useState([])
-
- console.log(useParams())
 
  const { posts, changeTogglePosts } = useSelector(postsSelector)
  const userState = useSelector(usersSelector)
@@ -77,8 +76,8 @@ const GroupDetail = () => {
  const avatarUserRef = useRef()
 
  return (
-  <div>
-   <div className='relative p-5 rounded-lg bg-[#222222] border border-solid border-[#4EC957]'>
+  <div className='mobile:bg-[#ECECEC] min-h-screen mobile:pb-[100px]'>
+   <div className='relative p-5 rounded-lg mobile:border-none mobile:rounded-none mobile:bg-white bg-[#222222] border border-solid border-[#4EC957]'>
     <div className='flex gap-2 items-center'>
      <img
       className='w-[73px] h-[73px] rounded-full object-cover'
@@ -100,7 +99,7 @@ const GroupDetail = () => {
      <button
       onClick={() => handleShowModal('post', {})}
       type='button'
-      className='relative bg-[#303030] py-2 px-5 rounded-[20px] flex gap-1 '
+      className='relative mobile:border mobile:border-[#deb887] mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] flex gap-1 '
      >
       <img src={uploadFile} alt='upload file' />
       <spa>Ảnh/Video</spa>
@@ -186,12 +185,14 @@ const GroupDetail = () => {
        }
       )
      ) : (
-      <li className='mt-5'>
+      <li className='mt-5 text-center'>
        <h2>KHÔNG CÓ BÀI VIẾT NÀO</h2>
       </li>
      )}
     </ul>
    </div>
+
+   <NavMobile />
 
    <FormPost modal={modal} hiddenModal={handleHiddenModal} />
 

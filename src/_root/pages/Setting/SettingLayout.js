@@ -7,12 +7,14 @@ const SettingLayout = () => {
  const { pathname } = useLocation()
 
  const isMatchSetting = pathname === '/setting' || pathname === '/setting/'
+ const isMatchSettingGroup =
+  pathname === '/setting/group' || pathname === '/setting/group/'
 
  return (
   <div className='min-h-screen w-full relative'>
-   {!isMatchSetting && <HeaderMobile />}
+   {!isMatchSettingGroup && !isMatchSetting && <HeaderMobile />}
    <Outlet />
-   <Line />
+   {!isMatchSetting && <Line />}
   </div>
  )
 }
