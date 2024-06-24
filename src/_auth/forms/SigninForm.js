@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
@@ -42,7 +44,6 @@ function SigninForm() {
 
  const navigate = useNavigate()
  const onSubmit = async (data) => {
-  
   if (isValid) {
    try {
     const response = await axios.post('https://api.iudi.xyz/api/login', data)
@@ -66,8 +67,10 @@ function SigninForm() {
      theme: 'light',
     })
 
+    navigate('/')
+
     setTimeout(() => {
-     navigate('/personal')
+     window.location.reload()
     }, 1000)
    } catch (error) {
     console.error('Error registering:', error)
@@ -185,7 +188,7 @@ function SigninForm() {
    </div>
   </div>
  ) : (
-  <div className='px-4'>
+  <div className='px-4 flex flex-1 flex-col justify-between pb-[30px]'>
    <form onSubmit={handleSubmit(onSubmit)}>
     <div className='flex flex-col gap-1 mb-3'>
      <label className='text-sm font-medium' htmlFor='username'>
@@ -234,6 +237,12 @@ function SigninForm() {
      </button>
     </div>
    </form>
+
+   <div className='flex justify-center gap-1 items-cnter'>
+    <p className='font-poppins text-[14px] font-medium'>Bạn đã có tài khoản chưa?</p>
+
+    <Link to='/register' className='text-green text-[14px] font-poppins'>Đăng ký</Link>
+   </div>
   </div>
  )
 }

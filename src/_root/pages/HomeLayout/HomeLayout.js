@@ -26,7 +26,7 @@ const HomeLayout = () => {
   height: `calc(100vh - ${heightHeader}px)`,
  }
  const getHeightHeader = (height) => setHeightHeader(height)
-console.log(new Date())
+
  if (!isLogin) return <PreLogin />
 
  return (

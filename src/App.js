@@ -45,7 +45,7 @@ function App() {
 
     {/* private routes */}
     <Route element={<HomeLayout />}>
-     <Route index element={<Home />} />
+     <Route exact index element={<Home />} />
      <Route exact path='/message/' element={<Message />} />
      <Route exact path='/message/:id' element={<MessageDetail />} />
     </Route>
@@ -58,6 +58,7 @@ function App() {
      <Route path='/group/:slug/:groupId' element={<Group />}></Route>
      <Route path='/finding' element={<Finding />} />
     </Route>
+
 
     <Route path='/setting' element={<SettingLayout />}>
      <Route index element={<Setting />} />

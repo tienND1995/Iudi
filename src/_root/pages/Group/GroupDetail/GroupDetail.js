@@ -76,7 +76,7 @@ const GroupDetail = () => {
  const avatarUserRef = useRef()
 
  return (
-  <div className='mobile:bg-[#ECECEC] min-h-screen mobile:pb-[100px]'>
+  <div className='mobile:bg-[#ECECEC] mobile:min-h-screen mobile:pb-[100px]'>
    <div className='relative p-5 rounded-lg mobile:border-none mobile:rounded-none mobile:bg-white bg-[#222222] border border-solid border-[#4EC957]'>
     <div className='flex gap-2 items-center'>
      <img

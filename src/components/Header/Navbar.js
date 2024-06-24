@@ -8,7 +8,7 @@ import { Auth } from '../../service/utils/auth'
 
 import { FaHome, FaLayerGroup } from 'react-icons/fa'
 import { GiPlagueDoctorProfile } from 'react-icons/gi'
-import { FaUsersViewfinder } from 'react-icons/fa6'
+import { FaUsersViewfinder, FaPeopleGroup } from 'react-icons/fa6'
 import { IoMdClose } from 'react-icons/io'
 import { TiThMenu } from 'react-icons/ti'
 
@@ -18,6 +18,7 @@ const Navbar = () => {
 
  const [groupFirst, setGroupFirst] = useState({})
  const [isGetGroupFirst, setIsGetGroupFirst] = useState(false)
+
 
  useEffect(() => {
   const fetchGroups = async () => {
@@ -34,7 +35,9 @@ const Navbar = () => {
   fetchGroups()
  }, [])
 
+
  const { GroupName, GroupID } = groupFirst
+
 
  const navList = [
   {
@@ -64,6 +67,7 @@ const Navbar = () => {
    link: `/group/${slugString(GroupName)}/${GroupID}`,
    icon: <FaLayerGroup />,
   },
+
  ]
 
  const handleLogout = () => {

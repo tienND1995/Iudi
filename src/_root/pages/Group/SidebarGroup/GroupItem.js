@@ -24,11 +24,11 @@ const GroupItem = (props) => {
       onError={() => handleErrorImg(refImg)}
       ref={refImg}
       src={`${URL_BASE64}${avatarLink}`}
-      className='w-[80px] h-[80px] rounded-full border-2 border-solid border-[#fdfdfd]'
+      className='w-[80px] h-[80px] ipad:w-[30px] ipad:h-[30px] rounded-full border-2 border-solid border-[#fdfdfd]'
      />
     </div>
 
-    <h5>{GroupName}</h5>
+    <h5 className='text-[14px] ipad:text-[8px]'>{GroupName}</h5>
    </Link>
   </li>
  )

@@ -64,7 +64,7 @@ const Group = () => {
       ref={sidebarRef}
       style={sidebarStyles}
       id='sidebar-group'
-      className='p-5 overflow-y-auto overflow-x-hidden max-w-[300px] lg:max-w-[450px] w-max'
+      className='p-5 overflow-y-auto overflow-x-hidden ipad:w-[150px] max-w-[300px] lg:max-w-[450px] w-max mobile:hidden'
      >
       <SideBarGroup onLoading={getIsLoadingSidebar} />
      </div>
@@ -81,7 +81,7 @@ const Group = () => {
 
        <div className='flex justify-between bg-[#008748] p-3 items-center'>
         <div>
-         <h3 className='text-xl'>Nhóm gia đình tôi</h3>
+         <h3 className='text-xl ipad:text-lg'>Nhóm gia đình tôi</h3>
          <p className='text-[#bdbdbd] text-sm'>367 thành viên</p>
         </div>
 
@@ -102,7 +102,7 @@ const Group = () => {
        </div>
       </div>
 
-      <div className='grid 2xl:grid-cols-2 grid-cols-1 py-5'>
+      <div className='grid 2xl:grid-cols-2 grid-cols-1 py-5 gap-3'>
        <GroupDetail />
        <GroupImages />
       </div>

@@ -18,7 +18,7 @@ const GroupImages = () => {
 
  return (
   <div>
-   <div className='p-3 bg-black rounded-md w-max mx-auto'>
+   <div className='p-3 bg-black rounded-md mx-auto'>
     <div className='bg-gray-700 rounded p-2'>
      <div className='flex justify-between'>
       <h5>Ảnh</h5>
@@ -28,13 +28,13 @@ const GroupImages = () => {
       </div>
      </div>
      <div className=''>
-      <ul className='grid grid-cols-3'>
+      <ul className='flex flex-wrap'>
        {imageList.map(({ id, thumb }) => {
         const imgRef = React.createRef()
         return (
          <li key={id} className='p-1'>
           <img
-           className='h-[150px] w-[150px] object-cover rounded'
+           className='h-[150px] w-[150px] ipad:h-[70px] ipad:w-[70px] object-cover rounded'
            src={`${URL_BASE64}${thumb}`}
            alt={thumb}
            onError={() => handleErrorImgPost(imgRef)}

@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { Link } from 'react-router-dom'
+
 import { toast, ToastContainer } from 'react-toastify'
 import { joiResolver } from '@hookform/resolvers/joi'
 import axios from 'axios'
@@ -279,7 +281,7 @@ const SignupForm = () => {
    <ToastContainer />
   </div>
  ) : (
-  <div className='px-4'>
+  <div className='px-4 flex flex-col flex-1 justify-between'>
    <form onSubmit={handleSubmit(handleSubmitForm)}>
     {dataForm.map((data) => (
      <FormFieldMobile
@@ -299,6 +301,12 @@ const SignupForm = () => {
      </button>
     </div>
    </form>
+
+   <div className='flex justify-center gap-1 items-cnter'>
+    <p className='font-poppins text-[14px] font-medium'>Bạn đã có tài khoản chưa?</p>
+
+    <Link to='/login' className='text-green text-[14px] font-poppins'>Đăng nhập</Link>
+   </div>
 
    <ToastContainer />
   </div>

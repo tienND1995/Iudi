@@ -57,7 +57,7 @@ const AuthLayout = () => {
         <Outlet />
       </section>
 
-      <section className="mobile:block hidden font-roboto min-h-screen w-full relative">
+      <section className="mobile:flex flex-col hidden font-roboto min-h-screen w-full relative">
         <div className="h-[33vh] relative">
           <div style={circleLeft}></div>
           <div style={circleRight}></div>

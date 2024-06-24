@@ -10,7 +10,8 @@ import { Auth } from '../../../../service/utils/auth'
 import Chat from '../../../../images/profiles/Chat.png'
 import { handleErrorImg } from '../../../../service/utils/utils'
 
-import avatarDefault from '../../../../images/avatar-default.jpg'
+import { FaUserAstronaut } from 'react-icons/fa'
+import star from '../../../../images/star.png'
 
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -21,7 +22,7 @@ import {
 import NavMobile from '../../../../components/NavMobile/NavMobile'
 import config from '../../../../configs/Configs.json'
 
-const { URL_BASE64, IMAGE_PROFILE_PLACEHOLDER } = config
+const { URL_BASE64 } = config
 
 const Home = () => {
  const { userName } = new Auth()
@@ -37,13 +38,6 @@ const Home = () => {
  }, [isToggleChangeUser])
 
  const avatarRef = useRef()
- const [isErrorImg, setIsErrorImg] = useState(false)
-
- useEffect(() => {
-  avatarRef.current.addEventListener('error', (e) => {
-   setIsErrorImg(true)
-  })
- }, [])
 
  return (
   <>
@@ -58,9 +52,10 @@ const Home = () => {
      <div className='h-[60vh] ipad:h-[50vh] rounded-tl-[58px] rounded-bl-[58px] overflow-hidden'>
       <img
        className='object-cover object-center w-full h-full'
-       src={isErrorImg ? avatarDefault : `${URL_BASE64}${avatarLink}`}
+       src={`${URL_BASE64}${avatarLink}`}
        alt='avatar user'
        ref={avatarRef}
+       onError={() => handleErrorImg(avatarRef)}
       />
      </div>
      <div className='text-center rounded-tr-[58px] rounded-br-[58px] bg-[#368A69] flex items-center justify-center flex-col'>
@@ -88,7 +83,7 @@ const Home = () => {
 
     <div className='w-full h-full bg-white'>
      <div className='absolute border-solid border-[5px] w-[90%] h-[450px] z-20 bg-white -mt-48 rounded-[30px] left-1/2 transform -translate-x-1/2 shadow-lg p-2'>
-      <div className='w-full h-full rounded-[30px] overflow-hidden'>
+      <div className='w-full h-[85%] rounded-[30px] overflow-hidden relative'>
        <img
         className='object-cover w-full h-full rounded-lg'
         src={`${URL_BASE64}${avatarLink}`}
@@ -96,13 +91,15 @@ const Home = () => {
         onError={() => handleErrorImg(avatarRef)}
         ref={avatarRef}
        />
-       <div className='absolute bottom-0 left-1/2 transform -translate-x-1/2 text-center p-4 pb-5'>
-        <h2 className='text-white text-4xl font-semibold'>{FullName}</h2>
-        <p className='text-white text-3xl font-semibold opacity-80'>
-         {CurrentAdd}
-        </p>
+       <div className='absolute text-center bottom-2'>
+        <h2 className='text-white text-3xl font-bold drop-shadow-md'>{FullName}</h2>
+        <p className='text-white text-2xl font-bold opacity-80 drop-shadow-md'>{CurrentAdd}</p>
        </div>
       </div>
+
+      <Link to={`profile/${userName}`} >
+       <img src={star} alt='profile' className='block mx-auto mt-[10px] rounded-full p-[5px] shadow' />
+      </Link>
      </div>
      <div className='absolute border-solid border-[5px] w-[80%] h-[465px] z-10 bg-white -mt-48 left-1/2 transform -translate-x-1/2 rounded-[20px] shadow-md'></div>
      <div className='absolute border-slate-500 border-[5px] w-[70%] h-[480px] z-0 bg-white -mt-48 left-1/2 transform -translate-x-1/2 rounded-[20px] shadow-sm'></div>

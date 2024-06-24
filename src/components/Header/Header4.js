@@ -43,7 +43,7 @@ const Header4 = (props) => {
      <img
       src={`${URL_BASE64}${user.avatarLink}`}
       alt='avatar'
-      className='w-full h-full'
+      className='w-full h-full object-cover'
       onError={() => handleErrorImg(avatarRef)}
       ref={avatarRef}
      />
