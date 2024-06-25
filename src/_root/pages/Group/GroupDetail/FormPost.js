@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { usersSelector } from '../../../../service/redux/users/usersSlice'
 
 import { AiFillCloseCircle } from 'react-icons/ai'
@@ -145,8 +145,6 @@ const FormPost = (props) => {
   widthWindow <= 450 && setIsMobile(true)
  }, [])
 
- const avatarRef = useRef()
-
  return (
   <Modal
    isOpen={showModal}
@@ -172,8 +170,7 @@ const FormPost = (props) => {
        className='w-[50px] h-[50px] rounded-full object-cover'
        src={`${URL_BASE64}${userState.user.avatarLink}`}
        alt='avatar user'
-       ref={avatarRef}
-       onError={() => handleErrorImg(avatarRef)}
+       onError={(e) => handleErrorImg(e.target)}
       />
      </div>
      <h2>Nguyen Dang tien</h2>

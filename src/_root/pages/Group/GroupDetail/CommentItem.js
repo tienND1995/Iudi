@@ -24,7 +24,6 @@ const CommentItem = (props) => {
   IsFavorited,
   UserID,
   Avatar,
-  imgRef,
  } = props.data
 
  const dispatch = useDispatch()
@@ -36,8 +35,7 @@ const CommentItem = (props) => {
      className='w-[42px] h-[42px] object-cover rounded-full'
      src={`${URL_BASE64}${Avatar}`}
      alt='avatar'
-     ref={imgRef}
-     onError={() => handleErrorImg(imgRef)}
+     onError={(e) => handleErrorImg(e.target)}
     />
    </div>
 

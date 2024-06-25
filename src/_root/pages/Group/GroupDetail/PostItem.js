@@ -22,9 +22,13 @@ import {
  handleErrorImg,
 } from '../../../../service/utils/utils'
 
+import { Auth } from '../../../../service/utils/auth'
+
 const { URL_BASE64 } = config
 
 const PostItem = (props) => {
+ const { userID } = new Auth()
+
  const {
   Content,
   PostID,
@@ -41,8 +45,6 @@ const PostItem = (props) => {
  } = props.data
 
  const {
-  imgAvatarRef,
-  imgPhotoRef,
   btnRef,
   handleShowModal,
   handleShowComments,
@@ -52,6 +54,8 @@ const PostItem = (props) => {
  } = props.handle
 
  const dispatch = useDispatch()
+
+ const isUpdate = userID === UserID
 
  return (
   <li
@@ -65,8 +69,7 @@ const PostItem = (props) => {
        className='w-[73px] h-[73px] rounded-full object-cover'
        src={`${URL_BASE64}${Avatar}`}
        alt='avatar other'
-       ref={imgAvatarRef}
-       onError={() => handleErrorImg(imgAvatarRef)}
+       onError={(e) => handleErrorImg(e.target)}
       />
      </Link>
      <div>
@@ -96,12 +99,12 @@ const PostItem = (props) => {
      <div
       ref={btnRef}
       className={
-       'flex-col gap-2 hidden p-5 bg-[#222] min-w-[200px] shadow-[0px_0px_8px_#000] absolute right-0 top-100 z-[10] rounded-md'
+       'flex-col gap-2 hidden p-5 bg-[#222] min-w-[200px] mobile:bg-white mobile:shadow-[0px_0px_6px_#dddada] shadow-[0px_0px_8px_#000] absolute right-0 top-100 z-[10] rounded-md'
       }
      >
       <div>
        <button
-        className='bg-[#363434] p-1 rounded duration-200 hover:bg-[#544e4e] flex gap-2 items-center w-full'
+        className='bg-[#363434] mobile:bg-[#008748] mobile:text-white p-1 rounded duration-200 mobile:hover:bg-[#008748ce] hover:bg-[#544e4e] flex gap-2 items-center w-full'
         onClick={() => {
          if (window.confirm('Are you sure you want to delete?'))
           dispatch(deletePost(PostID))
@@ -114,19 +117,21 @@ const PostItem = (props) => {
        </button>
       </div>
 
-      <div>
-       <button
-        className='bg-[#363434] p-1 rounded duration-200 hover:bg-[#544e4e] flex gap-2 items-center w-full'
-        type='button'
-        onClick={() => {
-         btnRef.current.classList.add('hidden')
-         btnRef.current.classList.remove('flex')
-         handleShowModal('patch', { PostID, Title, Photo, Content })
-        }}
-       >
-        <MdModeEditOutline /> Edit post
-       </button>
-      </div>
+      {isUpdate && (
+       <div>
+        <button
+         className='bg-[#363434] mobile:bg-[#008748] mobile:text-white p-1 rounded duration-200 mobile:hover:bg-[#008748ce] hover:bg-[#544e4e] flex gap-2 items-center w-full'
+         type='button'
+         onClick={() => {
+          btnRef.current.classList.add('hidden')
+          btnRef.current.classList.remove('flex')
+          handleShowModal('patch', { PostID, Title, Photo, Content })
+         }}
+        >
+         <MdModeEditOutline /> Edit post
+        </button>
+       </div>
+      )}
      </div>
     </div>
    </div>
@@ -140,9 +145,8 @@ const PostItem = (props) => {
      <img
       className='w-full object-cover max-h-[300px]'
       src={`${URL_BASE64}${Photo}`}
-      ref={imgPhotoRef}
       alt={Title}
-      onError={() => handleErrorImgPost(imgPhotoRef)}
+      onError={(e) => handleErrorImgPost(e.target)}
      />
     )}
    </div>

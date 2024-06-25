@@ -16,8 +16,8 @@ import callPhone from '../../../../images/icons/callphone.png'
 import callVideo from '../../../../images/icons/callvideo.png'
 import send from '../../../../images/icons/send.png'
 
-import { handleErrorImg } from '../../../../service/utils/utils'
 import { Auth } from '../../../../service/utils/auth'
+import { handleErrorImg } from '../../../../service/utils/utils'
 
 import { ChevronLeftIcon } from '@heroicons/react/24/outline'
 
@@ -65,8 +65,6 @@ const MessageDetail = () => {
   dispatch(deleteMessage({ messageID, userID }))
  }
 
- const imgAvatarRef = React.createRef()
-
  return (
   <div className='pb-5 bg-white rounded-3xl h-full flex flex-col'>
    <div className='flex mobile:p-3 p-5 items-center justify-between border-b-[#817C7C] border-b border-solid'>
@@ -82,8 +80,7 @@ const MessageDetail = () => {
        className='w-[66px] h-[66px] mobile:w-[50px] mobile:h-[50px] rounded-full object-cover'
        src={`${URL_BASE64}${avatar}`}
        alt='avatar default'
-       onError={() => handleErrorImg(imgAvatarRef)}
-       ref={imgAvatarRef}
+       onError={(e) => handleErrorImg(e.target)}
       />
      </Link>
 

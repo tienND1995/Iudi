@@ -64,7 +64,7 @@ const Group = () => {
       ref={sidebarRef}
       style={sidebarStyles}
       id='sidebar-group'
-      className='p-5 overflow-y-auto overflow-x-hidden ipad:w-[150px] max-w-[300px] lg:max-w-[450px] w-max mobile:hidden'
+      className='p-5 overflow-y-auto overflow-x-hidden ipad:w-[150px] max-w-[300px] lg:max-w-[400px] w-max mobile:hidden'
      >
       <SideBarGroup onLoading={getIsLoadingSidebar} />
      </div>

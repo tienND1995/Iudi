@@ -28,8 +28,6 @@ const Header4 = (props) => {
   dispatch(fetchProfile(userName))
  }, [isToggleChangeUser])
 
- const avatarRef = useRef()
-
  return (
   <div className='flex w-full justify-around items-center'>
    <div>
@@ -44,8 +42,7 @@ const Header4 = (props) => {
       src={`${URL_BASE64}${user.avatarLink}`}
       alt='avatar'
       className='w-full h-full object-cover'
-      onError={() => handleErrorImg(avatarRef)}
-      ref={avatarRef}
+      onError={(e) => handleErrorImg(e.target)}
      />
     </Link>
    </div>

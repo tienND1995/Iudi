@@ -18,7 +18,6 @@ const MessageHistoryItem = (props) => {
   MessageTime,
   OtherUserID,
   idParams,
-  refImg,
   isOnline,
   IsSeen,
   SenderID,
@@ -45,8 +44,7 @@ const MessageHistoryItem = (props) => {
        className=' mx-auto w-[73px] h-[73px] tablet:w-[60px] tablet:h-[60px] mobile:w-[50px] mobile:h-[50px] rounded-full object-cover'
        src={`${URL_BASE64}${OtherAvatar}`}
        alt={`avatar ${OtherUsername}`}
-       onError={() => handleErrorImg(refImg)}
-       ref={refImg}
+       onError={(e) => handleErrorImg(e.target)}
       />
 
       <div>

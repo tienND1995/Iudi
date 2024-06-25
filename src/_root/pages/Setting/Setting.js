@@ -1,22 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useNavigate } from 'react-router-dom'
 
+import { BsFileRuledFill, BsInfoSquareFill } from 'react-icons/bs'
 import { FaUserGroup } from 'react-icons/fa6'
-import { RiGitRepositoryPrivateFill } from 'react-icons/ri'
 import { IoNotifications } from 'react-icons/io5'
+import { RiGitRepositoryPrivateFill } from 'react-icons/ri'
 import { SiSpringsecurity } from 'react-icons/si'
-import { BsInfoSquareFill } from 'react-icons/bs'
-import { BsFileRuledFill } from 'react-icons/bs'
 
 import { Link } from 'react-router-dom'
 
-import { Auth } from '../../../service/utils/auth'
 import axios from 'axios'
 import config from '../../../configs/Configs.json'
+import { Auth } from '../../../service/utils/auth'
 
-import { handleErrorImg } from '../../../service/utils/utils'
 import NavMobile from '../../../components/NavMobile/NavMobile'
+import { handleErrorImg } from '../../../service/utils/utils'
 
 const dataList = [
  {
@@ -67,7 +66,6 @@ const Setting = () => {
  const { userName } = new Auth()
  const [userInfo, serUserInfo] = useState([])
 
- const avatarRef = useRef()
  const navigate = useNavigate()
 
  const fetchProfile = async () => {
@@ -98,8 +96,7 @@ const Setting = () => {
         className='w-[72px] h-[72px] rounded-full object-cover border border-green'
         src={`${URL_BASE64}${userInfo?.avatarLink}`}
         alt='avatar user'
-        ref={avatarRef}
-        onError={() => handleErrorImg(avatarRef)}
+        onError={(e) => handleErrorImg(e.target)}
        />
       </Link>
      </div>

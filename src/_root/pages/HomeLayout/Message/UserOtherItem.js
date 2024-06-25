@@ -6,7 +6,7 @@ import config from '../../../../configs/Configs.json'
 const { URL_BASE64 } = config
 
 const UserOtherItem = (props) => {
- const { id, username, avatar, refImg } = props.data
+ const { id, username, avatar } = props.data
 
  return (
   <div className='text-center'>
@@ -22,8 +22,7 @@ const UserOtherItem = (props) => {
      className=' mx-auto w-[73px] h-[73px] tablet:w-[60px] tablet:h-[60px] mobile:w-[50px] mobile:h-[50px] rounded-full object-cover'
      src={`${URL_BASE64}${avatar}`}
      alt='avatar'
-     ref={refImg}
-     onError={() => handleErrorImg(refImg)}
+     onError={(e) => handleErrorImg(e.target)}
     />
     <h5 className='capitalize'> {username}</h5>
    </Link>

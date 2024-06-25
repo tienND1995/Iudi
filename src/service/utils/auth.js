@@ -1,7 +1,7 @@
 
 
 export class Auth {
- userID = localStorage.getItem('UserId')
+ userID = parseInt(localStorage.getItem('UserId'))
  isLogin = localStorage.getItem('IuDiToken')
  userName = localStorage.getItem('UserNameIuDi')
 }

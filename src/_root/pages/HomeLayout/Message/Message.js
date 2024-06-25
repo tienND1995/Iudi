@@ -122,8 +122,6 @@ const Message = () => {
   })
  }, [userIdOtherList])
 
- const imgAvatarUserRef = React.createRef()
-
  return (
   <>
    <div className='hidden mb-4 mobile:block '>
@@ -146,8 +144,7 @@ const Message = () => {
        className='mx-auto w-[73px] h-[73px] tablet:w-[60px] tablet:h-[60px] mobile:w-[50px] mobile:h-[50px] rounded-full object-cover'
        src={`${URL_BASE64}${userState.user.avatarLink}`}
        alt='avatar'
-       ref={imgAvatarUserRef}
-       onError={() => handleErrorImg(imgAvatarUserRef)}
+       onError={(e) => handleErrorImg(e.target)}
       />
       <h5 className='font-medium capitalize'>{userName}</h5>
      </Link>

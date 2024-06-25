@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { ToastContainer } from 'react-toastify'
 
@@ -19,8 +19,8 @@ import { Auth } from '../../../../service/utils/auth'
 import FormPost from './FormPost'
 import PostItem from './PostItem'
 
-import { handleErrorImg } from '../../../../service/utils/utils'
 import NavMobile from '../../../../components/NavMobile/NavMobile'
+import { handleErrorImg } from '../../../../service/utils/utils'
 
 const { API__SERVER, URL_BASE64 } = config
 
@@ -73,8 +73,6 @@ const GroupDetail = () => {
   return data.Comments
  }
 
- const avatarUserRef = useRef()
-
  return (
   <div className='mobile:bg-[#ECECEC] mobile:min-h-screen mobile:pb-[100px]'>
    <div className='relative p-5 rounded-lg mobile:border-none mobile:rounded-none mobile:bg-white bg-[#222222] border border-solid border-[#4EC957]'>
@@ -83,8 +81,7 @@ const GroupDetail = () => {
       className='w-[73px] h-[73px] rounded-full object-cover'
       src={`${URL_BASE64}${userState.user.avatarLink}`}
       alt='avatar user'
-      onError={() => handleErrorImg(avatarUserRef)}
-      ref={avatarUserRef}
+      onError={(e) => handleErrorImg(e.target)}
      />
      <button
       type='button'

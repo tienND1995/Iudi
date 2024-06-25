@@ -7,10 +7,10 @@ import Navbar from './Navbar'
 
 import { handleErrorImg } from '../../service/utils/utils'
 
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import {
- usersSelector,
  fetchProfile,
+ usersSelector,
 } from '../../service/redux/users/usersSlice'
 
 const { URL_BASE64 } = config
@@ -34,8 +34,6 @@ const Header2 = (props) => {
   onGetHeight && onGetHeight(headerRef?.current.offsetHeight)
  }, [props])
 
- const avatarRef = useRef()
-
  return (
   <div
    ref={headerRef}
@@ -53,8 +51,7 @@ const Header2 = (props) => {
       src={`${URL_BASE64}${user.avatarLink}`}
       alt='avatar'
       className='w-full h-full object-cover'
-      ref={avatarRef}
-      onError={() => handleErrorImg(avatarRef)}
+      onError={(e) => handleErrorImg(e.target)}
      />
     </Link>
 

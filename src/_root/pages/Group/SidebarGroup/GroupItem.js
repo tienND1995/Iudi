@@ -3,16 +3,18 @@ import { Link } from 'react-router-dom'
 import { slugString, handleErrorImg } from '../../../../service/utils/utils'
 
 import config from '../../../../configs/Configs.json'
-const {URL_BASE64} = config
+const { URL_BASE64 } = config
 
 const GroupItem = (props) => {
- const { GroupID, avatarLink, GroupName, idParams, refImg } = props.data
+ const { GroupID, avatarLink, GroupName, idParams } = props.data
 
  return (
   <li
    key={GroupID}
    className=' mb-3'
-   style={GroupID === parseInt(idParams) ? { background: 'rgba(0,0,0,.2)' } : {}}
+   style={
+    GroupID === parseInt(idParams) ? { background: 'rgba(0,0,0,.2)' } : {}
+   }
   >
    <Link
     to={`/group/${slugString(GroupName)}/${GroupID}`}
@@ -21,8 +23,7 @@ const GroupItem = (props) => {
     <div>
      <img
       alt={GroupName}
-      onError={() => handleErrorImg(refImg)}
-      ref={refImg}
+      onError={(e) => handleErrorImg(e.target)}
       src={`${URL_BASE64}${avatarLink}`}
       className='w-[80px] h-[80px] ipad:w-[30px] ipad:h-[30px] rounded-full border-2 border-solid border-[#fdfdfd]'
      />

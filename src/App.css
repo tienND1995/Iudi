@@ -78,3 +78,29 @@
 .create-info.slick-dots > li.slick-active > div:hover {
  opacity: 0.8;
 }
+
+@media (min-width: 450px) and (max-width: 800px) {
+ #sidebar-group::-webkit-scrollbar {
+  width: 4px;
+ }
+
+ #sidebar-group::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+ }
+}
+
+/* style text Bio */
+
+p.mb-2.text-\[25px\].italic.text-\[\#8E8E8E\] {
+ overflow: hidden;
+ text-overflow: ellipsis;
+ line-height: 1.2;
+ -webkit-line-clamp: 3;
+ display: -webkit-box;
+ -webkit-box-orient: vertical;
+}
+
+.user-list.slick-dots >li {
+ width: 10px;
+ height: 10px;
+}

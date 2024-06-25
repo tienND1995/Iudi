@@ -10,7 +10,6 @@ import { Auth } from '../../../../service/utils/auth'
 import Chat from '../../../../images/profiles/Chat.png'
 import { handleErrorImg } from '../../../../service/utils/utils'
 
-import { FaUserAstronaut } from 'react-icons/fa'
 import star from '../../../../images/star.png'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -37,7 +36,6 @@ const Home = () => {
   dispatch(fetchProfile(userName))
  }, [isToggleChangeUser])
 
- const avatarRef = useRef()
 
  return (
   <>
@@ -54,8 +52,7 @@ const Home = () => {
        className='object-cover object-center w-full h-full'
        src={`${URL_BASE64}${avatarLink}`}
        alt='avatar user'
-       ref={avatarRef}
-       onError={() => handleErrorImg(avatarRef)}
+       onError={(e) => handleErrorImg(e.target)}
       />
      </div>
      <div className='text-center rounded-tr-[58px] rounded-br-[58px] bg-[#368A69] flex items-center justify-center flex-col'>
@@ -88,8 +85,7 @@ const Home = () => {
         className='object-cover w-full h-full rounded-lg'
         src={`${URL_BASE64}${avatarLink}`}
         alt='avatar user'
-        onError={() => handleErrorImg(avatarRef)}
-        ref={avatarRef}
+        onError={(e) => handleErrorImg(e.target)}
        />
        <div className='absolute text-center bottom-2'>
         <h2 className='text-white text-3xl font-bold drop-shadow-md'>{FullName}</h2>

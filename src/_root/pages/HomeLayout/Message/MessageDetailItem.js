@@ -14,7 +14,6 @@ const MessageDetailItem = (props) => {
   MessageID,
   Content,
   MessageTime,
-  refImg,
   idParams,
   handleDeleteMessage,
  } = props.data
@@ -48,8 +47,7 @@ const MessageDetailItem = (props) => {
       className='w-[40px] h-[40px] rounded-full object-cover'
       src={`${URL_BASE64}${OtherAvatar}`}
       alt='avatar default'
-      onError={() => handleErrorImg(refImg)}
-      ref={refImg}
+      onError={(e) => handleErrorImg(e.target)}
      />
     </div>
 

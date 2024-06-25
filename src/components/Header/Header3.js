@@ -40,8 +40,6 @@ const Header3 = (props) => {
   props?.onGetHeight(headerRef.current.offsetHeight)
  }, [])
 
- const avatarRef = useRef()
-
  return (
   <div
    ref={headerRef}
@@ -58,8 +56,7 @@ const Header3 = (props) => {
       src={`${URL_BASE64}${user.avatarLink}`}
       alt='avatar'
       className='w-full h-full object-cover'
-      ref={avatarRef}
-      onError={() => handleErrorImg(avatarRef)}
+      onError={(e) => handleErrorImg(e.target)}
      />
     </Link>
 
