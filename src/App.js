@@ -31,6 +31,7 @@ import Rules from './_root/pages/Setting/Rules/Rules.js'
 import Security from './_root/pages/Setting/Security/Security.js'
 import SettingLayout from './_root/pages/Setting/SettingLayout.js'
 import SideBarGroup from './_root/pages/Group/SidebarGroup/SideBarGroup.js'
+import FindingResult from './_root/pages/Finding/FindingResult.js'
 
 function App() {
  return (
@@ -57,6 +58,8 @@ function App() {
      <Route path='/group' element={<SideBarGroup />}></Route>
      <Route path='/group/:slug/:groupId' element={<Group />}></Route>
      <Route path='/finding' element={<Finding />} />
+     <Route path='/finding/result' element={<FindingResult/>}/>
+
     </Route>
 
 

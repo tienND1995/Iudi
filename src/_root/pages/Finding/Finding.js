@@ -1,5 +1,8 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+
+import { Link } from 'react-router-dom'
+
 import Footer from '../../../components/Footer/Footer'
 import config from '../../../configs/Configs.json'
 import bg from '../../../images/bg3.jpg'
@@ -7,6 +10,13 @@ import { Auth } from '../../../service/utils/auth'
 import UserList from './UserList'
 
 import Header1 from '../../../components/Header/Header1'
+
+import {
+ AdjustmentsHorizontalIcon,
+ ChevronLeftIcon,
+} from '@heroicons/react/24/outline'
+
+import FindingInfo from './FindingInfo'
 
 const { FINDING_DEFAULT } = config
 
@@ -16,20 +26,30 @@ function Finding() {
  const [users, setUsers] = useState([])
 
  const setting = JSON.parse(localStorage.getItem('findingSetting'))
+ const { minAge, gender, radius } = setting
 
  useEffect(() => {
   const fetchUsers = async (setting) => {
    try {
     const res = await axios.get(
      `https://api.iudi.xyz/api/location/${userID}/${
-      setting?.radius * 1000 || FINDING_DEFAULT
+      radius * 1000 || FINDING_DEFAULT
      }`
     )
 
     const data = res.data.Distances
-    const resultData = data.filter((user) => user.Gender !== setting?.gender)
 
-    return setUsers(resultData)
+    const dataFilter = data.filter((user) => {
+     const userAge =
+      new Date().getFullYear() - new Date(user.BirthDate).getFullYear()
+
+     const isAgeMatch = userAge >= parseInt(minAge)
+     const isSexMatch = user.Gender === gender
+
+     return isAgeMatch && isSexMatch
+    })
+
+    return setUsers(dataFilter)
    } catch (error) {
     console.log(error)
    }
@@ -46,15 +66,33 @@ function Finding() {
  }
 
  return (
-  <div style={background} className=''>
-   <Header1 />
-   <div className='relative'>
-    <div className='px-[40px]'>
-     <UserList users={users} />
+  <>
+   <div style={background} className='mobile:hidden'>
+    <Header1 />
+    <div className='relative'>
+     <div className='px-[40px]'>
+      <UserList users={users} />
+     </div>
     </div>
+    <Footer />
    </div>
-   <Footer />
-  </div>
+
+   <div className='hidden mobile:block'>
+    <div className='hidden mobile:flex justify-between p-4 items-center border-b-[#817C7C] border-b border-solid'>
+     <Link to='/'>
+      <button className='w-8 h-8 '>
+       <ChevronLeftIcon />
+      </button>
+     </Link>
+     <span className='text-[22px] font-bold'>Tìm quanh đây</span>
+     <div className='rounded-full bg-[#008748] w-10 h-10 p-1'>
+      <AdjustmentsHorizontalIcon className='text-white' />
+     </div>
+    </div>
+
+    <FindingInfo />
+   </div>
+  </>
  )
 }
 

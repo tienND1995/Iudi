@@ -68,7 +68,7 @@ function Personal() {
  const onHandleSave = () => {
   const findingSetting = {
    radius: radius,
-   maxAge: age,
+   minAge: age,
    gender: gender1,
   }
   localStorage.setItem('findingSetting', JSON.stringify(findingSetting))
@@ -191,16 +191,16 @@ function Personal() {
      </label>
      <label
       className='block mt-3 mb-2 text-sm font-bold text-white'
-      htmlFor='genderr'
+      htmlFor='gender'
      >
       Xu hướng
      </label>
 
      <select
       onChange={onHandleChangeGender}
-      className='w-full px-3 py-2 mt-2 mb-4 text-white bg-white focus:outline-none'
+      className='w-full px-3 py-2 mt-2 mb-4 bg-white focus:outline-none text-black'
       defaultValue='Nam'
-      id='genderr'
+      id='gender'
      >
       <option className='text-green-600'>Nam</option>
       <option className='text-green-600'>Nữ</option>
