@@ -13,11 +13,18 @@ const initialState = {
  postToggle: false,
  historyMessages: [],
  isSeenMessage: false,
+ isOnline: true,
 }
 
 export const messagesSlice = createSlice({
  name: 'messages',
  initialState,
+
+  reducers: {
+    toggleOnlineStatus: (state) => {
+      state.isOnline = !state.isOnline
+    },
+  },
 
  extraReducers: (builder) => {
   builder
@@ -39,6 +46,10 @@ export const messagesSlice = createSlice({
    })
  },
 })
+
+
+export const { toggleOnlineStatus } = messagesSlice.actions
+export const selectOnlineStatus = (state) => state.messages.isOnline
 
 export const messagesSelector = (state) => state.messages
 export const messagesReducer = messagesSlice.reducer
@@ -99,3 +110,5 @@ export const postSeenMessage = createAsyncThunk(
   }
  }
 )
+
+

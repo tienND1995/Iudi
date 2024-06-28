@@ -25,6 +25,9 @@ import UserOtherItem from './UserOtherItem'
 
 import NavMobile from '../../../../components/NavMobile/NavMobile'
 import config from '../../../../configs/Configs.json'
+
+import {selectOnlineStatus} from '../../../../service/redux/messages/messagesSlice'
+
 const { URL_BASE64 } = config
 
 const socket = io('https://api.iudi.xyz')
@@ -77,6 +80,9 @@ const Message = () => {
  const [userIdOtherList, setUserIdOtherList] = useState([])
  const [userOtherList, setUserOtherList] = useState([])
 
+//  const [isOnline, setIsOnline] = useState(true)
+ const isOnline = useSelector(selectOnlineStatus)
+
  const { historyMessages, postToggle, isSeenMessage } =
   useSelector(messagesSelector)
  const dispatch = useDispatch()
@@ -84,7 +90,11 @@ const Message = () => {
 
  useEffect(() => {
   // client connect to server
-  socket.emit('userId', { userId: userID })
+  if (isOnline) {
+    socket.emit('userId', { userId: userID })
+   } else {
+     socket.emit('offline', { userId: userID })
+   }
 
   socket.on('check_message', (message) => {
    console.log('check_message', message)
@@ -93,7 +103,7 @@ const Message = () => {
   socket.on('online', (data) => {
    setUserIdOtherList(data.user)
   })
- }, [userID])
+ }, [isOnline, userID])
 
  useEffect(() => {
   dispatch(fetchHistoryMessages(userID))
@@ -185,7 +195,7 @@ const Message = () => {
        }) => {
         let isOnline = false
         userIdOtherList.some((userId) => (isOnline = userId === OtherUserID))
-
+        
         const imgAvatarRef = React.createRef()
 
         return (

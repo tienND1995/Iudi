@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { selectOnlineStatus, toggleOnlineStatus } from '../../../../service/redux/messages/messagesSlice';
 
 const Private = () => {
- const [isStatus, setIsStatus] = useState(true)
+  // const [isStatus, setIsStatus] = useState(true)
 
- const handleChangeStatus = () => {
-  setIsStatus(!isStatus)
- }
+  // const handleChangeStatus = () => {
+  //  setIsStatus(!isStatus)
+  // }
+
+  const isOnline = useSelector(selectOnlineStatus)
+  const dispatch = useDispatch()
+  console.log(isOnline)
+
+  const handleChangeStatus = () => {
+    dispatch(toggleOnlineStatus())
+  }
 
  return (
   <div className='text-[16px] font-normal px-3 pt-[40px]'>
@@ -28,7 +38,7 @@ const Private = () => {
       <button
        onClick={handleChangeStatus}
        className={`${
-        isStatus
+        isOnline
          ? 'bg-[#008748] border border-[#008748]'
          : 'bg-gray-700 border border-gray-700 '
        } transition-all duration-200 flex overflow-hidden w-[53px] h-[24px] rounded-full `}
@@ -36,7 +46,7 @@ const Private = () => {
       >
        <div
         className={`${
-         isStatus ? 'ml-[28px]' : ''
+          isOnline ? 'ml-[28px]' : ''
         } duration-200 transition-all w-[23px] h-[23px] bg-white rounded-full`}
        ></div>
       </button>

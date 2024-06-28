@@ -6,6 +6,7 @@ import { handleErrorImg } from '../../../../service/utils/utils'
 import { Auth } from '../../../../service/utils/auth'
 
 import config from '../../../../configs/Configs.json'
+
 const { URL_BASE64 } = config
 
 const MessageHistoryItem = (props) => {
@@ -46,7 +47,6 @@ const MessageHistoryItem = (props) => {
        alt={`avatar ${OtherUsername}`}
        onError={(e) => handleErrorImg(e.target)}
       />
-
       <div>
        <h3 className='capitalize text-xl tablet:text-lg mobile:text-sm font-medium'>
         {OtherUsername}
