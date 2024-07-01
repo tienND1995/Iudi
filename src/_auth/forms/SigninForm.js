@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { joiResolver } from '@hookform/resolvers/joi'
@@ -184,6 +184,8 @@ function SigninForm() {
       </a>
      </p>
     </form>
+
+    <ToastContainer />
    </div>
   </div>
  ) : (
@@ -246,6 +248,8 @@ function SigninForm() {
      Đăng ký
     </Link>
    </div>
+
+   <ToastContainer />
   </div>
  )
 }

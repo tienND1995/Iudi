@@ -36,7 +36,7 @@ export const profileSchema = Joi.object({
 })
 
 export const registerSchema = Joi.object({
-    Username: Joi.string().required(),
+    Username: Joi.string().min(5).max(200).required().label('Username'),
     FullName: Joi.string().required(),
     Email: Joi.string().required(),
     Gender: Joi.string().required(),

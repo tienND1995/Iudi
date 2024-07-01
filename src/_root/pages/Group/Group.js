@@ -1,11 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+import { useParams, useLocation } from 'react-router-dom'
+
 import Header3 from '../../../components/Header/Header3'
 import SideBarGroup from './SidebarGroup/SideBarGroup'
 import background from '../../../images/background.jpg'
 import slideGroup from '../../../images/slideGroup.png'
 import GroupImages from './GroupImages/GroupImages'
 import GroupDetail from './GroupDetail/GroupDetail'
+
+import { handleErrorImgSlideGroup } from '../../../service/utils/utils'
+
+import config from '../../../configs/Configs.json'
+const { URL_BASE64 } = config
 
 const Group = () => {
  const [heightHeader, setHeightHeader] = useState(100)
@@ -21,7 +28,7 @@ const Group = () => {
   backgroundPosition: 'center',
   backgroundRepeat: 'no-repeat',
   position: 'relative',
-  minHeight: '100vh'
+  minHeight: '100vh',
  }
 
  const sidebarStyles = {
@@ -36,6 +43,9 @@ const Group = () => {
   marginLeft: `${widthSidebar}px`,
   marginTop: `${heightHeader}px`,
  }
+
+ const { state } = useLocation()
+ const { avatarLink, groupName } = state
 
  useEffect(() => {
   setTimeout(() => {
@@ -73,15 +83,16 @@ const Group = () => {
       <div>
        <div>
         <img
-         className='w-full object-cover'
-         src={slideGroup}
+         className='w-full object-cover max-h-[400px]'
+         src={`${URL_BASE64}${avatarLink}`}
          alt='slide group'
+         onError={(e) => handleErrorImgSlideGroup(e.target)}
         />
        </div>
 
        <div className='flex justify-between bg-[#008748] p-3 items-center'>
         <div>
-         <h3 className='text-xl ipad:text-lg'>Nhóm gia đình tôi</h3>
+         <h3 className='text-xl ipad:text-lg capitalize'>{groupName}</h3>
          <p className='text-[#bdbdbd] text-sm'>367 thành viên</p>
         </div>
 

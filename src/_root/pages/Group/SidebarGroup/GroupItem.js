@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { slugString, handleErrorImg } from '../../../../service/utils/utils'
+import { slugString, handleErrorImg, handleErrorImgGroup } from '../../../../service/utils/utils'
 
 import config from '../../../../configs/Configs.json'
 const { URL_BASE64 } = config
@@ -17,13 +17,14 @@ const GroupItem = (props) => {
    }
   >
    <Link
+    state={{ avatarLink, groupName: GroupName }}
     to={`/group/${slugString(GroupName)}/${GroupID}`}
     className='flex flex-wrap gap-2 items-center'
    >
     <div>
      <img
       alt={GroupName}
-      onError={(e) => handleErrorImg(e.target)}
+      onError={(e) => handleErrorImgGroup(e.target)}
       src={`${URL_BASE64}${avatarLink}`}
       className='w-[80px] h-[80px] ipad:w-[30px] ipad:h-[30px] rounded-full border-2 border-solid border-[#fdfdfd]'
      />

@@ -25,7 +25,7 @@ import UserOtherItem from './UserOtherItem'
 
 import NavMobile from '../../../../components/NavMobile/NavMobile'
 import config from '../../../../configs/Configs.json'
-const { URL_BASE64 } = config
+const { URL_BASE64, API__SERVER } = config
 
 const socket = io('https://api.iudi.xyz')
 
@@ -79,6 +79,7 @@ const Message = () => {
 
  const { historyMessages, postToggle, isSeenMessage } =
   useSelector(messagesSelector)
+
  const dispatch = useDispatch()
  const userState = useSelector(usersSelector)
 

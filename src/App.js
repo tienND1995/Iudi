@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
 import 'react-toastify/dist/ReactToastify.css'
 
+
 import AuthLayout from './_auth/AuthLayout.js'
 import ForgotPassword from './_auth/forms/ForgotPassword.js'
 import SigninForm from './_auth/forms/SigninForm.js'

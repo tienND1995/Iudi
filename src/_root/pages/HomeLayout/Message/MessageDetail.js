@@ -28,6 +28,8 @@ const MessageDetail = () => {
  const { id } = useParams()
  const { userID } = new Auth()
 
+ 
+
  const location = useLocation()
  const { userName, isOnline, avatar } = location.state
 
@@ -36,10 +38,6 @@ const MessageDetail = () => {
 
  const { messages, postToggle } = useSelector(messagesSelector)
  const dispatch = useDispatch()
-
- useEffect(() => {
-  messRef.current.scrollTop = messRef.current.scrollHeight
- }, [messages])
 
  useEffect(() => {
   dispatch(fetchMessages({ otherUserId: id, userID }))
@@ -117,30 +115,37 @@ const MessageDetail = () => {
    </div>
 
    <div className='flex-1 text-white p-[20px] overflow-y-auto' ref={messRef}>
-    {messages.map(
-     ({ SenderID, OtherAvatar, MessageID, Content, MessageTime, IsSeen }) => {
-      const imgAvatarChat = React.createRef()
-      SenderID === parseInt(id) &&
-       IsSeen === 0 &&
-       dispatch(postSeenMessage(MessageID))
-      return (
-       <MessageDetailItem
-        key={MessageID}
-        data={{
+    {messages.length > 0
+     ? messages.map(
+        ({
          SenderID,
          OtherAvatar,
          MessageID,
          Content,
          MessageTime,
-         refImg: imgAvatarChat,
-         idParams: id,
          IsSeen,
-         handleDeleteMessage,
-        }}
-       />
-      )
-     }
-    )}
+        }) => {
+         SenderID === parseInt(id) &&
+          IsSeen === 0 &&
+          dispatch(postSeenMessage(MessageID))
+         return (
+          <MessageDetailItem
+           key={MessageID}
+           data={{
+            SenderID,
+            OtherAvatar,
+            MessageID,
+            Content,
+            MessageTime,
+            idParams: id,
+            IsSeen,
+            handleDeleteMessage,
+           }}
+          />
+         )
+        }
+       )
+     : ''}
    </div>
 
    <div>

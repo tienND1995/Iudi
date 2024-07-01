@@ -29,11 +29,16 @@ const SideBarGroup = ({ onLoading }) => {
   fetchGroups()
  }, [])
 
+
  return (
   <div className='text-white mobile:text-black lg:text-[16px] sm:text-[12px] text-[14px] '>
    <div className='flex items-center gap-2 mobile:hidden'>
     <Link>
-     <img className='w-[50px] h-auto object-cover ipad:w-[30px] ' src={Logogroup} alt='logo group' />
+     <img
+      className='w-[50px] h-auto object-cover ipad:w-[30px] '
+      src={Logogroup}
+      alt='logo group'
+     />
     </Link>
     <h2 className='uppercase'>Group</h2>
    </div>
@@ -52,8 +57,6 @@ const SideBarGroup = ({ onLoading }) => {
 
    <ul className='mt-5 mobile:px-3 mobile:pb-[30px]'>
     {groupList.map(({ GroupID, avatarLink, GroupName }) => {
-     const imgAvatarRef = React.createRef()
-
      return (
       <GroupItem
        key={GroupID}
@@ -61,7 +64,6 @@ const SideBarGroup = ({ onLoading }) => {
         GroupID,
         avatarLink,
         GroupName,
-        refImg: imgAvatarRef,
         idParams: groupId,
        }}
       />
