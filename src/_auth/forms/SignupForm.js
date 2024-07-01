@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { toast, ToastContainer } from 'react-toastify'
 import { joiResolver } from '@hookform/resolvers/joi'
@@ -94,6 +94,8 @@ const SignupForm = () => {
   reset,
   formState: { errors, isValid },
  } = useForm({ resolver: joiResolver(registerSchema) })
+
+ const navigate = useNavigate()
 
  const dataForm = [
   {
@@ -208,6 +210,9 @@ const SignupForm = () => {
     const response = await axios.post('https://api.iudi.xyz/api/register', data)
     toast.success('Register successfully!')
     reset()
+
+    
+
    } catch (error) {
     console.error('Error registering:', error)
     toast.error(`Register failed! ${error.response.data.message}`, {

@@ -1,14 +1,13 @@
 import axios from 'axios'
 import React, { useEffect, useRef, useState } from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { joiResolver } from '@hookform/resolvers/joi'
 import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
 import { loginSchema } from '../../service/schemas/schemas'
 import config from '../../configs/Configs.json'
 
@@ -67,11 +66,11 @@ function SigninForm() {
      theme: 'light',
     })
 
-    navigate('/')
+    navigate('/personal')
 
-    setTimeout(() => {
-     window.location.reload()
-    }, 1000)
+    // setTimeout(() => {
+    //  window.location.reload()
+    // }, 1000)
    } catch (error) {
     console.error('Error registering:', error)
     toast.error(`Register failed! ${error.response.data.message}`, {
@@ -239,9 +238,13 @@ function SigninForm() {
    </form>
 
    <div className='flex justify-center gap-1 items-cnter'>
-    <p className='font-poppins text-[14px] font-medium'>Bạn đã có tài khoản chưa?</p>
+    <p className='font-poppins text-[14px] font-medium'>
+     Bạn đã có tài khoản chưa?
+    </p>
 
-    <Link to='/register' className='text-green text-[14px] font-poppins'>Đăng ký</Link>
+    <Link to='/register' className='text-green text-[14px] font-poppins'>
+     Đăng ký
+    </Link>
    </div>
   </div>
  )
