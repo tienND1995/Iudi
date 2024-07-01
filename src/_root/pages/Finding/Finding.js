@@ -26,30 +26,33 @@ function Finding() {
  const [users, setUsers] = useState([])
 
  const setting = JSON.parse(localStorage.getItem('findingSetting'))
- const { minAge, gender, radius } = setting
 
  useEffect(() => {
   const fetchUsers = async (setting) => {
    try {
     const res = await axios.get(
      `https://api.iudi.xyz/api/location/${userID}/${
-      radius * 1000 || FINDING_DEFAULT
+      setting?.radius * 1000 || FINDING_DEFAULT
      }`
     )
 
     const data = res.data.Distances
 
-    const dataFilter = data.filter((user) => {
-     const userAge =
-      new Date().getFullYear() - new Date(user.BirthDate).getFullYear()
+    if (users.length > 0) {
+     const dataFilter = data.filter((user) => {
+      const userAge =
+       new Date().getFullYear() - new Date(user.BirthDate).getFullYear()
 
-     const isAgeMatch = userAge >= parseInt(minAge)
-     const isSexMatch = user.Gender === gender
+      const isAgeMatch = userAge >= parseInt(setting.minAge)
+      const isSexMatch = user.Gender === setting.gender
 
-     return isAgeMatch && isSexMatch
-    })
+      return isAgeMatch && isSexMatch
+     })
 
-    return setUsers(dataFilter)
+     return setUsers(dataFilter)
+    }
+
+    return setUsers(data)
    } catch (error) {
     console.log(error)
    }

@@ -23,13 +23,11 @@ const UserItem = ({ user, key }) => {
     `https://api.iudi.xyz/api/location/distance/${userID}/${user.UserID}`
    )
 
-   setDistance(parseInt(res.data.distance))
+   setDistance((parseInt(res.data.distance) / 1000).toFixed(2))
   }
 
   fetDistanceUserVsOtherUser()
  }, [user.UserID])
-
- //  console.log(yearNow, birthDate.getFullYear())
 
  return (
   <div
