@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 
+import EmojiPicker from 'emoji-picker-react'
+import { MdEmojiEmotions } from 'react-icons/md'
+import { RiAttachment2, RiSendPlane2Fill } from 'react-icons/ri'
+import { IoIosCloseCircle } from 'react-icons/io'
+
 import { useDispatch, useSelector } from 'react-redux'
 import {
  deleteMessage,
@@ -14,7 +19,6 @@ import MessageDetailItem from './MessageDetailItem'
 
 import callPhone from '../../../../images/icons/callphone.png'
 import callVideo from '../../../../images/icons/callvideo.png'
-import send from '../../../../images/icons/send.png'
 
 import { Auth } from '../../../../service/utils/auth'
 import { handleErrorImg } from '../../../../service/utils/utils'
@@ -27,8 +31,6 @@ const { URL_BASE64 } = config
 const MessageDetail = () => {
  const { id } = useParams()
  const { userID } = new Auth()
-
- 
 
  const location = useLocation()
  const { userName, isOnline, avatar } = location.state
@@ -46,22 +48,50 @@ const MessageDetail = () => {
  const handleSubmitForm = (e) => {
   e.preventDefault()
 
-  if (messageForm.trim() !== '') {
+  if (messageForm.trim() !== '' || imageUrl !== null) {
    const data = {
-    content: messageForm,
+    content: messageForm === '' ? null : messageForm.trim(),
     idReceive: parseInt(id),
     idSend: userID,
     MessageTime: new Date(),
+    Image: imageUrl,
    }
 
    dispatch(postMessage(data))
    setMessageForm('')
+   setImageUrl(null)
   }
  }
 
  const handleDeleteMessage = async (messageID) => {
   dispatch(deleteMessage({ messageID, userID }))
  }
+
+ const [imageUrl, setImageUrl] = useState(null)
+
+ const handleImageChange = (e) => {
+  const file = e.target.files[0]
+  if (!file) return
+
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+
+  reader.onloadend = () => {
+   const base64Url = reader.result.split(',')[1]
+   if (base64Url !== imageUrl) {
+    setImageUrl(base64Url)
+   }
+  }
+ }
+
+ const [showEmoji, setShowEmoji] = useState(false)
+
+ const handleClickEmoji = (data) => {
+  setMessageForm((value) => value + data.emoji)
+  setShowEmoji(false)
+ }
+
+ console.log(id, messages)
 
  return (
   <div className='pb-5 bg-white rounded-3xl h-full flex flex-col'>
@@ -124,6 +154,7 @@ const MessageDetail = () => {
          Content,
          MessageTime,
          IsSeen,
+         Image,
         }) => {
          SenderID === parseInt(id) &&
           IsSeen === 0 &&
@@ -139,6 +170,7 @@ const MessageDetail = () => {
             MessageTime,
             idParams: id,
             IsSeen,
+            Image,
             handleDeleteMessage,
            }}
           />
@@ -151,24 +183,63 @@ const MessageDetail = () => {
    <div>
     <form
      onSubmit={handleSubmitForm}
-     className='flex items-center overflow-hidden justify-center p-5 m-3 border text-black h-[70px] mobile:h-[50px] rounded-[50px] border-solid border-[#4EC957]'
+     className='relative flex flex-col justify-between mobile:p-3 p-5 m-3 border text-black mobile:rounded-[30px] rounded-[50px] border-solid border-[#4EC957]'
     >
-     <input
-      className='w-full mr-5 focus-visible:outline-none '
-      type='text'
-      placeholder='Hãy gửi lời chào...'
-      onChange={(e) => setMessageForm(e.target.value)}
-      value={messageForm}
-     />
-
-     <div className='flex gap-3'>
-      <button type='submit'>
+     {imageUrl && (
+      <div className='relative max-w-max'>
        <img
-        className='ml-5 h-[33px] w-[33px] mobile:h-[20px] mobile:w-[20px]'
-        src={send}
-        alt='send'
+        className='w-[50px] h-[50px] mobile:w-[30px] mobile:h-[30px] object-cover rounded duration-150'
+        src={`${URL_BASE64}${imageUrl}`}
+        alt='sendImage'
        />
-      </button>
+
+       <button
+        className='absolute right-[-10px] top-[-10px] mobile:right-[-5px] mobile:top-[-5px] text-xl mobile:text-sm'
+        onClick={() => setImageUrl(null)}
+       >
+        <IoIosCloseCircle />
+       </button>
+      </div>
+     )}
+
+     <div className='flex items-center justify-between'>
+      <input
+       className='flex flex-1 mr-5 mobile:mr-2 mobile:max-w-[70%] mobile:flex-0 focus-visible:outline-none '
+       type='text'
+       placeholder='Hãy gửi lời chào...'
+       onChange={(e) => setMessageForm(e.target.value)}
+       value={messageForm}
+      />
+
+      <div className='ml-3 mobile:gap-1 mobile:ml-0 mobile:text-[xl] flex gap-3 items-center mobile:text-xl text-[32px] text-[#008748]'>
+       <div className='relative flex'>
+        <button type='button' onClick={() => setShowEmoji((value) => !value)}>
+         <MdEmojiEmotions />
+        </button>
+
+        {showEmoji && (
+         <div className='absolute bottom-[100%] mobile:right-[-50px] right-0'>
+          <EmojiPicker width='15em' onEmojiClick={handleClickEmoji} />
+         </div>
+        )}
+       </div>
+
+       <div className='relative'>
+        <input
+         onChange={handleImageChange}
+         type='file'
+         className='w-[32px] mobile:w-[20px] opacity-0 z-10 relative'
+        />
+
+        <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+         <RiAttachment2 />
+        </div>
+       </div>
+
+       <button type='submit h-[32px] w-[32px] mobile:h-[20px] mobile:w-[20px]'>
+        <RiSendPlane2Fill />
+       </button>
+      </div>
      </div>
     </form>
    </div>

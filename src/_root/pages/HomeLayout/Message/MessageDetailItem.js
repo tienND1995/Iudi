@@ -16,6 +16,7 @@ const MessageDetailItem = (props) => {
   MessageTime,
   idParams,
   handleDeleteMessage,
+  Image,
  } = props.data
 
  return SenderID !== parseInt(idParams) ? (
@@ -29,7 +30,18 @@ const MessageDetailItem = (props) => {
      >
       <MdDelete />
      </button>
-     <p className='bg-blue-600 rounded-[8px] p-[10px]'>{Content}</p>
+
+     {Content !== '' && Content !== null && (
+      <p className='bg-blue-600 rounded-[8px] p-[10px]'>{Content}</p>
+     )}
+
+     {Image && (
+      <img
+       className='w-[50px] h-[50px] object-cover rounded'
+       src={`${URL_BASE64}${Image}`}
+       alt='sendImage'
+      />
+     )}
     </div>
 
     <Moment
@@ -52,7 +64,18 @@ const MessageDetailItem = (props) => {
     </div>
 
     <div className='flex items-center gap-1 group'>
-     <p className='bg-black rounded-[8px] p-[10px]'>{Content}</p>
+     {Content !== '' && Content !== null && (
+      <p className='bg-black rounded-[8px] p-[10px]'>{Content}</p>
+     )}
+
+     {Image && (
+      <img
+       className='w-[50px] h-[50px] object-cover rounded'
+       src={`${URL_BASE64}${Image}`}
+       alt='sendImage'
+      />
+     )}
+
      <button
       type='button'
       className='text-black duration-200 opacity-0 group-hover:opacity-100'
