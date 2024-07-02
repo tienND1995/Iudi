@@ -39,7 +39,7 @@ const NavMobile = () => {
  const { pathname } = useLocation()
 
  return (
-  <div className='fixed rounded-xl bottom-0 left-0 hidden mobile:block bg-white w-full '>
+  <div className='fixed rounded-xl bottom-10 left-0 hidden mobile:block bg-white w-full z-50'>
    <nav className='px-3'>
     <ul
      className={`h-[70px] flex items-center justify-evenly ${
@@ -60,7 +60,7 @@ const NavMobile = () => {
     </ul>
    </nav>
 
-   <div className='w-[35%] h-[5px] bg-black rounded-sm mx-auto my-3'></div>
+   {/* <div className='w-[35%] h-[5px] bg-black rounded-sm mx-auto my-3'></div> */}
   </div>
  )
 }

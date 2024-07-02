@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useSelector } from 'react-redux'
 import { postsSelector } from '../../../../service/redux/posts/postsSlice'
@@ -10,11 +10,14 @@ const { URL_BASE64 } = config
 
 const GroupImages = () => {
  const postsState = useSelector(postsSelector)
+ const [showAllImages, setShowAllImages] = useState(false)
 
  const imageList = postsState.posts.map(({ PostID, Photo }) => ({
   id: PostID,
   thumb: Photo,
  }))
+
+ const imageList2 = showAllImages ? imageList : imageList.slice(0, 9)
 
  return (
   <div>
@@ -24,12 +27,12 @@ const GroupImages = () => {
       <h5>Ảnh</h5>
 
       <div>
-       <button type=''>Xem tất cả ảnh</button>
+       <button className='text-blue-600' type='' onClick={() => setShowAllImages(!showAllImages)}>Xem tất cả ảnh</button>
       </div>
      </div>
      <div className=''>
       <ul className='flex flex-wrap'>
-       {imageList.map(({ id, thumb }) => {
+       {imageList2.map(({ id, thumb }) => {
         return (
          <li key={id} className='p-1'>
           <img

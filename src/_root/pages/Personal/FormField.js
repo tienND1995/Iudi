@@ -2,6 +2,7 @@ import React from 'react'
 
 const FormField = (props) => {
  const { errors, register, name, label } = props.data
+ const today = new Date().toLocaleDateString('sv-SE')
  return (
   <div
    className={`${
@@ -15,6 +16,7 @@ const FormField = (props) => {
     type={name === 'BirthDate' ? 'date' : 'text'}
     id={name}
     placeholder={label}
+    max={name === 'BirthDate' ? today : undefined} //Không cho phép chọn sau ngày hôm nay
     className='block w-full text-xs font-semibold text-black bg-white outline-none placeholder:font-normal'
     {...register(`${name}`)}
    />

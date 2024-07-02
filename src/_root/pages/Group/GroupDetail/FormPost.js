@@ -15,6 +15,12 @@ import { Auth } from '../../../../service/utils/auth'
 
 import { handleErrorImg } from '../../../../service/utils/utils'
 
+import { useForm } from 'react-hook-form'
+import { joiResolver } from '@hookform/resolvers/joi'
+
+import { postSchema } from '../../../../service/schemas/schemas'
+
+
 const { URL_BASE64, LONGITUDE_DEFAULT, LATITUDE_DEFAULT } = config
 
 const FormPost = (props) => {
@@ -74,6 +80,17 @@ const FormPost = (props) => {
  })
  const { content, image, title, file } = formPost
 
+ //register
+ const {
+  register,
+  handleSubmit,
+  setValue,
+  reset,
+  formState: { errors, isValid }
+ } = useForm({ resolver: joiResolver(postSchema) })
+
+
+
  useEffect(() => {
   method === 'patch'
    ? setFormPost({
@@ -108,36 +125,41 @@ const FormPost = (props) => {
    ...formPost,
    [e.target.name]: e.target.value,
   })
+
+  setValue(e.target.name, e.target.value)
  }
 
- const handleSubmitFormPost = async (e) => {
-  e.preventDefault()
+ const handleSubmitFormPost = async (data) => {
 
-  if (content.trim() === '' || title.trim() === '') return
+  if(isValid) {
+      const { content, title } = data
+      const postData = {
+        Content: content.trim(),
+        PhotoURL: image ? [image] : null,
+        Title: title.trim(),
+        GroupID: groupId,
+        PostLatitude: LATITUDE_DEFAULT,
+        PostLongitude: LONGITUDE_DEFAULT,
+      };
+  
+      const postID = post.PostID;
+  
+      if (method === 'post') {
+        dispatch(addPost({ data: postData, userID }));
+      } else {
+        dispatch(patchPost({ data: postData, postID }));
+      }
+      // setFormPost({
+      // content: '',
+      // image: null,
+      // title: '',
+      // file: '',
+      // })
+      reset()
 
-  const data = {
-   Content: content.trim(),
-   PhotoURL: image ? [image] : null,
-   Title: title.trim(),
-   GroupID: groupId,
-   PostLatitude: LATITUDE_DEFAULT,
-   PostLongitude: LONGITUDE_DEFAULT,
+      hiddenModal()
   }
-
-  const postID = post.PostID
-
-  method === 'post'
-   ? dispatch(addPost({ data, userID }))
-   : dispatch(patchPost({ data, postID }))
-  setFormPost({
-   content: '',
-   image: null,
-   title: '',
-   file: '',
-  })
-
-  hiddenModal()
- }
+}
 
  const [isMobile, setIsMobile] = useState(false)
  useEffect(() => {
@@ -163,7 +185,7 @@ const FormPost = (props) => {
     </button>
    </div>
 
-   <form className='p-5' onSubmit={handleSubmitFormPost}>
+   <form className='p-5' onSubmit={handleSubmit(handleSubmitFormPost)}>
     <div className='flex items-center gap-2'>
      <div>
       <img
@@ -182,18 +204,20 @@ const FormPost = (props) => {
      name='title'
      placeholder='Tiêu đề'
      onChange={handleChangeFormPost}
-     value={title}
+     {...register('title')}
     />
+    {errors.title && <p className='mt-2 text-sm ipad:mt-1 ipad:text-xs ipad:font-semibold tablet:mt-1 tablet:text-xs tablet:font-semibold font-bold text-red-500'>{errors.title.message}</p>}
 
     <textarea
      type='text'
      id='textarea-post'
      placeholder='Nội dung'
      className='min-h-[50px] my-3 bg-transparent w-full focus-visible:outline-none'
-     value={content}
      onChange={handleChangeFormPost}
      name='content'
+     {...register('content')}
     />
+    {errors.content && <p className='mt-2 text-sm ipad:mt-1 ipad:text-xs ipad:font-semibold tablet:mt-1 tablet:text-xs tablet:font-semibold font-bold text-red-500'>{errors.content.message}</p>}
 
     {image && (
      <div className='relative rounded-lg overflow-hidden h-[150px]'>
@@ -215,7 +239,7 @@ const FormPost = (props) => {
     <div className='relative my-3 w-max text-white mobile:bg-[#008748] bg-[#303030] py-2 px-5 rounded-md'>
      <div className='flex gap-1'>
       <img src={uploadFile} alt='upload file' />
-      <spa>Ảnh/Video</spa>
+      <span>Ảnh/Video</span>
      </div>
 
      <input

@@ -32,8 +32,20 @@ export const profileSchema = Joi.object({
  BirthDate: Joi.string(),
  BirthPlace: Joi.string(),
  CurrentAdd: Joi.string(),
- Phone: Joi.string(),
+ Phone: Joi.string().min(10).required(), // Kiểm tra phone có ít nhất 10 số
 })
+
+export const postSchema = Joi.object({
+    title: Joi.string().required().messages({
+      'string.empty': "Title can't be empty!",
+      'any.required': "Title is required!"
+    }),
+    content: Joi.string().required().messages({
+      'string.empty': "Content can't be empty!",
+      'any.required': "Content is required!"
+    })
+})
+
 
 export const registerSchema = Joi.object({
     Username: Joi.string().required(),
@@ -64,3 +76,4 @@ export const registerSchema = Joi.object({
     })
 
 })
+
