@@ -1,6 +1,5 @@
 import React from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
-import Line from '../../../components/shared/Line'
 import HeaderMobile from './HeaderSetting/HeaderSetting'
 
 const SettingLayout = () => {
@@ -14,7 +13,7 @@ const SettingLayout = () => {
   <div className='min-h-screen w-full relative'>
    {!isMatchSettingGroup && !isMatchSetting && <HeaderMobile />}
    <Outlet />
-   {!isMatchSetting && <Line />}
+   {/* {!isMatchSetting && <Line />} */}
   </div>
  )
 }

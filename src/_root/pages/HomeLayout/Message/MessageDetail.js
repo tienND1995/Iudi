@@ -91,7 +91,6 @@ const MessageDetail = () => {
   setShowEmoji(false)
  }
 
- console.log(id, messages)
 
  return (
   <div className='pb-5 bg-white rounded-3xl h-full flex flex-col'>
@@ -183,7 +182,7 @@ const MessageDetail = () => {
    <div>
     <form
      onSubmit={handleSubmitForm}
-     className='relative flex flex-col justify-between mobile:p-3 p-5 m-3 border text-black mobile:rounded-[30px] rounded-[50px] border-solid border-[#4EC957]'
+     className='relative flex flex-col justify-between mobile:p-3 ipad:p-2 tablet:p-3 p-5 m-3 border text-black mobile:rounded-[30px] rounded-[50px] border-solid border-[#4EC957]'
     >
      {imageUrl && (
       <div className='relative max-w-max'>

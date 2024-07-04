@@ -60,7 +60,7 @@ const NavMobile = () => {
     </ul>
    </nav>
 
-   <div className='w-[35%] h-[5px] bg-black rounded-sm mx-auto my-3'></div>
+   {/* <div className='w-[35%] h-[5px] bg-black rounded-sm mx-auto my-3'></div> */}
   </div>
  )
 }

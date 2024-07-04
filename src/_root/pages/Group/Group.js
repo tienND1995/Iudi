@@ -5,7 +5,6 @@ import { useParams, useLocation } from 'react-router-dom'
 import Header3 from '../../../components/Header/Header3'
 import SideBarGroup from './SidebarGroup/SideBarGroup'
 import background from '../../../images/background.jpg'
-import slideGroup from '../../../images/slideGroup.png'
 import GroupImages from './GroupImages/GroupImages'
 import GroupDetail from './GroupDetail/GroupDetail'
 

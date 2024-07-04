@@ -52,7 +52,6 @@ const HomeLayout = () => {
 
    <div className='mobile:block hidden relative z-10 h-screen '>
     <Outlet />
-    <Line />
    </div>
   </>
  )

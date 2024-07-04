@@ -72,7 +72,6 @@ const AuthLayout = () => {
     </div>
 
     <Outlet />
-    <Line />
 
    </section>
   </>

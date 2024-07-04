@@ -189,7 +189,7 @@ function SigninForm() {
    </div>
   </div>
  ) : (
-  <div className='px-4 flex flex-1 flex-col justify-between pb-[30px]'>
+  <div className='px-4 flex flex-1 flex-col justify-between'>
    <form onSubmit={handleSubmit(onSubmit)}>
     <div className='flex flex-col gap-1 mb-3'>
      <label className='text-sm font-medium' htmlFor='username'>
@@ -239,13 +239,21 @@ function SigninForm() {
     </div>
    </form>
 
-   <div className='flex justify-center gap-1 items-cnter'>
-    <p className='font-poppins text-[14px] font-medium'>
-     Bạn đã có tài khoản chưa?
-    </p>
+   <div className='flex-1 flex flex-col mb-[30px] justify-end gap-3'>
+    <div className='flex justify-center gap-1 items-center'>
+     <p className='font-poppins text-[14px] font-medium'>
+      Bạn đã có tài khoản chưa?
+     </p>
 
-    <Link to='/register' className='text-green text-[14px] font-poppins'>
-     Đăng ký
+     <Link to='/register' className='text-green text-[14px] font-poppins'>
+      Đăng ký
+     </Link>
+    </div>
+
+    <Link to='/forgot-password' className='text-center'>
+     <strong className='mt-2 text-center text-green text-200'>
+      Forgot password ?
+     </strong>
     </Link>
    </div>
 

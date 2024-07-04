@@ -47,10 +47,10 @@ function ForgotPassword() {
     className='absolute inset-0 flex items-center justify-center'
     style={{ background: 'rgba(255, 255, 255, .2)' }}
    >
-    <div className='max-w-md w-full mx-auto border-2 border-green-400 rounded-[20px] bg-gray-900'>
-     <form onSubmit={handleSubmit} className='px-8 pt-6 pb-8 mb-4 rounded '>
+    <div className='max-w-md w-full mobile:w-[90%] mx-auto border-2 border-green-400 rounded-[20px] bg-gray-900'>
+     <form onSubmit={handleSubmit} className='px-8 pt-6 pb-8 mb-4 rounded mobile:p-5 mobile:mb-0'>
       <h3
-       className='mb-6 text-3xl font-extrabold text-center text-gray-900'
+       className='mb-6 text-3xl font-extrabold text-center text-gray-900 mobile:text-xl mobile:mb-3'
        style={{
         color: 'rgba(44,186,55,0.8127626050420168)',
        }}

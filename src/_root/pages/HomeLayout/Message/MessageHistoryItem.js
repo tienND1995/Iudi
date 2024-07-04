@@ -22,6 +22,7 @@ const MessageHistoryItem = (props) => {
   IsSeen,
   SenderID,
   isSeenMessage,
+  Image,
  } = props.data
 
  return (
@@ -51,15 +52,26 @@ const MessageHistoryItem = (props) => {
        <h3 className='capitalize text-xl tablet:text-lg mobile:text-sm font-medium'>
         {OtherUsername}
        </h3>
-       <p
-        className={` text-lg tablet:text-sm mobile:text-xs ${
-         IsSeen === 1 || isSeenMessage || SenderID === parseInt(userID)
-          ? 'text-gray-500'
-          : 'text-white'
-        }`}
-       >
-        {Content}
-       </p>
+
+       {Image && (
+        <img
+         className='w-[30px] h-[30px] object-cover rounded'
+         src={`${URL_BASE64}${Image}`}
+         alt='message'
+        />
+       )}
+
+       {Content && (
+        <p
+         className={` text-lg tablet:text-sm mobile:text-xs ${
+          IsSeen === 1 || isSeenMessage || SenderID === parseInt(userID)
+           ? 'text-gray-500'
+           : 'text-white'
+         }`}
+        >
+         {Content}
+        </p>
+       )}
       </div>
      </div>
 

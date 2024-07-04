@@ -205,14 +205,12 @@ const SignupForm = () => {
 
  const handleSubmitForm = async (data) => {
   console.log(data)
+
   if (isValid) {
    try {
     const response = await axios.post('https://api.iudi.xyz/api/register', data)
     toast.success('Register successfully!')
     reset()
-
-    
-
    } catch (error) {
     console.error('Error registering:', error)
     toast.error(`Register failed! ${error.response.data.message}`, {
@@ -307,10 +305,14 @@ const SignupForm = () => {
     </div>
    </form>
 
-   <div className='flex justify-center gap-1 items-cnter'>
-    <p className='font-poppins text-[14px] font-medium'>Bạn đã có tài khoản chưa?</p>
+   <div className='flex flex-1 justify-center gap-1 items-center'>
+    <p className='font-poppins text-[14px] font-medium'>
+     Bạn đã có tài khoản chưa?
+    </p>
 
-    <Link to='/login' className='text-green text-[14px] font-poppins'>Đăng nhập</Link>
+    <Link to='/login' className='text-green text-[14px] font-poppins'>
+     Đăng nhập
+    </Link>
    </div>
 
    <ToastContainer />

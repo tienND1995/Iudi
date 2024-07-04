@@ -334,7 +334,7 @@ function Personal() {
    </div>
 
    {isLoading === 'pending' ? (
-    <h3 className='text-white'>Loading...</h3>
+    <h3 className='text-black text-center'>Loading...</h3>
    ) : (
     <>
      <div className='flex items-end justify-center'>
@@ -395,7 +395,6 @@ function Personal() {
     </>
    )}
 
-   <Line />
    <ToastContainer position='bottom-right' autoClose={5000} />
   </div>
  )

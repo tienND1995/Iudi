@@ -19,7 +19,6 @@ const Navbar = () => {
  const [groupFirst, setGroupFirst] = useState({})
  const [isGetGroupFirst, setIsGetGroupFirst] = useState(false)
 
-
  useEffect(() => {
   const fetchGroups = async () => {
    try {
@@ -35,9 +34,7 @@ const Navbar = () => {
   fetchGroups()
  }, [])
 
-
- const { GroupName, GroupID } = groupFirst
-
+ const { GroupName, GroupID, avatarLink } = groupFirst
 
  const navList = [
   {
@@ -67,7 +64,6 @@ const Navbar = () => {
    link: `/group/${slugString(GroupName)}/${GroupID}`,
    icon: <FaLayerGroup />,
   },
-
  ]
 
  const handleLogout = () => {
@@ -95,9 +91,19 @@ const Navbar = () => {
     <ul className='flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6'>
      {navList.map(({ name, link, id }) => (
       <li key={id}>
-       <Link className='p-1 font-normal' to={link}>
-        {name}
-       </Link>
+       {name === 'Group' ? (
+        <Link
+         state={{ avatarLink, groupName: GroupName }}
+         className='p-1 font-normal'
+         to={link}
+        >
+         {name}
+        </Link>
+       ) : (
+        <Link className='p-1 font-normal' to={link}>
+         {name}
+        </Link>
+       )}
       </li>
      ))}
     </ul>

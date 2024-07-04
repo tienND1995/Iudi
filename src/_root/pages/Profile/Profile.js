@@ -329,7 +329,6 @@ function Profile() {
      </div>
     </div>
 
-    <Line />
    </div>
 
    <FormChangePassword

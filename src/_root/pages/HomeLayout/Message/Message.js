@@ -123,6 +123,7 @@ const Message = () => {
   })
  }, [userIdOtherList])
 
+
  return (
   <>
    <div className='hidden mb-4 mobile:block '>
@@ -183,11 +184,13 @@ const Message = () => {
         OtherUserID,
         IsSeen,
         SenderID,
+        Image
        }) => {
         let isOnline = false
         userIdOtherList.some((userId) => (isOnline = userId === OtherUserID))
 
         const imgAvatarRef = React.createRef()
+
 
         return (
          <MessageHistoryItem
@@ -205,6 +208,7 @@ const Message = () => {
            SenderID,
            IsSeen,
            isSeenMessage,
+           Image
           }}
          />
         )
