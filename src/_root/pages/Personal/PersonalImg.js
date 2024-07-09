@@ -14,8 +14,6 @@ const PersonalImg = () => {
 
   const [listImg, setListImg] = useState([]);
 
-  console.log(userID);
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -66,8 +64,6 @@ const PersonalImg = () => {
 
   const listImg2 = showAllImages ? listImg : listImg.slice(0, 5);
 
-  console.log(listImg);
-
   return (
     <div className="flex flex-col gap-6">
       <div className="flex m-auto items-center gap-4">
@@ -116,7 +112,7 @@ const PersonalImg = () => {
           </div>
         ))}
 
-        {listImg.length > 8 && (
+        {listImg.length > 5 && (
           <button
             className="text-blue-600"
             type="button"
