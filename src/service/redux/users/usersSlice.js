@@ -8,7 +8,6 @@ export const usersSlice = createSlice({
   user: {},
   isLoading: 'idle',
   isToggleChangeUser: false,
-
  },
 
  reducers: {},
@@ -17,7 +16,8 @@ export const usersSlice = createSlice({
    .addCase(fetchProfile.fulfilled, (state, action) => {
     state.user = action.payload
     state.isLoading = 'success'
-   }).addCase(fetchProfile.pending, (state, action) => {
+   })
+   .addCase(fetchProfile.pending, (state, action) => {
     state.isLoading = 'pending'
    })
    .addCase(patchAvatar.fulfilled, (state, action) => {

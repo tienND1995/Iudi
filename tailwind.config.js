@@ -23,6 +23,8 @@ module.exports = withMT({
    },
 
    screens: {
+    pc: {min: '1850px'},
+    pcSm: {min: '1500px', max: '1849px'},
     tablet: { min: '801px', max: '1200px' },
     ipad: { min: '451px', max: '800px' },
     mobile: { max: '450px' },

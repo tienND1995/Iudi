@@ -54,15 +54,22 @@ const MessageHistoryItem = (props) => {
        </h3>
 
        {Image && (
-        <img
-         className='w-[30px] h-[30px] object-cover rounded'
-         src={`${URL_BASE64}${Image}`}
-         alt='message'
-        />
+        <p
+         className={` text-lg tablet:text-sm mobile:text-xs ${
+          IsSeen === 1 || isSeenMessage || SenderID === parseInt(userID)
+           ? 'text-gray-500'
+           : 'text-white'
+         }`}
+        >
+         {SenderID === parseInt(userID)
+          ? 'You send a photo'
+          : 'You receive  a photo'}
+        </p>
        )}
 
-       {Content && (
+       {!Image && Content && (
         <p
+         style={{ overflowWrap: 'anywhere' }}
          className={` text-lg tablet:text-sm mobile:text-xs ${
           IsSeen === 1 || isSeenMessage || SenderID === parseInt(userID)
            ? 'text-gray-500'

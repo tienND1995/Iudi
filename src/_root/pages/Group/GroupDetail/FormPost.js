@@ -66,7 +66,7 @@ const FormPost = (props) => {
  const dispatch = useDispatch()
  const { groupId } = useParams()
 
- const { userID } = new Auth()
+ const { userID, userName } = new Auth()
 
  const { modal, hiddenModal } = props
  const { showModal, method, post } = modal
@@ -186,7 +186,7 @@ const FormPost = (props) => {
        onError={(e) => handleErrorImg(e.target)}
       />
      </div>
-     <h2>Nguyen Dang tien</h2>
+     <h2>{userName}</h2>
     </div>
 
     <input

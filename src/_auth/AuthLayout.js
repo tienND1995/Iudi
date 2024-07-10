@@ -9,7 +9,6 @@ import Logo from '../images/logoApp.png'
 import Header1 from '../components/Header/Header1'
 import background from '../images/background.jpg'
 
-import Line from '../components/shared/Line'
 import { Auth } from '../service/utils/auth'
 
 const AuthLayout = () => {

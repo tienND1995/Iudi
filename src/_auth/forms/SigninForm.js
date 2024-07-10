@@ -73,7 +73,7 @@ function SigninForm() {
     // }, 1000)
    } catch (error) {
     console.error('Error registering:', error)
-    toast.error(`Register failed! ${error.response.data.message}`, {
+    toast.error(`Login failed! ${error.response.data.message}`, {
      closeOnClick: true,
     })
    }

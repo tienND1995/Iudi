@@ -32,7 +32,7 @@ const Header3 = (props) => {
  }
 
  useEffect(() => {
-  dispatch(fetchProfile(userName))
+  userName && dispatch(fetchProfile(userName))
  }, [isToggleChangeUser])
 
  const headerRef = useRef()

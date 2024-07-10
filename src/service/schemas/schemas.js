@@ -74,3 +74,14 @@ export const postSchema = Joi.object({
   'any.required': 'Content is required!',
  }),
 })
+
+export const groupSchema = Joi.object({
+ GroupName: Joi.string().required().messages({
+  'string.empty': "GroupName can't be empty!",
+  'any.required': 'GroupName is required!',
+ }),
+ userNumber: Joi.number().required().min(10).max(200).integer().messages({
+    'number.empty': "userNumber can't be empty!",
+ }),
+ avatarLink: Joi.string().required(),
+})

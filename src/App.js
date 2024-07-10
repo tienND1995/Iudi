@@ -5,7 +5,6 @@ import 'slick-carousel/slick/slick-theme.css'
 import 'slick-carousel/slick/slick.css'
 import 'react-toastify/dist/ReactToastify.css'
 
-
 import AuthLayout from './_auth/AuthLayout.js'
 import ForgotPassword from './_auth/forms/ForgotPassword.js'
 import SigninForm from './_auth/forms/SigninForm.js'
@@ -59,10 +58,8 @@ function App() {
      <Route path='/group' element={<SideBarGroup />}></Route>
      <Route path='/group/:slug/:groupId' element={<Group />}></Route>
      <Route path='/finding' element={<Finding />} />
-     <Route path='/finding/result' element={<FindingResult/>}/>
-
+     <Route path='/finding/result' element={<FindingResult />} />
     </Route>
-
 
     <Route path='/setting' element={<SettingLayout />}>
      <Route index element={<Setting />} />
@@ -71,7 +68,7 @@ function App() {
      <Route path='rules' element={<Rules />} />
      <Route path='about' element={<About />} />
      <Route path='security' element={<Security />} />
-     <Route path='group' element={<SideBarGroup/>} />
+     <Route path='group' element={<SideBarGroup />} />
     </Route>
 
     <Route path='/create-info' element={<CreateInfoUser />} />

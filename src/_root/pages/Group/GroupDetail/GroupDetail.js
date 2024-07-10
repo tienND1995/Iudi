@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
+import Swal from 'sweetalert2'
+
 import { ToastContainer } from 'react-toastify'
 
 import { useDispatch, useSelector } from 'react-redux'
@@ -35,7 +37,7 @@ const GroupDetail = () => {
  const dispatch = useDispatch()
 
  useEffect(() => {
-  dispatch(fetchPosts({ groupId, userID }))
+  groupId && userID && dispatch(fetchPosts({ groupId, userID }))
  }, [changeTogglePosts, groupId])
 
  useEffect(() => {
@@ -58,6 +60,16 @@ const GroupDetail = () => {
  })
 
  const handleShowModal = (name, post) => {
+  if (!userID) {
+   Swal.fire({
+    title: 'Not logged in yet',
+    text: 'Please log in to your account!',
+    icon: 'info',
+   })
+
+   return
+  }
+
   setModal({
    showModal: true,
    post: post,
@@ -87,6 +99,7 @@ const GroupDetail = () => {
       type='button'
       className='h-max'
       onClick={() => handleShowModal('post', {})}
+      title='add post'
      >
       Hãy viết nên suy nghĩ của mình !
      </button>
@@ -94,6 +107,7 @@ const GroupDetail = () => {
 
     <div className='mt-3 flex justify-between'>
      <button
+      title='add post'
       onClick={() => handleShowModal('post', {})}
       type='button'
       className='relative mobile:border mobile:border-[#deb887] mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] flex gap-1 '

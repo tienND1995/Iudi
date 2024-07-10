@@ -91,7 +91,6 @@ const MessageDetail = () => {
   setShowEmoji(false)
  }
 
-
  return (
   <div className='pb-5 bg-white rounded-3xl h-full flex flex-col'>
    <div className='flex mobile:p-3 p-5 items-center justify-between border-b-[#817C7C] border-b border-solid'>
@@ -124,7 +123,7 @@ const MessageDetail = () => {
      </div>
     </div>
 
-    <div className='flex gap-5'>
+    {/* <div className='flex gap-5'>
      <div>
       <img
        className='w-[35px] h-[35px] object-cover mobile:w-[25px] mobile:h-[25px]'
@@ -140,7 +139,7 @@ const MessageDetail = () => {
        alt='call phone'
       />
      </div>
-    </div>
+    </div> */}
    </div>
 
    <div className='flex-1 text-white p-[20px] overflow-y-auto' ref={messRef}>

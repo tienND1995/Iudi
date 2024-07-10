@@ -7,8 +7,6 @@ import { toast, ToastContainer } from 'react-toastify'
 import { IoIosArrowBack } from 'react-icons/io'
 import { Link } from 'react-router-dom'
 
-import Line from '../../../components/shared/Line'
-
 import { useSelector, useDispatch } from 'react-redux'
 import {
  usersSelector,
@@ -27,6 +25,11 @@ import { formEditData } from '../../../components/shared/globalData'
 
 import { Auth } from '../../../service/utils/auth'
 import config from '../../../configs/Configs.json'
+
+import Policy from './Policy'
+import PersonalImg from './PersonalImg'
+import PersonalPrivate from './PersonalPrivate'
+
 const { URL_BASE64 } = config
 
 function Personal() {
@@ -49,6 +52,7 @@ function Personal() {
  useEffect(() => {
   user.avatarLink && setAvatar(user.avatarLink)
  }, [user])
+
 
  // *________________ SAVE FINDING_______________
 
@@ -164,7 +168,7 @@ function Personal() {
 
    <div
     ref={sidebarRef}
-    className='fixed top-0 left-0 mobile:hidden ipad:hidden tablet:w-[300px] w-[500px] border-r-2 border-white h-screen'
+    className='fixed top-0 left-0 mobile:hidden ipad:hidden tablet:w-[300px] w-[400px] border-r-2 border-white h-screen'
    >
     <div className='mt-[200px] ml-[50px] mr-[50px]'>
      <h1 className='text-3xl font-semibold text-white text-green-600 mb-11'>
@@ -235,80 +239,94 @@ function Personal() {
      </button>
     </div>
    </div>
-   <div style={contentStyles} className='ml-[600px] pt-[60px]'>
+   <div style={contentStyles} className='pt-[60px] px-[20px]'>
     {/* class='bg-[#252525] px-[20px] mt-[60px] ml-[900px] py-[50px] mx-auto w-[490px] border-2 border-green-500 rounded-lg shadow-lg' */}
-    <div className='w-[490px] bg-[#252525] border-2 border-green-500 rounded-lg py-[50px] px-[20px]'>
-     <div className='mb-[15px] flex flex-col items-center '>
-      <h1 className='text-[34px] font-semibold text-[#4EC957]'>
-       Thông tin cá nhân
-      </h1>
 
-      <p className='text-white text-[15px] font-[300] mt-2'>
-       Hãy điền thông tin cá nhân để chúng ta hiểu nhau hơn
-      </p>
+    <div className='w-full'>
+     <PersonalImg />
+    </div>
+
+    <div className='grid pcSm:grid-cols-2 pc:grid-cols-3 w-full gap-5 mt-5'>
+     {/* user form */}
+     <div className='col-span-1 bg-[#252525] border border-[#4EC957] rounded-lg py-[50px] px-[20px]'>
+      <div className='mb-[15px] flex flex-col items-center '>
+       <h1 className='text-[34px] font-semibold text-[#4EC957]'>
+        Thông tin cá nhân
+       </h1>
+
+       <p className='text-white text-[15px] font-[300] mt-2'>
+        Hãy điền thông tin cá nhân để chúng ta hiểu nhau hơn
+       </p>
+      </div>
+
+      {isLoading === 'pending' ? (
+       <h3 className='text-white'>Loading...</h3>
+      ) : (
+       <>
+        <div className='flex items-end justify-center'>
+         <img
+          src={`${URL_BASE64}${avatar}`}
+          alt='personal'
+          className='w-[100px] h-[100px] rounded-[10px] mr-[5px] object-cover'
+         />
+
+         <label htmlFor='imageUpload' className='cursor-pointer'>
+          <input
+           type='file'
+           id='imageUpload'
+           accept='image/*'
+           className='hidden'
+           onChange={handleImageChange}
+          />
+          <svg
+           xmlns='http://www.w3.org/2000/svg'
+           fill='none'
+           viewBox='0 0 24 24'
+           strokeWidth='1.5'
+           stroke='currentColor'
+           className='w-6 h-6 bg-[#3d773d] text-white p-[3px] rounded-[5px] hover:cursor-pointer'
+          >
+           <path
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10'
+           />
+          </svg>
+         </label>
+        </div>
+
+        <form onSubmit={handleSubmit(handleSubmitform)}>
+         {formEditData.map(({ id, name, label }) => (
+          <FormField
+           key={id}
+           data={{
+            errors,
+            register,
+            name,
+            label,
+           }}
+          />
+         ))}
+
+         <button
+          className={`${
+           isDirty || isChangeImage ? 'hover:bg-green' : 'opacity-50'
+          }  duration-200 w-full mt-5 font-semibold text-[20px] text-white rounded-lg h-[50px] shadow bg-[#008748]`}
+          type='submit'
+          disabled={isDirty == false && isChangeImage === false ? true : false}
+         >
+          {isSubmitting ? 'Loading...' : 'Lưu'}
+         </button>
+        </form>
+       </>
+      )}
      </div>
 
-     {isLoading === 'pending' ? (
-      <h3 className='text-white'>Loading...</h3>
-     ) : (
-      <>
-       <div className='flex items-end justify-center'>
-        <img
-         src={`${URL_BASE64}${avatar}`}
-         alt='personal'
-         className='w-[100px] h-[100px] rounded-[10px] mr-[5px] object-cover'
-        />
+     <PersonalPrivate isPrivate= {user.IsPrivate}/>
+    </div>
 
-        <label htmlFor='imageUpload' className='cursor-pointer'>
-         <input
-          type='file'
-          id='imageUpload'
-          accept='image/*'
-          className='hidden'
-          onChange={handleImageChange}
-         />
-         <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
-          strokeWidth='1.5'
-          stroke='currentColor'
-          className='w-6 h-6 bg-[#3d773d] text-white p-[3px] rounded-[5px] hover:cursor-pointer'
-         >
-          <path
-           strokeLinecap='round'
-           strokeLinejoin='round'
-           d='m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10'
-          />
-         </svg>
-        </label>
-       </div>
-
-       <form onSubmit={handleSubmit(handleSubmitform)}>
-        {formEditData.map(({ id, name, label }) => (
-         <FormField
-          key={id}
-          data={{
-           errors,
-           register,
-           name,
-           label,
-          }}
-         />
-        ))}
-
-        <button
-         className={`${
-          isDirty || isChangeImage ? 'hover:bg-green' : 'opacity-50'
-         }  duration-200 w-full mt-5 font-semibold text-[20px] text-white rounded-lg h-[55px] shadow bg-[#008748]`}
-         type='submit'
-         disabled={isDirty == false && isChangeImage === false ? true : false}
-        >
-         {isSubmitting ? 'Loading...' : 'Lưu'}
-        </button>
-       </form>
-      </>
-     )}
+    <div className='w-full mt-8'>
+     <Policy />
     </div>
 
     <Footer />

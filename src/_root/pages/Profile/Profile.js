@@ -13,6 +13,8 @@ import {
  MdOutlineWhereToVote,
 } from 'react-icons/md'
 
+import { IoMdLock } from 'react-icons/io'
+
 import Footer from '../../../components/Footer/Footer'
 import Header1 from '../../../components/Header/Header1'
 import bg from '../../../images/bg3.jpg'
@@ -25,7 +27,6 @@ import {
  handleErrorImgProfile,
 } from '../../../service/utils/utils'
 
-import Line from '../../../components/shared/Line'
 import Chat from '../../../images/profiles/Chat.png'
 
 import configs from '../../../configs/Configs.json'
@@ -71,6 +72,7 @@ function Profile() {
   Phone,
   BirthPlace,
   UserID,
+  IsPrivate,
  } = profileData
 
  const dataList = [
@@ -167,32 +169,42 @@ function Profile() {
         </p>
        </div>
 
-       <ul className='flex flex-col gap-4 mt-[30px]'>
-        {dataList.map(({ id, name, icon }) => {
-         if (name) {
-          return (
-           <li key={id} className='flex gap-5 items-center'>
-            <div className='text-2xl'>{icon}</div>
-            <p className='text-xl'>{name}</p>
-           </li>
-          )
-         }
-        })}
-       </ul>
+       {IsPrivate && username !== userName ? (
+        <div className='mt-5'>
+         <h3 className='font-semibold text-[30px]'> Chế độ riêng tư</h3>
 
-       <div className='flex justify-between gap-5 mb-5 mt-[50px]'>
-        <div>
+         <div className='text-gray-300 text-[200px] flex justify-center'>
+          <IoMdLock />
+         </div>
+        </div>
+       ) : (
+        <ul className='flex flex-col gap-4 mt-[30px]'>
+         {dataList.map(({ id, name, icon }) => {
+          if (name) {
+           return (
+            <li key={id} className='flex gap-5 items-center'>
+             <div className='text-2xl'>{icon}</div>
+             <p className='text-xl'>{name}</p>
+            </li>
+           )
+          }
+         })}
+        </ul>
+       )}
+
+       <div className='flex justify-center gap-5 mb-5 mt-[30px]'>
+        {username == userName ? (
          <button
-          className={`py-4 px-5 text-xl font-bold text-white bg-[#50C759] rounded-[20px] hover:bg-[#1e5f24] duration-200 ${
-           username !== userName ? 'cursor-not-allowed opacity-70' : ''
-          }`}
+          className={`py-4 px-5 text-xl font-bold text-white bg-[#50C759] rounded-[20px] hover:bg-[#1e5f24] duration-200`}
           onClick={() =>
            username === userName && setIsModalOpenChangePass(true)
           }
          >
           Change Password
          </button>
-        </div>
+        ) : (
+         ''
+        )}
         <div>
          <button
           className='py-4 text-xl px-5 font-bold text-white bg-[#50C759] rounded-[20px] hover:bg-[#1e5f24] duration-200'
@@ -243,92 +255,105 @@ function Profile() {
        <p className='font-bold text-[14px] text-[#00000066]'>{CurrentAdd}</p>
       </div>
 
+      <div>
+       <Link
+        to={userName === username ? '/message' : `/message/${UserID}`}
+        state={
+         userName !== username && {
+          userName: FullName,
+          isOnline: true,
+          avatar: avatarLink,
+         }
+        }
+       >
+        <img src={Chat} alt='message' />
+       </Link>
+      </div>
+      {/* 
       {userName === username && (
        <div>
-        <Link to='/message'>
+        <Link to={`/message`}>
          <img src={Chat} alt='message' />
         </Link>
        </div>
-      )}
+      )} */}
      </div>
 
-     <div>
-      <h3 className='text-[15px] font-bold my-3'>Giới thiệu</h3>
+     {IsPrivate && username !== userName ? (
+      <div className='mt-5'>
+       <h3 className='font-semibold text-[30px]'> Chế độ riêng tư</h3>
 
-      <p
-       style={{ overflowWrap: 'break-word' }}
-       className='text-[12px] font-normal text-gray-600'
-      >
-       {Bio?.length <= 150 ? (
-        Bio
-       ) : (
-        <>
-         {toggleText ? Bio : Bio?.slice(0, 150)}
-         <button
-          className='font-bold text-[rgba(0,135,72,1)]'
-          onClick={() => setToggleText(!toggleText)}
-         >
-          {toggleText ? 'Ẩn bớt' : '...xem thêm'}
-         </button>
-        </>
-       )}
-      </p>
-     </div>
+       <div className='text-gray-300 text-[170px] flex justify-center'>
+        <IoMdLock />
+       </div>
+      </div>
+     ) : (
+      <>
+       <div>
+        <h3 className='text-[15px] font-bold my-3'>Giới thiệu</h3>
 
-     <div>
-      <h3 className='mt-4 mb-2 text-[15px] font-bold my-3'>Bộ sưu tập</h3>
+        <p
+         style={{ overflowWrap: 'break-word' }}
+         className='text-[12px] font-normal text-gray-600'
+        >
+         {Bio?.length <= 150 ? (
+          Bio
+         ) : (
+          <>
+           {toggleText ? Bio : Bio?.slice(0, 150)}
+           <button
+            className='font-bold text-[rgba(0,135,72,1)]'
+            onClick={() => setToggleText(!toggleText)}
+           >
+            {toggleText ? 'Ẩn bớt' : '...xem thêm'}
+           </button>
+          </>
+         )}
+        </p>
+       </div>
 
-      <ul className='flex flex-wrap gap-2'>
-       {imageList.length > 0
-        ? imageList.map(({ PhotoID, PhotoURL }) => {
-           return (
-            <li key={PhotoID}>
-             <img
-              onError={(e) => handleErrorImgProfile(e.target)}
-              src={`${URL_BASE64}${PhotoURL}`}
-              alt='profile'
-              className='w-[80px] h-[80px] object-cover rounded-lg'
-             />
-            </li>
-           )
-          })
-        : ''}
-      </ul>
-     </div>
+       <div>
+        <h3 className='mt-4 mb-2 text-[15px] font-bold my-3'>Bộ sưu tập</h3>
+
+        <ul className='flex flex-wrap gap-2'>
+         {imageList.length > 0
+          ? imageList.map(({ PhotoID, PhotoURL }) => {
+             return (
+              <li key={PhotoID}>
+               <img
+                onError={(e) => handleErrorImgProfile(e.target)}
+                src={`${URL_BASE64}${PhotoURL}`}
+                alt='profile'
+                className='w-[80px] h-[80px] object-cover rounded-lg'
+               />
+              </li>
+             )
+            })
+          : ''}
+        </ul>
+       </div>
+      </>
+     )}
     </div>
 
-    <div className='flex flex-1 items-end justify-center gap-5 px-3 mt-5 mb-[40px]'>
-     <div>
+    {username === userName && (
+     <div className='flex flex-1 items-end justify-center gap-5 px-3 mt-5 mb-[40px]'>
       <button
-       className={`py-2 px-3 text-lg rounded-lg font-bold text-white bg-[#50C759] hover:bg-[#1e5f24] duration-200 ${
-        username !== userName ? 'cursor-not-allowed opacity-70' : ''
-       }`}
+       className={`py-4 px-5 text-xl font-bold text-white bg-[#50C759] rounded-[20px] hover:bg-[#1e5f24] duration-200`}
        onClick={() => username === userName && setIsModalOpenChangePass(true)}
       >
        Change Password
       </button>
+      <div>
+       <button
+        className='py-4 px-5 text-lg rounded-[20px] font-bold text-white bg-[#50C759] hover:bg-[#1e5f24] duration-200'
+        onClick={() => navigate('/personal')}
+       >
+        Edit
+       </button>
+      </div>
      </div>
-     <div>
-      <button
-       className='py-2 px-3 text-lg rounded-lg font-bold text-white bg-[#50C759] hover:bg-[#1e5f24] duration-200'
-       onClick={() => {
-        username === userName
-         ? navigate('/personal')
-         : UserID &&
-           navigate(`/message/${UserID}`, {
-            state: {
-             userName: FullName,
-             isOnline: true,
-             avatar: avatarLink,
-            },
-           })
-       }}
-      >
-       {username !== userName ? 'Nhắn tin' : 'Edit'}
-      </button>
-     </div>
-    </div>
-
+    )}
    </div>
 
    <FormChangePassword

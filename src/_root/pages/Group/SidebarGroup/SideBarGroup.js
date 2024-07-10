@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+
+import FormGroup from './FormGroup'
 
 import Logogroup from '../../../../images/logo-group.png'
 import GroupItem from './GroupItem'
@@ -8,11 +10,17 @@ import GroupItem from './GroupItem'
 import config from '../../../../configs/Configs.json'
 
 import { MdArrowBackIos } from 'react-icons/md'
+import Swal from 'sweetalert2'
+
+import { Auth } from '../../../../service/utils/auth'
+
 const { API__SERVER } = config
 
 const SideBarGroup = ({ onLoading }) => {
  const [groupList, setGroupList] = useState([])
+ const [isChangeGroupList, setIsChangeGroupList] = useState(false)
  const { groupId } = useParams()
+ const { userID } = new Auth()
 
  const navigate = useNavigate()
 
@@ -20,26 +28,47 @@ const SideBarGroup = ({ onLoading }) => {
   const fetchGroups = async () => {
    try {
     const response = await axios.get(`${API__SERVER}/forum/group/all_group`)
+    // const grouptListSort = response.data.data.sort(
+    //  (a, b) => b.GroupID - a.GroupID
+    // )
     setGroupList(response.data.data)
     onLoading(true)
    } catch (error) {
     console.error('Error fetching data:', error)
    }
   }
+
   fetchGroups()
- }, [])
+ }, [isChangeGroupList])
+
+ const [showModal, setShowModal] = useState(false)
+ const handleHiddenModal = () => setShowModal(false)
+ const handleShowModal = () => {
+  if (!userID) {
+   Swal.fire({
+    title: 'Not logged in yet',
+    text: 'Please log in to your account!',
+    icon: 'info',
+   })
+
+   return
+  }
+  setShowModal(true)
+ }
+ const handleToggleChangeGroupList = () =>
+  setIsChangeGroupList((prevState) => !prevState)
 
 
  return (
   <div className='text-white mobile:text-black lg:text-[16px] sm:text-[12px] text-[14px] '>
-   <div className='flex items-center gap-2 mobile:hidden'>
-    <Link>
+   <div className='flex items-center gap-2 mobile:hidden p-2'>
+    <button title='add group' onClick={handleShowModal}>
      <img
       className='w-[50px] h-auto object-cover ipad:w-[30px] '
       src={Logogroup}
       alt='logo group'
      />
-    </Link>
+    </button>
     <h2 className='uppercase'>Group</h2>
    </div>
 
@@ -70,6 +99,14 @@ const SideBarGroup = ({ onLoading }) => {
      )
     })}
    </ul>
+
+   <FormGroup
+    data={{
+     showModal,
+     onHidden: handleHiddenModal,
+     onChangeGroups: handleToggleChangeGroupList,
+    }}
+   />
   </div>
  )
 }
