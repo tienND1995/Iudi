@@ -1,15 +1,25 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import CommentItem from "./CommentItem";
 
 import { FaChevronDown } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
+import { MdEmojiEmotions } from "react-icons/md";
+import EmojiPicker from "emoji-picker-react";
 
 const Comments = ({ comments }) => {
   const { comentList, commentRef, inputCommentRef, onSubmitComment } = comments;
 
   const refUlElement = useRef();
   const refIcondown = useRef();
+
+  const [showEmoji, setShowEmoji] = useState(false);
+
+  const handleEmojiClick = (data) => {
+    inputCommentRef.current.value += data.emoji;
+    setShowEmoji(false);
+    console.log(inputCommentRef.current.value);
+  };
 
   return (
     <div id="comment-list" className="hidden duration-200" ref={commentRef}>
@@ -83,7 +93,7 @@ const Comments = ({ comments }) => {
       <div>
         <form
           onSubmit={onSubmitComment}
-          className="flex mobile:border-[#deb887] items-center overflow-hidden justify-center p-5 border bg-white text-black h-[60px] rounded-[20px] mt-5"
+          className="flex mobile:border-[#deb887] items-center justify-center p-5 border bg-white text-black h-[60px] rounded-[20px] mt-5"
         >
           <input
             className="w-full mr-5 focus-visible:outline-none  "
@@ -93,6 +103,21 @@ const Comments = ({ comments }) => {
           />
 
           <div className="flex gap-3">
+            <div className="relative">
+              <button
+                type="button"
+                className="flex"
+                onClick={() => setShowEmoji(!showEmoji)}
+              >
+                <MdEmojiEmotions className="size-7" />
+              </button>
+
+              {showEmoji && (
+                <div className="absolute bottom-[100%] mobile:right-[-50px] right-0 text-[18px]">
+                  <EmojiPicker onEmojiClick={handleEmojiClick} />
+                </div>
+              )}
+            </div>
             <button type="submit" className="text-[30px]">
               <IoMdSend />
             </button>
