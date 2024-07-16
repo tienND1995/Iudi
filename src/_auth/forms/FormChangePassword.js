@@ -41,7 +41,7 @@ const FormChangePassword = ({ userId, isOpen, onClose }) => {
         data
       );
       if (response.status === 200) {
-        toast.success("Change password successfully!") && reset();
+        toast.success("Please check your email or spam!") && reset();
       } else {
         toast.warning("An error occur!");
       }
