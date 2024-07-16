@@ -73,6 +73,8 @@ export const postSchema = Joi.object({
   'string.empty': "Content can't be empty!",
   'any.required': 'Content is required!',
  }),
+
+ PhotoURL: Joi.string().empty(null)
 })
 
 export const groupSchema = Joi.object({
@@ -81,7 +83,7 @@ export const groupSchema = Joi.object({
   'any.required': 'GroupName is required!',
  }),
  userNumber: Joi.number().required().min(10).max(200).integer().messages({
-    'number.empty': "userNumber can't be empty!",
+  'number.empty': "userNumber can't be empty!",
  }),
  avatarLink: Joi.string().required(),
 })

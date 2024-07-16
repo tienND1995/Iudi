@@ -37,6 +37,9 @@ export const messagesSlice = createSlice({
    .addCase(postSeenMessage.fulfilled, (state, action) => {
     state.isSeenMessage = true
    })
+   .addCase(getRelationshipUsers.fulfilled, (state, action) => {
+    
+   })
  },
 })
 
@@ -71,6 +74,18 @@ export const fetchHistoryMessages = createAsyncThunk(
   const { data } = await axios.get(`${API__SERVER}/chat/${userID}`)
 
   return data.data
+ }
+)
+
+export const getRelationshipUsers = createAsyncThunk(
+ 'messages/getRelations',
+ async (userID) => {
+  try {
+   const res = await axios.get(`${API__SERVER}/chatblock/${userID}`)
+   return res.data.data
+  } catch (error) {
+   console.log('error', error)
+  }
  }
 )
 

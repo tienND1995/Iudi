@@ -71,85 +71,79 @@ const FormPost = (props) => {
  const { modal, hiddenModal } = props
  const { showModal, method, post } = modal
 
- const [formPost, setFormPost] = useState({
-  content: '',
-  image: null,
-  title: '',
+ const [uploadImage, setUploadImage] = useState({
   file: '',
+  image: null,
  })
- const { content, image, title, file } = formPost
 
- //register
+ const { file, image } = uploadImage
+
  const {
   register,
   handleSubmit,
   setValue,
   reset,
-  formState: { errors, isValid },
- } = useForm({ resolver: joiResolver(postSchema) })
+
+  formState: { errors },
+ } = useForm({
+  resolver: joiResolver(postSchema),
+  defaultValues: {
+   title: '',
+   content: '',
+   PhotoURL: null,
+  },
+ })
 
  useEffect(() => {
-  method === 'patch'
-   ? setFormPost({
-      content: post.Content,
-      image: post.Photo,
-      title: post.Title,
-      file: '',
-     })
-   : setFormPost({ content: '', image: null, title: '', file: '' })
+  if (method === 'patch') {
+   setValue('title', post?.Title)
+   setValue('content', post?.Content)
+   setValue('PhotoURL', post?.Photo)
+
+   setUploadImage({ file: '', image: post?.Photo })
+  } else {
+   setUploadImage({ file: '', image: null })
+  }
  }, [modal])
 
- const handleChangeFormPost = (e) => {
-  if (e.target.name === 'image') {
-   let file = e.target.files[0]
-   if (!file) return
+ const handleChangeImage = (e) => {
+  let file = e.target.files[0]
+  if (!file) return
 
-   const reader = new FileReader()
-   reader.readAsDataURL(file)
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
 
-   reader.onloadend = () => {
-    const base64Url = reader.result.split(',')[1]
-    setFormPost({
-     ...formPost,
-     image: base64Url,
-     file: e.target.value,
-    })
-   }
-   return
+  reader.onloadend = () => {
+   const base64Url = reader.result.split(',')[1]
+   setValue('PhotoURL', base64Url)
+   setUploadImage({ image: base64Url, file: e.target.value })
   }
-
-  setFormPost({
-   ...formPost,
-   [e.target.name]: e.target.value,
-  })
-
-  setValue(e.target.name, e.target.value)
  }
 
  const handleSubmitFormPost = async (data) => {
-  if (isValid) {
-   const { content, title } = data
-   const postData = {
-    Content: content.trim(),
-    PhotoURL: image ? [image] : null,
-    Title: title.trim(),
-    GroupID: groupId,
-    PostLatitude: LATITUDE_DEFAULT,
-    PostLongitude: LONGITUDE_DEFAULT,
-   }
+  const { content, title, PhotoURL } = data
 
-   const postID = post.PostID
+  console.log(data)
 
-   if (method === 'post') {
-    dispatch(addPost({ data: postData, userID }))
-   } else {
-    dispatch(patchPost({ data: postData, postID }))
-   }
+  // const postData = {
+  //  Content: content.trim(),
+  //  PhotoURL: PhotoURL,
+  //  Title: title.trim(),
+  //  GroupID: groupId,
+  //  PostLatitude: LATITUDE_DEFAULT,
+  //  PostLongitude: LONGITUDE_DEFAULT,
+  // }
 
-   reset()
+  // const postID = post.PostID
 
-   hiddenModal()
-  }
+  // if (method === 'post') {
+  //  dispatch(addPost({ data: postData, userID }))
+  // } else {
+  //  dispatch(patchPost({ data: postData, postID }))
+  // }
+
+  // reset()
+  // hiddenModal()
  }
 
  const [isMobile, setIsMobile] = useState(false)
@@ -192,9 +186,7 @@ const FormPost = (props) => {
     <input
      className='mt-3 bg-transparent focus-visible:outline-none'
      type='text'
-     name='title'
      placeholder='Tiêu đề'
-     onChange={handleChangeFormPost}
      {...register('title')}
     />
     {errors.title && (
@@ -208,8 +200,6 @@ const FormPost = (props) => {
      id='textarea-post'
      placeholder='Nội dung'
      className='min-h-[50px] my-3 bg-transparent w-full focus-visible:outline-none'
-     onChange={handleChangeFormPost}
-     name='content'
      {...register('content')}
     />
     {errors.content && (
@@ -228,13 +218,17 @@ const FormPost = (props) => {
 
       <button
        className='absolute text-xl text-gray-900 transition right-2 top-2 hover:text-black'
-       onClick={() => setFormPost({ ...formPost, image: null, file: '' })}
+       onClick={() => {
+        setUploadImage({ file: '', image: null })
+        setValue('PhotoURL', null)
+       }}
        type='button'
       >
        <AiFillCloseCircle />
       </button>
      </div>
     )}
+
     <div className='relative my-3 w-max text-white mobile:bg-[#008748] bg-[#303030] py-2 px-5 rounded-md'>
      <div className='flex gap-1'>
       <img src={uploadFile} alt='upload file' />
@@ -242,7 +236,7 @@ const FormPost = (props) => {
      </div>
 
      <input
-      onChange={handleChangeFormPost}
+      onChange={handleChangeImage}
       className='absolute z-10 inset-0 opacity-0 focus-visible:outline-none'
       type='file'
       name='image'

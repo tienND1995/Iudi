@@ -123,6 +123,31 @@ const Message = () => {
   })
  }, [userIdOtherList])
 
+//  const [relationshipList, setRelationshipList] = useState([])
+
+//  useEffect(() => {
+//   const getRelationshipUsers = async (userID) => {
+//    const res = await axios.get(`${API__SERVER}/chatblock/${userID}`)
+//    setRelationshipList(
+//     res.data.data.filter((user) => user.RelationshipType === 'block')
+//    )
+//   }
+
+//   getRelationshipUsers(userID)
+//  }, [userID])
+
+//  useEffect(() => {
+//   if (relationshipList.length > 0 && historyMessages.length > 0) {
+//    const newHistory = []
+
+//    historyMessages.filter((message, index) => {
+//     return message.OtherUserID !== 380
+//    })
+
+//    console.log(historyMessages)
+//   }
+//  }, [relationshipList, historyMessages])
+
  return (
   <>
    <div className='hidden mb-4 mobile:block '>
