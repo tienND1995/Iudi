@@ -243,6 +243,7 @@ const FormPost = (props) => {
             type="file"
             name="image"
             value={file}
+            multiple
           />
         </div>
 

@@ -1,24 +1,37 @@
 import React, { useRef, useState } from "react";
-
 import CommentItem from "./CommentItem";
-
 import { FaChevronDown } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { MdEmojiEmotions } from "react-icons/md";
+import { IoIosCloseCircle } from "react-icons/io";
+import { RiAttachment2 } from "react-icons/ri";
 import EmojiPicker from "emoji-picker-react";
 
 const Comments = ({ comments }) => {
   const { comentList, commentRef, inputCommentRef, onSubmitComment } = comments;
-
   const refUlElement = useRef();
   const refIcondown = useRef();
-
   const [showEmoji, setShowEmoji] = useState(false);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const handleEmojiClick = (data) => {
     inputCommentRef.current.value += data.emoji;
     setShowEmoji(false);
-    console.log(inputCommentRef.current.value);
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+
+    reader.onloadend = () => {
+      const base64Url = reader.result.split(",")[1];
+      if (base64Url !== imageUrl) {
+        setImageUrl(base64Url);
+      }
+    };
   };
 
   return (
@@ -27,21 +40,19 @@ const Comments = ({ comments }) => {
         <div>
           <div>
             <button
-              //    onClick={() => {
-              //     const isHidden = refUlElement.current.classList.contains('hidden')
-
-              //     if (isHidden) {
-              //      refUlElement.current.classList.remove('hidden')
-              //      refIcondown.current.style.transform = 'rotate(0)'
-
-              //      return
-              //     }
-
-              //     refUlElement.current.classList.add('hidden')
-              //     refIcondown.current.style.transform = 'rotate(180deg)'
-              //    }}
               className="flex gap-2 items-center my-3"
               type=""
+              // onClick={() => {
+              //   const isHidden =
+              //     refUlElement.current.classList.contains("hidden");
+              //   if (isHidden) {
+              //     refUlElement.current.classList.remove("hidden");
+              //     refIcondown.current.style.transform = "rotate(0)";
+              //   } else {
+              //     refUlElement.current.classList.add("hidden");
+              //     refIcondown.current.style.transform = "rotate(180deg)";
+              //   }
+              // }}
             >
               <p>Bình luận liên quan nhất</p>
               <div ref={refIcondown}>
@@ -57,6 +68,7 @@ const Comments = ({ comments }) => {
                 CommentID,
                 FullName,
                 Content,
+                PhotoURL,
                 CommentUpdateTime,
                 IsFavorited,
                 UserID,
@@ -64,7 +76,6 @@ const Comments = ({ comments }) => {
                 Avatar,
               }) => {
                 const imgRef = React.createRef();
-
                 return (
                   <CommentItem
                     key={CommentID}
@@ -73,6 +84,7 @@ const Comments = ({ comments }) => {
                       CommentID,
                       FullName,
                       Content,
+                      PhotoURL,
                       CommentUpdateTime,
                       IsFavorited,
                       UserID,
@@ -92,11 +104,30 @@ const Comments = ({ comments }) => {
 
       <div>
         <form
-          onSubmit={onSubmitComment}
+          onSubmit={(e) => {
+            onSubmitComment(e, imageUrl);
+            setImageUrl(null);
+          }}
           className="flex mobile:border-[#deb887] items-center justify-center p-5 border bg-white text-black h-[60px] rounded-[20px] mt-5"
         >
+          {imageUrl && (
+            <div className="relative max-w-max">
+              <img
+                className="w-[50px] h-[50px] mobile:w-[30px] mobile:h-[30px] object-cover rounded duration-150"
+                src={`data:image/jpeg;base64,${imageUrl}`}
+                alt="sendImage"
+              />
+              <button
+                className="absolute right-[-10px] top-[-10px] mobile:right-[-5px] mobile:top-[-5px] text-xl mobile:text-sm"
+                onClick={() => setImageUrl(null)}
+              >
+                <IoIosCloseCircle />
+              </button>
+            </div>
+          )}
+
           <input
-            className="w-full mr-5 focus-visible:outline-none  "
+            className="w-full mr-5 focus-visible:outline-none"
             type="text"
             placeholder="Viết bình luận..."
             ref={inputCommentRef}
@@ -118,6 +149,18 @@ const Comments = ({ comments }) => {
                 </div>
               )}
             </div>
+
+            <div className="relative">
+              <input
+                onChange={handleImageChange}
+                type="file"
+                className="w-[32px] mobile:w-[20px] opacity-0 z-10 relative"
+              />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[24px]">
+                <RiAttachment2 />
+              </div>
+            </div>
+
             <button type="submit" className="text-[30px]">
               <IoMdSend />
             </button>
