@@ -68,9 +68,10 @@ export const fetchPosts = createAsyncThunk(
 
 export const addLikePost = createAsyncThunk(
   "posts/addLikePostStatus",
-  async ({ postId, userID }) => {
+  async ({ postId, userID, type }) => {
     const res = await axios.post(
-      `${API__SERVER}/forum/favorite/${userID}/${postId}`
+      `${API__SERVER}/forum/favorite/${userID}/${postId}`,
+      { type }
     );
   }
 );
