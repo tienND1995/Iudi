@@ -34,7 +34,7 @@ const { URL_BASE64 } = config;
 const PostItem = (props) => {
   const { userID } = new Auth();
 
-  const [reaction, setReaction] = useState(null);
+  // const [reaction, setReaction] = useState(null);
 
   const {
     Content,
@@ -64,41 +64,40 @@ const PostItem = (props) => {
 
   const isUpdate = userID === UserID;
 
-  const handleReaction = (type) => {
-    dispatch(addLikePost({ postId: PostID, userID, type }));
-    setReaction(type);
-    console.log("add like");
-  };
+  // const handleReaction = (type) => {
+  //   dispatch(addLikePost({ postId: PostID, userID, type }));
+  //   setReaction(type);
+  // };
 
-  const getReactionText = () => {
-    switch (reaction) {
-      case 1:
-        return "Đã thích";
-      case 2:
-        return "Haha";
-      case 3:
-        return "Buồn";
-      case 4:
-        return "Phẫn nộ";
-      default:
-        return IsFavorited ? "Đã thích" : "Thích";
-    }
-  };
+  // const getReactionText = () => {
+  //   switch (reaction) {
+  //     case 1:
+  //       return "Đã thích";
+  //     case 2:
+  //       return "Haha";
+  //     case 3:
+  //       return "Buồn";
+  //     case 4:
+  //       return "Phẫn nộ";
+  //     default:
+  //       return IsFavorited ? "Đã thích" : "Thích";
+  //   }
+  // };
 
-  const getReactionImage = () => {
-    switch (reaction) {
-      case 1:
-        return btnlike;
-      case 2:
-        return btnHaha;
-      case 3:
-        return btnSad;
-      case 4:
-        return btnAngry;
-      default:
-        return heart;
-    }
-  };
+  // const getReactionImage = () => {
+  //   switch (reaction) {
+  //     case 1:
+  //       return btnlike;
+  //     case 2:
+  //       return btnHaha;
+  //     case 3:
+  //       return btnSad;
+  //     case 4:
+  //       return btnAngry;
+  //     default:
+  //       return heart;
+  //   }
+  // };
 
   return (
     <li
@@ -198,7 +197,7 @@ const PostItem = (props) => {
         <div className="flex justify-between items-center pb-1">
           <div className="flex gap-1 items-center">
             <div className="w-[20px] h-[20px] rounded-full bg-white p-1 flex items-center justify-center">
-              <img src={getReactionImage()} alt="like" />
+              <img src={heart} alt="like" />
             </div>
 
             {FavoriteCount}
@@ -211,7 +210,22 @@ const PostItem = (props) => {
         <hr />
 
         <div className="flex gap-3 mt-3 ml-5">
-          <div
+          <button
+            className="flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]"
+            type="button"
+            onClick={() =>
+              dispatch(addLikePost({ postId: PostID, userID: UserID, type: 1 }))
+            }
+          >
+            <img
+              className="w-[20px] h-[20px] transition"
+              src={btnlike}
+              alt="like"
+            />
+            {IsFavorited ? "Đã thích" : "Thích"}
+          </button>
+
+          {/* <div
             data-tooltip-id="reaction"
             data-tooltip-place="top-start"
             openOnClick
@@ -226,7 +240,6 @@ const PostItem = (props) => {
                 src={getReactionImage()}
                 alt="like"
               />
-              {/* {IsFavorited ? "Đã thích" : "Thích"} */}
               {getReactionText()}
             </button>
           </div>
@@ -285,7 +298,7 @@ const PostItem = (props) => {
                 Phẫn nộ
               </button>
             </div>
-          </Tooltip>
+          </Tooltip> */}
 
           <button
             className="flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]"

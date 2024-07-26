@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Moment from "react-moment";
 import { useDispatch } from "react-redux";
@@ -12,6 +12,7 @@ import { MdDelete } from "react-icons/md";
 import { handleErrorImg } from "../../../../service/utils/utils";
 
 import config from "../../../../configs/Configs.json";
+import ReplyComment from "./ReplyComment";
 const { URL_BASE64 } = config;
 
 const CommentItem = (props) => {
@@ -25,9 +26,12 @@ const CommentItem = (props) => {
     UserID,
     Avatar,
     PhotoURL,
+    PostID,
   } = props.data;
 
   const dispatch = useDispatch();
+
+  const [showReplyComment, setShowReplyComment] = useState(false);
 
   return (
     <li className="flex gap-2 items-start mb-4">
@@ -86,9 +90,17 @@ const CommentItem = (props) => {
             </button>
           </div>
           <div>
-            <button type="">Trả lời</button>
+            <button
+              type=""
+              onClick={() => setShowReplyComment(!showReplyComment)}
+            >
+              Trả lời
+            </button>
           </div>
         </div>
+        {showReplyComment && (
+          <ReplyComment userID={UserID} CommentID={CommentID} PostID={PostID} />
+        )}
       </div>
     </li>
   );
