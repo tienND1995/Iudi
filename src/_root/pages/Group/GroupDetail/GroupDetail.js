@@ -60,6 +60,8 @@ const GroupDetail = () => {
   post: {},
  })
 
+ console.log(posts)
+
  const handleShowModal = (name, post) => {
   if (!userID) {
    Swal.fire({

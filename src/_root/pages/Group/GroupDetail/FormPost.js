@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+import { v4 as uuidv4 } from 'uuid';
+
 import { useDispatch, useSelector } from 'react-redux'
 import { usersSelector } from '../../../../service/redux/users/usersSlice'
 
@@ -99,6 +101,9 @@ const FormPost = (props) => {
    setUploadImageList(post?.Photo)
   } else {
    setUploadImageList([])
+   setValue('title', '')
+   setValue('content', '')
+   setValue('PhotoURL', [])
   }
   setFile('')
  }, [modal])
@@ -214,7 +219,7 @@ const FormPost = (props) => {
      <ul className='flex flex-wrap gap-2'>
       {uploadImageList.map((image, index) => (
        <li
-        key={image}
+        key={uuidv4()}
         className={`relative rounded-lg overflow-hidden ${
          uploadImageList.length <= 3
           ? 'h-[100px] w-[100px]'
