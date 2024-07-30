@@ -40,6 +40,7 @@ const GroupDetail = () => {
     groupId && userID && dispatch(fetchPosts({ groupId, userID }));
   }, [changeTogglePosts, groupId]);
 
+
   useEffect(() => {
     const newPosts = [];
     posts.length > 0
@@ -58,6 +59,7 @@ const GroupDetail = () => {
     method: "post",
     post: {},
   });
+
 
   const handleShowModal = (name, post) => {
     if (!userID) {

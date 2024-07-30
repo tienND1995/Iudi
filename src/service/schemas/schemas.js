@@ -74,7 +74,7 @@ export const postSchema = Joi.object({
   'any.required': 'Content is required!',
  }),
 
- PhotoURL: Joi.string().empty(null)
+ PhotoURL: Joi.array()
 })
 
 export const groupSchema = Joi.object({

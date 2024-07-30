@@ -1,261 +1,277 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { useDispatch, useSelector } from "react-redux";
-import { usersSelector } from "../../../../service/redux/users/usersSlice";
+import { useDispatch, useSelector } from 'react-redux'
+import { usersSelector } from '../../../../service/redux/users/usersSlice'
 
-import { AiFillCloseCircle } from "react-icons/ai";
-import Modal from "react-modal";
+import { AiFillCloseCircle } from 'react-icons/ai'
+import Modal from 'react-modal'
 
-import config from "../../../../configs/Configs.json";
-import uploadFile from "../../../../images/icons/uploadFile.png";
+import config from '../../../../configs/Configs.json'
+import uploadFile from '../../../../images/icons/uploadFile.png'
 
-import { addPost, patchPost } from "../../../../service/redux/posts/postsSlice";
-import { Auth } from "../../../../service/utils/auth";
+import { addPost, patchPost } from '../../../../service/redux/posts/postsSlice'
+import { Auth } from '../../../../service/utils/auth'
 
-import { handleErrorImg } from "../../../../service/utils/utils";
+import { handleErrorImg } from '../../../../service/utils/utils'
 
-import { useForm } from "react-hook-form";
-import { joiResolver } from "@hookform/resolvers/joi";
+import { useForm } from 'react-hook-form'
+import { joiResolver } from '@hookform/resolvers/joi'
 
-import { postSchema } from "../../../../service/schemas/schemas";
+import { postSchema } from '../../../../service/schemas/schemas'
 
-const { URL_BASE64, LONGITUDE_DEFAULT, LATITUDE_DEFAULT } = config;
+const { URL_BASE64, LONGITUDE_DEFAULT, LATITUDE_DEFAULT } = config
 
 const FormPost = (props) => {
-  const modalStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
+ const modalStyles = {
+  content: {
+   top: '50%',
+   left: '50%',
+   transform: 'translate(-50%, -50%)',
 
-      width: "400px",
-      height: "max-content",
-      background: "#1a1919",
-      color: "white",
-      padding: "0 !important",
-      border: "none",
-    },
+   width: '400px',
+   height: 'max-content',
+   background: '#1a1919',
+   color: 'white',
+   padding: '0 !important',
+   border: 'none',
+  },
 
-    overlay: {
-      background: "rgba(0, 0, 0,.7)",
-    },
-  };
+  overlay: {
+   background: 'rgba(0, 0, 0,.7)',
+  },
+ }
 
-  const modalMobileStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
+ const modalMobileStyles = {
+  content: {
+   top: '50%',
+   left: '50%',
+   transform: 'translate(-50%, -50%)',
 
-      width: "90%",
-      height: "max-content",
-      background: "#fff",
-      color: "black",
-      padding: "0 !important",
-      border: "none",
-    },
+   width: '90%',
+   height: 'max-content',
+   background: '#fff',
+   color: 'black',
+   padding: '0 !important',
+   border: 'none',
+  },
 
-    overlay: {
-      background: "rgba(0, 0, 0,.7)",
-    },
-  };
+  overlay: {
+   background: 'rgba(0, 0, 0,.7)',
+  },
+ }
 
-  const userState = useSelector(usersSelector);
+ const userState = useSelector(usersSelector)
 
-  const dispatch = useDispatch();
-  const { groupId } = useParams();
+ const dispatch = useDispatch()
+ const { groupId } = useParams()
 
-  const { userID, userName } = new Auth();
+ const { userID, userName } = new Auth()
 
-  const { modal, hiddenModal } = props;
-  const { showModal, method, post } = modal;
+ const { modal, hiddenModal } = props
+ const { showModal, method, post } = modal
 
-  const [uploadImage, setUploadImage] = useState({
-    file: "",
-    image: null,
-  });
+ const [uploadImageList, setUploadImageList] = useState([])
 
-  const { file, image } = uploadImage;
+ const [file, setFile] = useState(null)
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
+ const {
+  register,
+  handleSubmit,
+  setValue,
+  reset,
+  getValues,
 
-    formState: { errors },
-  } = useForm({
-    resolver: joiResolver(postSchema),
-    defaultValues: {
-      title: "",
-      content: "",
-      PhotoURL: null,
-    },
-  });
+  formState: { errors },
+ } = useForm({
+  resolver: joiResolver(postSchema),
+  defaultValues: {
+   title: '',
+   content: '',
+   PhotoURL: [],
+  },
+ })
 
-  useEffect(() => {
-    if (method === "patch") {
-      setValue("title", post?.Title);
-      setValue("content", post?.Content);
-      setValue("PhotoURL", post?.Photo);
+ useEffect(() => {
+  if (method === 'patch') {
+   setValue('title', post?.Title)
+   setValue('content', post?.Content)
+   setValue('PhotoURL', post?.Photo)
+  }
 
-      setUploadImage({ file: "", image: post?.Photo });
-    } else {
-      setUploadImage({ file: "", image: null });
-    }
-  }, [modal]);
+  setFile('')
+ }, [modal])
 
-  const handleChangeImage = (e) => {
-    let file = e.target.files[0];
-    if (!file) return;
+ const handleChangeImage = (e) => {
+  let file = e.target.files[0]
+  if (!file) return
 
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
 
-    reader.onloadend = () => {
-      const base64Url = reader.result.split(",")[1];
-      setValue("PhotoURL", base64Url);
-      setUploadImage({ image: base64Url, file: e.target.value });
-    };
-  };
+  reader.onloadend = () => {
+   const base64Url = reader.result.split(',')[1]
+   const photoURL = getValues('PhotoURL')
 
-  const handleSubmitFormPost = async (data) => {
-    const { content, title, PhotoURL } = data;
+   setValue('PhotoURL', [...photoURL, base64Url])
+   setFile(e.target.value)
+   setUploadImageList((prevState) => [...prevState, base64Url])
+  }
+ }
 
-    console.log(data);
+ const handleSubmitFormPost = async (data) => {
+  const { content, title, PhotoURL } = data
 
-    const postData = {
-      Content: content.trim(),
-      PhotoURL: [PhotoURL],
-      Title: title.trim(),
-      GroupID: groupId,
-      PostLatitude: LATITUDE_DEFAULT,
-      PostLongitude: LONGITUDE_DEFAULT,
-    };
 
-    const postID = post.PostID;
+  const postData = {
+   Content: content.trim(),
+   PhotoURL: PhotoURL,
+   Title: title.trim(),
+   GroupID: groupId,
+   PostLatitude: LATITUDE_DEFAULT,
+   PostLongitude: LONGITUDE_DEFAULT,
+  }
 
-    if (method === "post") {
-      dispatch(addPost({ data: postData, userID }));
-    } else {
-      dispatch(patchPost({ data: postData, postID }));
-    }
 
-    reset();
-    hiddenModal();
-  };
+  const postID = post.PostID
 
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    const widthWindow = window.document.body.offsetWidth;
-    widthWindow <= 450 && setIsMobile(true);
-  }, []);
+  if (method === 'post') {
+   dispatch(addPost({ data: postData, userID }))
+  } else {
+   dispatch(patchPost({ data: postData, postID }))
+  }
 
-  return (
-    <Modal
-      isOpen={showModal}
-      style={isMobile ? modalMobileStyles : modalStyles}
-      ariaHideApp={false}
-      contentLabel="Modal Form"
+  reset()
+  hiddenModal()
+ }
+
+ const [isMobile, setIsMobile] = useState(false)
+ useEffect(() => {
+  const widthWindow = window.document.body.offsetWidth
+  widthWindow <= 450 && setIsMobile(true)
+ }, [])
+
+ return (
+  <Modal
+   isOpen={showModal}
+   style={isMobile ? modalMobileStyles : modalStyles}
+   ariaHideApp={false}
+   contentLabel='Modal Form'
+  >
+   <div className='mobile:bg-[#008748] relative flex justify-center p-2 border-b border-solid border-b-white'>
+    <h2 className='text-white'>{method === 'post' ? 'Create' : 'Edit'} post</h2>
+    <button
+     className='absolute right-2 top-[50%] translate-y-[-50%] text-lg text-white'
+     onClick={hiddenModal}
+     type='button'
     >
-      <div className="mobile:bg-[#008748] relative flex justify-center p-2 border-b border-solid border-b-white">
-        <h2 className="text-white">
-          {method === "post" ? "Create" : "Edit"} post
-        </h2>
-        <button
-          className="absolute right-2 top-[50%] translate-y-[-50%] text-lg text-white"
-          onClick={hiddenModal}
-          type="button"
+     <AiFillCloseCircle />
+    </button>
+   </div>
+
+   <form className='p-5' onSubmit={handleSubmit(handleSubmitFormPost)}>
+    <div className='flex items-center gap-2'>
+     <div>
+      <img
+       className='w-[50px] h-[50px] rounded-full object-cover'
+       src={`${URL_BASE64}${userState.user.avatarLink}`}
+       alt='avatar user'
+       onError={(e) => handleErrorImg(e.target)}
+      />
+     </div>
+     <h2>{userName}</h2>
+    </div>
+
+    <input
+     className='mt-3 bg-transparent focus-visible:outline-none'
+     type='text'
+     placeholder='Tiêu đề'
+     {...register('title')}
+    />
+    {errors.title && (
+     <p className='mt-2 text-sm ipad:mt-1 ipad:text-xs ipad:font-semibold tablet:mt-1 tablet:text-xs tablet:font-semibold font-bold text-red-500'>
+      {errors.title.message}
+     </p>
+    )}
+
+    <textarea
+     type='text'
+     id='textarea-post'
+     placeholder='Nội dung'
+     className='min-h-[50px] my-3 bg-transparent w-full focus-visible:outline-none'
+     {...register('content')}
+    />
+    {errors.content && (
+     <p className='mt-2 text-sm ipad:mt-1 ipad:text-xs ipad:font-semibold tablet:mt-1 tablet:text-xs tablet:font-semibold font-bold text-red-500'>
+      {errors.content.message}
+     </p>
+    )}
+
+    <ul className='flex flex-wrap gap-2'>
+     {uploadImageList.length > 0 ? (
+      uploadImageList.map((image, index) => {
+       return (
+        <li
+         className='relative rounded-md overflow-hidden h-[80px] w-[100px]'
+         key={image}
         >
+         <img
+          className='object-cover object-center w-full h-full'
+          src={`${URL_BASE64}${image}`}
+          alt='postImage'
+         />
+
+         <button
+          className='absolute text-xl text-gray-900 transition right-2 top-2 hover:text-black'
+          onClick={() => {
+           setFile('')
+
+           const photoURL = getValues('PhotoURL')
+           photoURL.splice(index, 1)
+           setValue('PhotoURL', photoURL)
+
+           const newImages = [...uploadImageList]
+           newImages.splice(index, 1)
+
+           setUploadImageList(newImages)
+          }}
+          type='button'
+         >
           <AiFillCloseCircle />
-        </button>
-      </div>
+         </button>
+        </li>
+       )
+      })
+     ) : (
+      <li></li>
+     )}
+    </ul>
 
-      <form className="p-5" onSubmit={handleSubmit(handleSubmitFormPost)}>
-        <div className="flex items-center gap-2">
-          <div>
-            <img
-              className="w-[50px] h-[50px] rounded-full object-cover"
-              src={`${URL_BASE64}${userState.user.avatarLink}`}
-              alt="avatar user"
-              onError={(e) => handleErrorImg(e.target)}
-            />
-          </div>
-          <h2>{userName}</h2>
-        </div>
+    <div className='relative my-3 w-max text-white mobile:bg-[#008748] bg-[#303030] py-2 px-5 rounded-md'>
+     <div className='flex gap-1'>
+      <img src={uploadFile} alt='upload file' />
+      <span>Ảnh/Video</span>
+     </div>
 
-        <input
-          className="mt-3 bg-transparent focus-visible:outline-none"
-          type="text"
-          placeholder="Tiêu đề"
-          {...register("title")}
-        />
-        {errors.title && (
-          <p className="mt-2 text-sm ipad:mt-1 ipad:text-xs ipad:font-semibold tablet:mt-1 tablet:text-xs tablet:font-semibold font-bold text-red-500">
-            {errors.title.message}
-          </p>
-        )}
+     <input
+      onChange={handleChangeImage}
+      className='absolute z-10 inset-0 opacity-0 focus-visible:outline-none'
+      type='file'
+      name='image'
+      value={file}
+      multiple
+     />
+    </div>
 
-        <textarea
-          type="text"
-          id="textarea-post"
-          placeholder="Nội dung"
-          className="min-h-[50px] my-3 bg-transparent w-full focus-visible:outline-none"
-          {...register("content")}
-        />
-        {errors.content && (
-          <p className="mt-2 text-sm ipad:mt-1 ipad:text-xs ipad:font-semibold tablet:mt-1 tablet:text-xs tablet:font-semibold font-bold text-red-500">
-            {errors.content.message}
-          </p>
-        )}
+    <button
+     className='w-full py-2 rounded-md text-white bg-[#008748]'
+     type='submit'
+    >
+     Post
+    </button>
+   </form>
+  </Modal>
+ )
+}
 
-        {image && (
-          <div className="relative rounded-lg overflow-hidden h-[150px]">
-            <img
-              className="object-cover object-center w-full h-full"
-              src={`${URL_BASE64}${image}`}
-              alt="postImage"
-            />
-
-            <button
-              className="absolute text-xl text-gray-900 transition right-2 top-2 hover:text-black"
-              onClick={() => {
-                setUploadImage({ file: "", image: null });
-                setValue("PhotoURL", null);
-              }}
-              type="button"
-            >
-              <AiFillCloseCircle />
-            </button>
-          </div>
-        )}
-
-        <div className="relative my-3 w-max text-white mobile:bg-[#008748] bg-[#303030] py-2 px-5 rounded-md">
-          <div className="flex gap-1">
-            <img src={uploadFile} alt="upload file" />
-            <span>Ảnh/Video</span>
-          </div>
-
-          <input
-            onChange={handleChangeImage}
-            className="absolute z-10 inset-0 opacity-0 focus-visible:outline-none"
-            type="file"
-            name="image"
-            value={file}
-            multiple
-          />
-        </div>
-
-        <button
-          className="w-full py-2 rounded-md text-white bg-[#008748]"
-          type="submit"
-        >
-          Post
-        </button>
-      </form>
-    </Modal>
-  );
-};
-
-export default FormPost;
+export default FormPost

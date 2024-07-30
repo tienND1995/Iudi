@@ -60,6 +60,7 @@ const PostItem = (props) => {
     commentRef,
   } = props.handle;
 
+
   const dispatch = useDispatch();
 
   const isUpdate = userID === UserID;
@@ -204,7 +205,7 @@ const PostItem = (props) => {
             {FavoriteCount}
           </div>
           <button onClick={handleShowComments} type="button">
-            {comments.length} bình luận
+            {comments?.length} bình luận
           </button>
         </div>
 
