@@ -36,7 +36,7 @@ const Comments = ({ comments }) => {
 
   return (
     <div id="comment-list" className="hidden duration-200" ref={commentRef}>
-      {comentList.length > 0 ? (
+      {comentList?.length > 0 ? (
         <div>
           <div>
             <button

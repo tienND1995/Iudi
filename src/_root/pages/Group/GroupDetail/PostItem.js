@@ -161,7 +161,7 @@ const PostItem = (props) => {
             {FavoriteCount}
           </div>
           <button onClick={handleShowComments} type="button">
-            {comments.length} bình luận
+            {comments?.length} bình luận
           </button>
         </div>
 
