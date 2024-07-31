@@ -142,8 +142,14 @@ const PostItem = (props) => {
      <h2 className='capitalize text-lg'>{Title}</h2>
      <p>{Content}</p>
     </div>
+    
     {Photo.length > 0 && (
-     <ul className={`grid grid-cols-${Photo.length}`}>
+     <ul
+      style={{
+       'grid-template-columns': `repeat(${Photo.length}, minmax(0, 1fr))`,
+       display: 'grid',
+      }}
+     >
       {Photo.map((image) => (
        <li key={uuidv4()} className='col-span-1 max-h-[300px] overflow-hidden'>
         <img
