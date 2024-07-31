@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
 
+import { v4 as uuidv4 } from 'uuid'
+
 import { useDispatch } from 'react-redux'
 import {
  addLikePost,
@@ -27,7 +29,7 @@ import {
 } from '../../../../service/utils/utils'
 
 import { Auth } from '../../../../service/utils/auth'
-import { Tooltip } from 'react-tooltip'
+// import { Tooltip } from 'react-tooltip'
 
 const { URL_BASE64 } = config
 
@@ -183,13 +185,24 @@ const PostItem = (props) => {
      <h2 className='capitalize text-lg'>{Title}</h2>
      <p>{Content}</p>
     </div>
-    {Photo && (
-     <img
-      className='w-full object-cover max-h-[300px]'
-      src={`${URL_BASE64}${Photo}`}
-      alt={Title}
-      onError={(e) => handleErrorImgPost(e.target)}
-     />
+    {Photo.length > 0 && (
+     <ul
+      style={{
+       'grid-template-columns': `repeat(${Photo.length}, minmax(0, 1fr))`,
+       display: 'grid',
+      }}
+     >
+      {Photo.map((image) => (
+       <li key={uuidv4()} className='col-span-1 max-h-[300px] overflow-hidden'>
+        <img
+         className='object-cover h-full w-full'
+         src={`${URL_BASE64}${image}`}
+         alt={Title}
+         onError={(e) => handleErrorImgPost(e.target)}
+        />
+       </li>
+      ))}
+     </ul>
     )}
    </div>
 
