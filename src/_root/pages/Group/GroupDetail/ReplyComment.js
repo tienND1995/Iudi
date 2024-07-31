@@ -7,8 +7,9 @@ import EmojiPicker from "emoji-picker-react";
 import { postComment } from "../../../../service/redux/posts/postsSlice";
 import { useDispatch } from "react-redux";
 import { Auth } from "../../../../service/utils/auth";
+import ReplyItem from "./ReplyItem";
 
-const ReplyComment = ({ CommentID, PostID }) => {
+const ReplyComment = ({ CommentID, PostID, ReplyList }) => {
   const [showEmoji, setShowEmoji] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
   const [value, setValue] = useState("");
@@ -47,15 +48,51 @@ const ReplyComment = ({ CommentID, PostID }) => {
       ReplyID: CommentID,
     };
     dispatch(postComment({ PostID, data, userID }));
-    // console.log(data);
-    // console.log(PostID);
-    // console.log(userID);
     setValue("");
     setImageUrl(null);
   };
 
   return (
     <div className="duration-200">
+      {ReplyList?.length > 0 ? (
+        <div>
+          <ul className="transition-all duration-200 mt-3">
+            {ReplyList.map(
+              ({
+                FavoriteCount,
+                CommentID,
+                FullName,
+                Content,
+                PhotoURL,
+                CommentUpdateTime,
+                IsFavorited,
+                UserID,
+                Avatar,
+              }) => {
+                return (
+                  <ReplyItem
+                    key={CommentID}
+                    data={{
+                      FavoriteCount,
+                      CommentID,
+                      FullName,
+                      Content,
+                      PhotoURL,
+                      CommentUpdateTime,
+                      IsFavorited,
+                      UserID,
+                      Avatar,
+                    }}
+                  />
+                );
+              }
+            )}
+          </ul>
+        </div>
+      ) : (
+        ""
+      )}
+
       <div>
         <form
           onSubmit={(e) => {
