@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import Moment from "react-moment";
 import { useDispatch } from "react-redux";
@@ -12,10 +12,9 @@ import { MdDelete } from "react-icons/md";
 import { handleErrorImg } from "../../../../service/utils/utils";
 
 import config from "../../../../configs/Configs.json";
-import ReplyComment from "./ReplyComment";
 const { URL_BASE64 } = config;
 
-const CommentItem = (props) => {
+const ReplyItem = (props) => {
   const {
     FavoriteCount,
     CommentID,
@@ -26,13 +25,10 @@ const CommentItem = (props) => {
     UserID,
     Avatar,
     PhotoURL,
-    PostID,
-    ReplyID,
   } = props.data;
 
-  const dispatch = useDispatch();
 
-  const [showReplyComment, setShowReplyComment] = useState(false);
+  const dispatch = useDispatch();
 
   return (
     <li className="flex gap-2 items-start mb-4">
@@ -49,7 +45,9 @@ const CommentItem = (props) => {
         <div className="flex gap-2 items-center group ">
           <div className="bg-[#423f3f] p-2 rounded-xl mobile:text-white">
             <h3 className="text-xs font-semibold capitalize">{FullName}</h3>
-            <p className="text-xs">{Content}</p>
+            <div>
+              <p className="text-xs">{Content}</p>
+            </div>
             {PhotoURL?.length > 0 && (
               <img
                 className="max-w-[250px] max-h-[150px] object-contain rounded mt-2"
@@ -90,38 +88,10 @@ const CommentItem = (props) => {
               Thích
             </button>
           </div>
-          <div>
-            <button
-              type=""
-              onClick={() => setShowReplyComment(!showReplyComment)}
-            >
-              Trả lời
-            </button>
-          </div>
         </div>
-        {ReplyID?.length > 0 && (
-          <div className="mt-1">
-            <button
-              type=""
-              onClick={() => setShowReplyComment(!showReplyComment)}
-              className="text-[13px]"
-            >
-              {showReplyComment
-                ? "Ẩn"
-                : `Xem tất cả ${ReplyID.length} phản hồi`}
-            </button>
-          </div>
-        )}
-        {showReplyComment && (
-          <ReplyComment
-            CommentID={CommentID}
-            PostID={PostID}
-            ReplyList={ReplyID}
-          />
-        )}
       </div>
     </li>
   );
 };
 
-export default CommentItem;
+export default ReplyItem;

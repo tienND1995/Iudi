@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Moment from 'react-moment'
+
 import { v4 as uuidv4 } from 'uuid'
 
 import { useDispatch } from 'react-redux'
@@ -15,6 +16,10 @@ import { MdDeleteForever, MdModeEditOutline } from 'react-icons/md'
 import Comments from './Comments'
 
 import btnlike from '../../../../images/icons/btnlike.png'
+import btnHaha from '../../../../images/icons/btnHaha.png'
+import btnSad from '../../../../images/icons/btnSad.png'
+import btnAngry from '../../../../images/icons/btnAngry.png'
+
 import heart from '../../../../images/icons/heart.png'
 
 import config from '../../../../configs/Configs.json'
@@ -24,11 +29,14 @@ import {
 } from '../../../../service/utils/utils'
 
 import { Auth } from '../../../../service/utils/auth'
+// import { Tooltip } from 'react-tooltip'
 
 const { URL_BASE64 } = config
 
 const PostItem = (props) => {
  const { userID } = new Auth()
+
+ // const [reaction, setReaction] = useState(null);
 
  const {
   Content,
@@ -57,6 +65,41 @@ const PostItem = (props) => {
  const dispatch = useDispatch()
 
  const isUpdate = userID === UserID
+
+ // const handleReaction = (type) => {
+ //   dispatch(addLikePost({ postId: PostID, userID, type }));
+ //   setReaction(type);
+ // };
+
+ // const getReactionText = () => {
+ //   switch (reaction) {
+ //     case 1:
+ //       return "Đã thích";
+ //     case 2:
+ //       return "Haha";
+ //     case 3:
+ //       return "Buồn";
+ //     case 4:
+ //       return "Phẫn nộ";
+ //     default:
+ //       return IsFavorited ? "Đã thích" : "Thích";
+ //   }
+ // };
+
+ // const getReactionImage = () => {
+ //   switch (reaction) {
+ //     case 1:
+ //       return btnlike;
+ //     case 2:
+ //       return btnHaha;
+ //     case 3:
+ //       return btnSad;
+ //     case 4:
+ //       return btnAngry;
+ //     default:
+ //       return heart;
+ //   }
+ // };
 
  return (
   <li
@@ -142,7 +185,6 @@ const PostItem = (props) => {
      <h2 className='capitalize text-lg'>{Title}</h2>
      <p>{Content}</p>
     </div>
-    
     {Photo.length > 0 && (
      <ul
       style={{
@@ -184,11 +226,88 @@ const PostItem = (props) => {
      <button
       className='flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]'
       type='button'
-      onClick={() => dispatch(addLikePost({ postId: PostID, userID: UserID }))}
+      onClick={() =>
+       dispatch(addLikePost({ postId: PostID, userID: UserID, type: 1 }))
+      }
      >
       <img className='w-[20px] h-[20px] transition' src={btnlike} alt='like' />
       {IsFavorited ? 'Đã thích' : 'Thích'}
      </button>
+
+     {/* <div
+            data-tooltip-id="reaction"
+            data-tooltip-place="top-start"
+            openOnClick
+          >
+            <button
+              className="flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]"
+              type="button"
+              onClick={() => handleReaction(1)}
+            >
+              <img
+                className="w-[20px] h-[20px] transition"
+                src={getReactionImage()}
+                alt="like"
+              />
+              {getReactionText()}
+            </button>
+          </div>
+
+          <Tooltip id={"reaction"} clickable>
+            <div className="flex gap-2">
+              <button
+                className="flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]"
+                type="button"
+                onClick={() => handleReaction(1)}
+              >
+                <img
+                  className="w-[20px] h-[20px] transition"
+                  src={btnlike}
+                  alt="like"
+                />
+                Thích
+              </button>
+
+              <button
+                className="flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]"
+                type="button"
+                onClick={() => handleReaction(2)}
+              >
+                <img
+                  className="w-[20px] h-[20px] transition"
+                  src={btnHaha}
+                  alt="haha"
+                />
+                Haha
+              </button>
+
+              <button
+                className="flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]"
+                type="button"
+                onClick={() => handleReaction(3)}
+              >
+                <img
+                  className="w-[20px] h-[20px] transition"
+                  src={btnSad}
+                  alt="sad"
+                />
+                Buồn
+              </button>
+
+              <button
+                className="flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]"
+                type="button"
+                onClick={() => handleReaction(4)}
+              >
+                <img
+                  className="w-[20px] h-[20px] transition"
+                  src={btnAngry}
+                  alt="angry"
+                />
+                Phẫn nộ
+              </button>
+            </div>
+          </Tooltip> */}
 
      <button
       className='flex gap-1 mobile:border-[#deb887] mobile:border mobile:bg-white bg-[#303030] py-2 px-5 rounded-[20px] hover:opacity-70 hover:transition-[0.3s]'

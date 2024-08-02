@@ -1,21 +1,25 @@
-import React, { useRef, useState } from "react";
-import CommentItem from "./CommentItem";
-import { FaChevronDown } from "react-icons/fa";
+import React, { useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import { MdEmojiEmotions } from "react-icons/md";
 import { IoIosCloseCircle } from "react-icons/io";
 import { RiAttachment2 } from "react-icons/ri";
 import EmojiPicker from "emoji-picker-react";
+import { postComment } from "../../../../service/redux/posts/postsSlice";
+import { useDispatch } from "react-redux";
+import { Auth } from "../../../../service/utils/auth";
+import ReplyItem from "./ReplyItem";
 
-const Comments = ({ comments }) => {
-  const { comentList, commentRef, inputCommentRef, onSubmitComment } = comments;
-  const refUlElement = useRef();
-  const refIcondown = useRef();
+const ReplyComment = ({ CommentID, PostID, ReplyList }) => {
   const [showEmoji, setShowEmoji] = useState(false);
   const [imageUrl, setImageUrl] = useState(null);
+  const [value, setValue] = useState("");
+
+  const { userID } = new Auth();
+
+  const dispatch = useDispatch();
 
   const handleEmojiClick = (data) => {
-    inputCommentRef.current.value += data.emoji;
+    setValue((value) => value + data.emoji);
     setShowEmoji(false);
   };
 
@@ -34,37 +38,27 @@ const Comments = ({ comments }) => {
     };
   };
 
-  console.log(comentList)
+  const handleReplyComment = (e, imageUrl) => {
+    e.preventDefault();
+    if (value.trim() === "" && imageUrl === null) return;
+
+    const data = {
+      Content: value,
+      PhotoURL: [imageUrl],
+      ReplyID: CommentID,
+    };
+    dispatch(postComment({ PostID, data, userID }));
+    setValue("");
+    setImageUrl(null);
+  };
+
 
   return (
-    <div id="comment-list" className="hidden duration-200" ref={commentRef}>
-      {comentList?.length > 0 ? (
+    <div className="duration-200">
+      {ReplyList?.length > 0 ? (
         <div>
-          <div>
-            <button
-              className="flex gap-2 items-center my-3"
-              type=""
-              // onClick={() => {
-              //   const isHidden =
-              //     refUlElement.current.classList.contains("hidden");
-              //   if (isHidden) {
-              //     refUlElement.current.classList.remove("hidden");
-              //     refIcondown.current.style.transform = "rotate(0)";
-              //   } else {
-              //     refUlElement.current.classList.add("hidden");
-              //     refIcondown.current.style.transform = "rotate(180deg)";
-              //   }
-              // }}
-            >
-              <p>Bình luận liên quan nhất</p>
-              <div ref={refIcondown}>
-                <FaChevronDown />
-              </div>
-            </button>
-          </div>
-
-          <ul ref={refUlElement} className="transition-all duration-200">
-            {comentList.map(
+          <ul className="transition-all duration-200 mt-3">
+            {ReplyList.map(
               ({
                 FavoriteCount,
                 CommentID,
@@ -74,13 +68,10 @@ const Comments = ({ comments }) => {
                 CommentUpdateTime,
                 IsFavorited,
                 UserID,
-                PostID,
                 Avatar,
-                ReplyID,
               }) => {
-                const imgRef = React.createRef();
                 return (
-                  <CommentItem
+                  <ReplyItem
                     key={CommentID}
                     data={{
                       FavoriteCount,
@@ -91,10 +82,7 @@ const Comments = ({ comments }) => {
                       CommentUpdateTime,
                       IsFavorited,
                       UserID,
-                      PostID,
                       Avatar,
-                      imgRef,
-                      ReplyID,
                     }}
                   />
                 );
@@ -109,15 +97,15 @@ const Comments = ({ comments }) => {
       <div>
         <form
           onSubmit={(e) => {
-            onSubmitComment(e, imageUrl);
+            handleReplyComment(e, imageUrl);
             setImageUrl(null);
           }}
-          className="flex mobile:border-[#deb887] items-center justify-center p-5 border bg-white text-black h-[60px] rounded-[20px] mt-5"
+          className="flex mobile:border-[#deb887] items-center justify-center p-5 border bg-white text-black h-[56px] rounded-[20px] mt-5"
         >
           {imageUrl && (
             <div className="relative max-w-max">
               <img
-                className="w-[50px] h-[50px] mobile:w-[30px] mobile:h-[30px] object-cover rounded duration-150"
+                className="w-[40px] h-[40px] mobile:w-[20px] mobile:h-[20px] object-cover rounded duration-150"
                 src={`data:image/jpeg;base64,${imageUrl}`}
                 alt="sendImage"
               />
@@ -131,10 +119,11 @@ const Comments = ({ comments }) => {
           )}
 
           <input
-            className="w-full mr-5 focus-visible:outline-none"
+            className="w-full mr-5 focus-visible:outline-none text-[15px]"
             type="text"
-            placeholder="Viết bình luận..."
-            ref={inputCommentRef}
+            placeholder="Phản hồi..."
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
           />
 
           <div className="flex gap-3">
@@ -148,7 +137,7 @@ const Comments = ({ comments }) => {
               </button>
 
               {showEmoji && (
-                <div className="absolute bottom-[100%] mobile:right-[-50px] right-0 text-[18px]">
+                <div className="absolute bottom-[100%] mobile:right-[-50px] right-0 text-[15px]">
                   <EmojiPicker onEmojiClick={handleEmojiClick} />
                 </div>
               )}
@@ -160,12 +149,12 @@ const Comments = ({ comments }) => {
                 type="file"
                 className="w-[32px] mobile:w-[20px] opacity-0 z-10 relative"
               />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[24px]">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[22px]">
                 <RiAttachment2 />
               </div>
             </div>
 
-            <button type="submit" className="text-[30px]">
+            <button type="submit" className="text-[28px]">
               <IoMdSend />
             </button>
           </div>
@@ -175,4 +164,4 @@ const Comments = ({ comments }) => {
   );
 };
 
-export default Comments;
+export default ReplyComment;
