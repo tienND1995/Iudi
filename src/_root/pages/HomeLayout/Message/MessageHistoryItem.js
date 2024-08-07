@@ -69,8 +69,7 @@ const MessageHistoryItem = (props) => {
 
        {!Image && Content && (
         <p
-         style={{ overflowWrap: 'anywhere' }}
-         className={` text-lg tablet:text-sm mobile:text-xs ${
+         className={`message-item-text text-lg tablet:text-sm mobile:text-xs ${
           IsSeen === 1 || isSeenMessage || SenderID === parseInt(userID)
            ? 'text-gray-500'
            : 'text-white'

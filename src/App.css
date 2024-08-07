@@ -100,7 +100,16 @@ p.mb-2.text-\[25px\].italic.text-\[\#8E8E8E\] {
  -webkit-box-orient: vertical;
 }
 
-.user-list.slick-dots >li {
+.user-list.slick-dots > li {
  width: 10px;
  height: 10px;
+}
+
+p.message-item-text {
+ overflow-wrap: anywhere;
+ overflow: hidden;
+ text-overflow: ellipsis;
+ -webkit-line-clamp: 2;
+ display: -webkit-box;
+ -webkit-box-orient: vertical;
 }
